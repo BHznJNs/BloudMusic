@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'unsafe-eval'">
+	<meta http-equiv="Content-Security-Policy" content="connect-src music.163.com"> -->
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="../style/login.css">
+	<title>Login</title>
+</head>
+<body>
+	<!-- Progress 进度条 -->
+	<div id="progress" class="flex-center overflow-hidden">
+		<div class="progress">
+			<div id="progress-bar" class="progress-bar progress-bar-striped"></div>
+		</div>
+		<b id="progress-text">加载中...</b>
+	</div>
+	<!-- Main -->
+	<div id="main" class="flex-center shadow">
+		<div class="login-img h-100 overflow-hidden">
+			<img class="login-img user-select-none" src="../imgs/login_img.png" draggable="false">
+		</div>
+		
+		<div id="input" class="flex-center">
+			<div class="login-head flex-center">
+				<img draggable="false" class="login-head user-select-none" src="../imgs/icons/CloudMusic_AngleRounded_icon.svg"/>
+				<b class="login-head user-select-none">登录</b>
+			</div>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">帐号</span>
+				</div>
+				<input type="text" id="account-num" class="form-control" placeholder="输入手机号或邮箱帐号">
+			</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">密码</span>
+				</div>
+				<input type="text" id="password" class="form-control" placeholder="在此输入密码">
+			</div>
+
+			<div class="input-group">
+				<label class="form-check-label user-select-none">
+					<input type="checkbox" id="get-collected-pl"> 是否获取收藏的歌单 <!-- get collected playlists -->
+				</label>
+				<label class="form-check-label user-select-none">
+					<input type="checkbox" id="get-follows"> 是否获取关注数据
+				</label>
+			</div>
+
+			<button class="btn btn-outline-info" onclick="to_login()"><b>登录</b></button>
+		</div>
+	</div>
+
+	<script src="../script/login.js"></script>
+</body>
+</html>
