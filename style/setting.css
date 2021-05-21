@@ -1,0 +1,18 @@
+body {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-image: linear-gradient(to bottom right, #0099CC, #FF9966)
+}
+
+/* Main */
+#main {
+	width: 84vw;
+	height: 80vh;
+	margin: 10vh 8vw;
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 12px
+}
+/* ———— */
+
+

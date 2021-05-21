@@ -1,0 +1,105 @@
+#main {
+    height: 100vh;
+    border: solid 2px #333
+}
+#content {
+    align-items: center;
+    background-color: #333;
+}
+
+/* Song Name */
+div.song-name {
+    align-items: center;
+    position: relative;
+    width: 86%;
+    margin-left: 2%;
+    padding: 3px 0;
+    overflow: hidden;
+    background-color: #888;
+}
+div.song-name:hover #song-name {
+    animation-play-state: paused;
+}
+#song-name {
+    color: white;
+    text-align: center;
+    line-height: 100%;
+    padding-left: .5rem;
+    animation: text-scroll 10s linear infinite normal
+}
+@keyframes text-scroll {
+    from {transform: translateX(100%)}
+    to {transform: translateX(-100%)}
+}
+/* ———— */
+
+/* Cover Shadow */
+div.cover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 10px 0 8px -5px #333 inset, -10px 0 8px -5px #333 inset;
+    user-select: none;
+}
+/* ———— */
+
+/* Close button */
+div.close {
+    flex: auto;
+    text-align: center;
+    cursor: pointer;
+    transition: .2s;
+}
+/* ———— */
+
+/* Icon */
+img.icon {
+    padding: 3px;
+    cursor: pointer;
+    opacity: .6;
+    transition: .2s;
+}
+img.icon:hover {
+    padding: 1px;
+    opacity: 1;
+}
+img.icon:active {
+    padding: 2px;
+    opacity: .85;
+}
+img.icon-back {transform:rotate(180deg)}
+/* ———— */
+
+/* Volume Controler */
+div.volume-box {width: 50vh}
+div.volume {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 999;
+    width: 50vh;
+    transition: .4s
+}
+#volume {
+    width: 0;
+    margin-right: -1rem;
+    opacity: 0;
+    filter: grayscale(100%); /* 设置控件灰度 */
+    outline: none;
+    transition: .4s
+}
+div.volume:hover {
+    width: 350%;
+    margin-left: -250%;
+    backdrop-filter: blur(3px)
+}
+div.volume:hover img.icon {
+    height: 75% !important
+}
+div.volume:hover #volume {
+    width: 75%;
+    opacity: 1;
+    margin-right: 0
+}

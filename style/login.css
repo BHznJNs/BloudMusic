@@ -1,0 +1,86 @@
+body {
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+	overflow: hidden;
+	background-image: linear-gradient(to bottom right, #0099CC, #FF9966)
+}
+
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center
+}
+
+/* Progress */
+#progress {
+	flex-direction: column;
+	height: 0;
+	background-color: white;
+	transition: height .6s
+}
+div.progress {
+	width: 60%;
+	height: 40px;
+	margin-bottom: 12px;
+	border: solid #666
+}
+#progress-text {color: #333}
+/* ———— */
+
+/* Main */
+#main {
+	width: 84vw;
+	height: 80vh;
+	margin: 10vh 8vw;
+	background-color: rgba(255, 255, 255, 0.45);
+	border-radius: 12px
+}
+/* ———— */
+
+/* Login Img */
+div.login-img {
+	max-width: 50%;
+	border-radius: 12px 0 0 12px;
+	box-shadow: .5rem 0 1rem -2px rgba(0, 0, 0, 0.15)
+}
+img.login-img {height: 100%}
+/* ———— */
+
+/* Input */
+#input {
+	flex: auto;
+	flex-direction: column
+}
+img.login-head {
+	height: 60px;
+	max-height: 14vw
+}
+b.login-head {
+	padding:  0 1rem;
+	font-size: xx-large;
+	color: white;
+	text-shadow: -3px -3px 2px #0099CC, 3px 3px 2px #FF9966
+}
+
+div.input-group {
+	width: 85%;
+	max-width: 400px;
+	margin-top: 2vh
+}
+input.form-control, input.form-control:focus {
+	background-color: rgba(255, 255, 255, 0.4)
+}
+label.form-check-label {
+	width: 100%;
+	font-size: small;
+	color: #444444;
+}
+button.btn-outline-info {
+	width: 40%;
+	max-width: 150px;
+	margin-top: 2vh;
+	padding: 0.2rem auto;
+	border-width: 3px;
+	font-size: large;
+}

@@ -1,0 +1,26 @@
+{
+    "name": "BloudMusic",
+    "version": "1.0.1",
+    "description": "A third part Netease-Cloud-Music client",
+    "main": "index.js",
+    "scripts": {
+        "test": "electron .",
+        "prestart": "node NeteaseCloudMusicApi-master/NCMapi.js &",
+        "start": "electron .",
+        "poststart": "pkill -f 'node NeteaseCloudMusicApi-master/NCMapi.js'"
+    },
+    "keywords": [
+        "music",
+        "netease-cloud-music",
+        "third-part"
+    ],
+    "author": "Bilibili_BHznJNs (https://github.com/BHznJNs/BloudMusic)",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "bootstrap": "^4.6.0",
+        "ejs": "^3.1.6",
+        "electron": "^12.0.7",
+        "jquery": "^3.6.0"
+    }
+}
