@@ -12,7 +12,7 @@ function get_artists(data) {
 // 函数：获取歌单信息
 function get_playlist(list_id) {
     return new Promise((resolve) => {
-        get("http://localhost:3000/playlist/detail?id=" + list_id).then((res) => {        
+        get("http://localhost:3000/playlist/detail?id=" + list_id).then((res) => {
             let song_ids = []
             res.data.playlist.trackIds.forEach((item) => {
                 song_ids.push(item.id)
