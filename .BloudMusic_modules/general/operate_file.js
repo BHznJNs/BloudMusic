@@ -16,6 +16,9 @@ function save_img(url, path) {
         responseType:'stream'
     }).then((res) => {
         res.data.pipe(createWriteStream(path))
+    }).catch((err) => {
+        console.log(err)
+        alert("图片下载失败！")
     })
 }
 

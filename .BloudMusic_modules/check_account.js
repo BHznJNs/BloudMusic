@@ -7,7 +7,7 @@ function check_account() {
             email: account_num,
             password: password
         }
-    } else if (account_num.replace(/[^0-9]/ig,"") == account_num && password.length !== 0) {
+    } else if (account_num.replace(/[^0-9]/ig, "") == account_num && password.length !== 0) {
         return { // 帐号为手机号时
             phone: account_num,
             password: password
