@@ -1,45 +1,13 @@
 window.$ = window.jQuery = require("jquery")
 const { ipcRenderer } = require("electron")
 
-const { read_file } = require("../.BloudMusic_modules/general/operate_file")
 const { del_dir } = require("../.BloudMusic_modules/general/operate_dir")
-const { render_nav, render_content, render_playlist } = require("../.BloudMusic_modules/render_main")
+const { render_playlist } = require("../.BloudMusic_modules/main_render")
 const { toggle_fullscreen } = require("../.BloudMusic_modules/toggle_fullscreen")
-const { get_song, get_playlist, get_art_hs } = require("../.BloudMusic_modules/get_data/get_play_data")
-const { show_play_widget, send_data } =  require("../.BloudMusic_modules/interact_play_widget")
-
-$("#song-name").hide()
-// 设置 audio 音量
-$("#player")[0].volume = 0.7
-
-// 按键事件触发
-var is_fullscreen = false
-$(document).keydown((event) => {
-    event.preventDefault()
-    switch (event.keyCode) {
-        case 122: // F11 切换全屏图标
-            toggle_fullscreen()
-            break
-        case 32: // Blankspace
-            toggle_play()
-            break
-    }
-})
-// 替换用户昵称、头像、背景
-read_file("data/user.json", (err)=>{console.log(err)}, (res) => {
-    let data = JSON.parse(res)
-
-    let user_name = data.name
-    $("#nav-title").text(user_name)
-
-    let avatar_url = data.avatar_url
-    let background_url = data.background_url
-    $("#user-avatar").attr("src", avatar_url)
-    $("#user-background").attr("src", background_url)
-})
-// 渲染页面
-render_nav()
-render_content()
+const { get_song, get_playlist, get_art_hs, get_recommends } = require("../.BloudMusic_modules/get_data/get_play_data")
+const { show_play_widget, send_data } = require("../.BloudMusic_modules/interact_play_widget")
+require("../.BloudMusic_modules/main_keyEvent") // 按键事件触发
+require("../.BloudMusic_modules/main_loader") // 页面载入时
 
 // 函数：退出登录
 function logout() {
@@ -81,8 +49,8 @@ function switch_playMode() {
     } else {
         PLAY_MODE = modes[index + 1]
     }
-    $("#play-mode").attr("src", "../imgs/icons/" + PLAY_MODE + ".svg")
-    $("#play-mode").attr("title", "循环方式：" + modes_cn[PLAY_MODE])
+    $("#play-mode").attr("src", `../imgs/icons/${PLAY_MODE}.svg`)
+    $("#play-mode").attr("title", `循环方式：${modes_cn[PLAY_MODE]}`)
 }
 
 // 全局变量
@@ -107,6 +75,10 @@ function switch_play(id, type_) {
                     break
                 case "artist":
                     PLAYLIST = await get_art_hs(id)
+                    render_playlist(PLAYLIST.songs)
+                    break
+                case "recommend":
+                    PLAYLIST = await get_recommends()
                     render_playlist(PLAYLIST.songs)
                     break
                 case "song":
@@ -142,12 +114,12 @@ function previous() {
 }
 // 函数：下一首
 function next() {
-    if (PLAY_INDEX >= PLAYLIST.song_ids.length) {
-        PLAY_INDEX = -1
-    }
     switch (PLAY_MODE) {
         case "loop": // 列表循环播放
             PLAY_INDEX += 1
+            if (PLAY_INDEX >= PLAYLIST.song_ids.length) {
+                PLAY_INDEX = 0
+            }
             break
         case "random": // 随机播放
             PLAY_INDEX = Math.floor(Math.random()*PLAYLIST.song_ids.length)

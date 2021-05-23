@@ -48,7 +48,6 @@ div.dropdown:hover div.menu {
     max-height: 100vh
 }
 div.menu > div.item {
-    color: #333;
     padding: 2px .4rem;
     border-bottom: solid 2px #333;
     user-select: none;
@@ -80,7 +79,7 @@ nav.navbar {
     padding: .5rem 1rem;
     opacity: .85;
     z-index: 999;
-    box-shadow: 0 .5rem 1rem -2px rgba(0, 0, 0, .3)
+    box-shadow: 0 .5rem 1rem -2px rgba(0, 0, 0, .15)
 }
 img.navbar-brand {height: 2.5rem}
 img.navbar-brand, div.navbar-brand, a.nav-link {user-select: none}
@@ -124,7 +123,7 @@ div.cover {
 /* Scroll */
 #scroll {
     padding: 0 1rem;
-    box-shadow: 0 -.5rem 1rem -2px rgba(0, 0, 0, .3) inset
+    /* box-shadow: 0 -.5rem 1rem -2px rgba(0, 0, 0, .3) inset */
 }
 @media screen and (min-width: 800px) {
     #scroll {padding: 0 1.5rem}
@@ -156,6 +155,37 @@ div.scroll-item {
 @media screen and (min-width: 800px) {
     div.scroll-item {margin: 0 .6rem 1rem}
 }
+/* Recommends */
+div.recommend {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    max-height: 14vw
+}
+#date-month {background-color: hsl(0, 20%, 60%)}
+div.date-day-outer {
+    flex: auto;
+    background-color: rgba(255, 255, 255, .85)
+}
+#date-day {
+    top: 50%;
+    transform: translateY(calc(50% - 1.6rem)); /* 文本竖直居中 */
+    width: 100%;
+    font-size: 1.6rem
+}
+@media screen and (min-width: 600px) {
+    #date-day {
+        font-size: 2rem;
+        transform: translateY(calc(50% - 2.4rem))
+    }
+}
+@media screen and (min-width: 800px) {
+    #date-day {
+        font-size: 2.4rem;
+        transform: translateY(calc(50% - 3rem))
+    }
+}
+/* —— */
 div.item-img {position: relative}
 
 img.icon-play {
@@ -168,9 +198,11 @@ img.icon-play {
     filter: blur(0);
     opacity: .3;
     background-color: #333;
-    border-radius: 9px 0 0 0
+    border-radius: .6rem 0 0 0
 }
-img.icon-play:hover {opacity: .75}
+img.icon-play:hover {opacity: .85}
+img.icon-play:active {opacity: .6}
+
 p.item-name {
 	padding: .1em .4em;
 	color: white;
@@ -203,7 +235,6 @@ img.btn-back, img.btn-next {padding: .2rem 0}
 div.playbar-widget {
     position: absolute;
     bottom: 100%;
-    color: #333;
     overflow: hidden;
     background-color: rgb(255, 255, 255, .75);
 }
@@ -222,7 +253,8 @@ div.playbar-widget {
     width: 75%;
     max-width: 800px;
     border-radius: .6rem .6rem 0 0;
-    box-shadow: 0 -.5rem 1rem -4px rgba(0, 0, 0, .3) inset;
+    box-shadow: 0 -.3rem 1rem -4px rgba(0, 0, 0, .15),
+                0 -.5rem 1rem -4px rgba(0, 0, 0, .15) inset;
     pointer-events: none;
     opacity: 0;
     transition: .6s;
@@ -234,9 +266,11 @@ div.playlist-active {
 div.playlist > nav.navbar {
     padding: .2rem 1rem;
 }
-div.close {cursor: pointer}
+div.close {
+    cursor: pointer;
+    transition: .2s
+}
 #songs {
-    color: #333;
     overflow-y: auto;
     padding-bottom: 2rem
 }

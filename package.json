@@ -1,6 +1,6 @@
 {
     "name": "BloudMusic",
-    "version": "1.0.1",
+    "version": "1.2.0",
     "description": "A third part Netease-Cloud-Music client",
     "main": "index.js",
     "scripts": {
@@ -20,7 +20,8 @@
         "axios": "^0.21.1",
         "bootstrap": "^4.6.0",
         "ejs": "^3.1.6",
-        "electron": "^12.0.7",
-        "jquery": "^3.6.0"
+        "electron": "^12.0.9",
+        "jquery": "^3.6.0",
+        "lrc-kit": "^1.1.1"
     }
 }

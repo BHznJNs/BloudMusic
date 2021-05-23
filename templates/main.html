@@ -17,7 +17,7 @@
         <div class="dropdown">
             <img class="icon w-100" src="../imgs/icons/setting.svg" draggable="false">
         
-            <div class="menu shadow border rounded-left position-absolute">
+            <div class="menu shadow-sm border rounded-left position-absolute">
                 <div class="item text-center text-nowrap" onclick="location.reload()">刷新页面</div>
                 <div class="item text-center text-nowrap">首选项</div>
             </div>
@@ -25,7 +25,7 @@
         <div class="dropdown">
             <img class="icon w-100" src="../imgs/icons/user.svg" draggable="false">
         
-            <div class="menu shadow border rounded-left position-absolute">
+            <div class="menu shadow-sm border rounded-left position-absolute">
                 <div class="item text-center text-nowrap" onclick="logout()">退出登录</div>
             </div>
         </div>
@@ -45,6 +45,14 @@
                             <a class="nav-link" href="#my-pls" draggable="false">我的歌单</a>
                         </li>
                     <% } %>
+
+                    <% if (exist_special_pl) { %>
+                        <li class="nav-item"><div class="nav-sep"></div></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#special-pls" draggable="false">每日推荐</a>
+                        </li>
+                    <% } %>
+
                     <% if (exist_collected_pl) { %>
                         <li class="nav-item"><div class="nav-sep"></div></li>
                         <li class="nav-item">
@@ -78,7 +86,36 @@
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
                         <% created_pls.forEach((item) => { %>
-                            <div class="scroll-item rounded-lg shadow">
+                            <div class="scroll-item rounded-lg">
+                                <div class="item-img w-100 user-select-none">
+                                    <!-- 歌单封面 -->
+                                    <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
+                                    <img class="icon icon-play user-select-none" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
+                                </div>
+                                <p class="item-name m-0 w-100 text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+
+                <% if (exist_special_pl) { %>
+                    <h4 id="special-pls" class="scroll-title text-white user-select-none">每日推荐</h4>
+                    <div class="scroll-sep"></div>
+                    <div class="scroll-content">
+                        <div class="scroll-item rounded-lg">
+                            <div class="item-img w-100 user-select-none">
+                                <div class="recommend w-100 position-relative">
+                                    <div id="date-month" class="text-center text-white"></div>
+                                    <div class="date-day-outer">
+                                        <div id="date-day" class="text-center position-absolute"></div>
+                                    </div>
+                                </div>
+                                <img class="icon icon-play user-select-none" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('0', 'recommend')"/>
+                            </div>
+                            <p class="item-name m-0 w-100 text-center text-truncate" title="">每日推荐</p>
+                        </div>
+                        <% special_pls.forEach((item) => { %>
+                            <div class="scroll-item rounded-lg">
                                 <div class="item-img w-100 user-select-none">
                                     <!-- 歌单封面 -->
                                     <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>

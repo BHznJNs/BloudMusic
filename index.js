@@ -59,7 +59,11 @@ ipcMain.on("close_play_widget", () => {
 // 函数：创建主窗口
 var main_win
 function create_window () {
+	// 隐藏系统窗口菜单
+	// Menu.setApplicationMenu(null)
 	main_win = new BrowserWindow({
+		minWidth: 560,
+		minHeight: 360,
 		show: false,
 		icon: join(__dirname, "./imgs/icons/CloudMusic_icon.png"),
 		webPreferences: {
@@ -90,7 +94,7 @@ app.whenReady().then(() => {
 	// session.defaultSession.clearCache()
 
 	app.on('activate', () => {
-		if (BrowserWindow.getAllWindows().length === 0) {
+		if (BrowserWindow.getAllWindows().length == 0) {
 			create_window()
 		}
 	})
