@@ -18,6 +18,14 @@
   <li>输入 <code>npm start</code> 以运行程序</li>
 </ul>
 <hr />
+<h3>注：</h3>
+<ul>
+  <li>本项目适合爱折腾的用户使用</li>
+  <li>（折腾本项目需要一定的 CSS 和 Javascript 基础）</li>
+  <li>本项目未加入任何社交功能</li>
+  <li>本项目仍处于开发中</li>
+</ul>
+<hr />
 <h3>TODO</h3>
 <ul>
   <li>右键点击歌单封图显示下载选项</li>
