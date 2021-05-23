@@ -1,6 +1,6 @@
 {
     "name": "BloudMusic",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "A third part Netease-Cloud-Music client",
     "main": "index.js",
     "scripts": {
