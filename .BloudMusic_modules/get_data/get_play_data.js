@@ -42,9 +42,7 @@ function get_playlist(list_id) {
 // 函数：获取歌手热门歌曲
 function get_art_hs(artist_id) { // get artist hot song
     return new Promise((resolve) => {
-        get("http://localhost:3000/artists?id=" + artist_id).then((res) => {
-            if (res.status != 200) {reject()}
-        
+        get("http://localhost:3000/artists?id=" + artist_id).then((res) => {        
             let data = res.data.hotSongs
             let song_ids = []
             let songs = []
