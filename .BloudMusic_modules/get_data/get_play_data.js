@@ -72,7 +72,7 @@ function get_art_hs(artist_id) { // get artist hot song
 // }
 // 函数：获取并返回单曲信息
 function get_song(song_id) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         get("http://localhost:3000/song/detail?ids=" + song_id).then((res) => {
             let data = res.data.songs[0]
 
