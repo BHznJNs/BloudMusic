@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron")
 
 // 切换全屏
+var is_fullscreen = false
 function toggle_fullscreen() {
     ipcRenderer.send("toggle_fullscreen")
     toggle_fs_icon()
