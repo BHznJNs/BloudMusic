@@ -36,7 +36,6 @@ function get_artist_data(userId) {
     return new Promise((resolve) => {
         get(url).then((res) => {
             let data = res.data.profile
-            console.log(data);
             resolve({
                 name: data.nickname,
                 img_url: data.avatarUrl,
