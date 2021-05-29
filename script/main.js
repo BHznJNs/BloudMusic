@@ -122,8 +122,9 @@ function switch_play(id, type_) {
                 case "playlist": // 歌单
                     PLAYLIST = await get_playlist_songs(id)
                     break
-                case "artist": // 歌手
-                    PLAYLIST = await get_art_hs(id)
+                case "collected_art": // 用户收藏歌手
+                case "followed_art": // 用户关注歌手
+                    PLAYLIST = await get_art_hs(id, type_)
                     break
                 case "loves": // 喜欢列表
                     PLAYLIST = LOVEs
@@ -136,7 +137,7 @@ function switch_play(id, type_) {
                     break
             }
         }
-        if (["playlist", "artist", "loves", "recommend"].includes(type_)) {
+        if (["playlist", "collected_art", "followed_art", "loves", "recommend"].includes(type_)) {
             render_playlist(PLAYLIST.songs, PLAYLIST.name)
         }
         resolve()

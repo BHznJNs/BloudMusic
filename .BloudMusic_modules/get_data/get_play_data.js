@@ -1,4 +1,5 @@
 const { get } = require("axios")
+const { show_notify } = require("../main_render")
 
 // 函数：从输入中获取所有歌手名字
 function get_artists(data) {
@@ -11,8 +12,9 @@ function get_artists(data) {
 
 // 函数：获取歌单信息
 function get_playlist_songs(list_id) {
+    let url = "http://localhost:3000/playlist/detail?id=" + list_id
     return new Promise((resolve) => {
-        get("http://localhost:3000/playlist/detail?id=" + list_id).then((res) => {
+        get(url).then((res) => {
             let playlist = res.data.playlist
             // 获取歌单中所有单曲 ID
             let song_ids = []
@@ -38,15 +40,39 @@ function get_playlist_songs(list_id) {
             })
         }).catch((err) => {
             console.log(err)
-            alert("歌单请求错误！")
+            if (location.href.includes("login.html")) {
+                alert("歌单请求错误！")
+            } else {
+                show_notify("歌单请求错误！")
+            }
         })
     })
 }
 
-// 函数：获取歌手热门歌曲
-function get_art_hs(artist_id) { // get artist hot song
+// 函数：根据关注的歌手的用户ID获取歌手数据
+function get_artist_data(userId) {
+    let url = "http://localhost:3000/user/detail?uid=" + userId
     return new Promise((resolve) => {
-        get("http://localhost:3000/artists?id=" + artist_id).then((res) => {   
+        get(url).then((res) => {
+            let data = res.data.profile
+            // 返回歌手的歌手ID（artist ID）
+            resolve(data.artistId)
+        }).catch((err) => {
+            console.log("歌手数据请求错误！", err)
+            show_notify("歌手数据请求错误！")
+            try {hide_load()} catch {}
+        })
+    })
+}
+// 函数：获取歌手热门歌曲
+async function get_art_hs(id, type_) { // get artist hot song
+    // 如果输入是用户关注歌手
+    if (type_ == "followed_art") {
+        var id = await get_artist_data(id)
+    }
+    let url = "http://localhost:3000/artists?id=" + id
+    return new Promise((resolve) => {
+        get(url).then((res) => {
             let hot_songs = res.data.hotSongs
 
             let song_ids = []
@@ -61,7 +87,7 @@ function get_art_hs(artist_id) { // get artist hot song
                 })
             })
             resolve({
-                id: artist_id,
+                id: id,
                 name: res.data.artist.name + " 的热门单曲",
                 songs: songs,
                 song_ids: song_ids,
@@ -69,7 +95,7 @@ function get_art_hs(artist_id) { // get artist hot song
             })
         }).catch((err) => {
             console.log(err)
-            alert("歌手数据请求错误！")
+            show_notify("歌手数据请求错误！")
         })
     })
 }
@@ -78,8 +104,9 @@ function get_art_hs(artist_id) { // get artist hot song
 // }
 // 函数：获取并返回单曲信息
 function get_song(song_id) {
+    let url = "http://localhost:3000/song/detail?ids=" + song_id
     return new Promise((resolve) => {
-        get("http://localhost:3000/song/detail?ids=" + song_id).then((res) => {
+        get(url).then((res) => {
             let data = res.data.songs[0]
             let privileges = res.data.privileges[0]
 
@@ -104,15 +131,16 @@ function get_song(song_id) {
             })
         }).catch((err) => {
             console.log(err)
-            alert("歌曲请求错误！")
+            show_notify("歌曲请求错误！")
         })
     })
 }
 
 // 函数：获取日推
 function get_recommends() {
+    let url = "http://localhost:3000/recommend/songs"
     return new Promise((resolve) => {
-        get("http://localhost:3000/recommend/songs").then((res) => {
+        get(url).then((res) => {
             let data = res.data.data.dailySongs
             let songs = []
             let song_ids = []
@@ -135,7 +163,7 @@ function get_recommends() {
             })
         }).catch((err) => {
             console.log(err)
-            alert("每日推荐获取失败！")
+            show_notify("每日推荐获取失败！")
         })
     })
 }

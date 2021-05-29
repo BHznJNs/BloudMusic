@@ -68,7 +68,8 @@ async function render_nav() {
 var created_pls
 var special_pls
 var collected_pls
-var artists = []
+var collected_arts = []
+var followed_arts = []
 // 函数：读取歌单及歌手数据
 function get_data() {
     if (exist_created_pl) { // 用户创建歌单
@@ -104,7 +105,7 @@ function get_data() {
     if (exist_artists) {
         read_file_sync( // 用户收藏歌手
             "data/collected_artists.json",
-            (res) => {artists = JSON.parse(res)},
+            (res) => {collected_arts = JSON.parse(res)},
             () => {
                 console.log("读取用户收藏歌手错误！")
                 console.log("Read collected_artists.json error!")
@@ -112,10 +113,7 @@ function get_data() {
         )
         read_file_sync( // 用户关注歌手
             "data/followed_artists.json",
-            (res) => {
-                res = JSON.parse(res)
-                artists = artists.concat(res) // 数组合并
-            },
+            (res) => {followed_arts = JSON.parse(res)},
             () => {
                 console.log("读取用户关注歌手错误！")
                 console.log("Read followed_artists.json error!")
@@ -134,7 +132,8 @@ async function render_content() {
         exist_created_pl, exist_special_pl,
         exist_collected_pl, exist_artists,
         created_pls, special_pls,
-        collected_pls, artists
+        collected_pls,
+        collected_arts, followed_arts
     })
     $("#scroll").html(html_output)
 }

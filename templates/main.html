@@ -163,12 +163,22 @@
                     <h4 id="follows" class="scroll-title text-white">我的关注</h4>
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
-                        <% artists.forEach((item) => { %>
+                        <% collected_arts.forEach((item) => { %>
                             <div class="scroll-item rounded-lg">
                                 <div class="item-img user-select-none">
                                     <!-- 歌手头图 -->
                                     <img class="w-100" src="<%= item.img_url %>?param=120y120" draggable="false"/>
-                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.artist_id %>', 'artist')"/>
+                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.artist_id %>', 'collected_art')"/>
+                                </div>
+                                <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                            </div>
+                        <% }) %>
+                        <% followed_arts.forEach((item) => { %>
+                            <div class="scroll-item rounded-lg">
+                                <div class="item-img user-select-none">
+                                    <!-- 歌手头图 -->
+                                    <img class="w-100" src="<%= item.img_url %>?param=120y120" draggable="false"/>
+                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.user_id %>', 'followed_art')"/>
                                 </div>
                                 <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
                             </div>

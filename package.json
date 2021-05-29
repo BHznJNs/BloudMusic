@@ -1,13 +1,13 @@
 {
     "name": "BloudMusic",
-    "version": "1.4.1",
+    "version": "1.4.0",
     "description": "A third part Netease-Cloud-Music client",
     "main": "index.js",
     "scripts": {
         "test": "electron .",
         "prestart": "node NeteaseCloudMusicApi/NCMapi.js &",
         "start": "electron .",
-        "poststart": "pkill -f 'node NeteaseCloudMusicApi-master/NCMapi.js'"
+        "poststart": "pkill -f 'node NeteaseCloudMusicApi/NCMapi.js'"
     },
     "keywords": [
         "music",
