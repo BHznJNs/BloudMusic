@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "electron .",
-        "prestart": "node NeteaseCloudMusicApi-master/NCMapi.js &",
+        "prestart": "node NeteaseCloudMusicApi/NCMapi.js &",
         "start": "electron .",
         "poststart": "pkill -f 'node NeteaseCloudMusicApi-master/NCMapi.js'"
     },
