@@ -37,21 +37,21 @@ $(async () => {
         LOVEs = data
     })
     readFile("cache/last_played.json", "utf8", (err, res) => {
-        if (err) {console.log(err); return}
-        let data = JSON.parse(res)
-        // 如果上次播放数据保存成功
-        if (data.playlist && data.play_index != undefined) {
-            PLAYLIST = data.playlist
-            PLAY_INDEX = data.play_index
-            // 调节音量
-            $("#player")[0].volume = data.volume
-            // 设定播放模式为上次播放模式
-            switch_playMode(data.play_mode)
-        } else { // 如果上次播放数据保存错误
+        if (err) { // 如果上次播放数据保存错误 || 文件不存在
+            console.log("文件 \"cache/last_played.json\" 不存在！")
             PLAYLIST = LOVEs
             console.log("PLAYLIST = LOVEs", PLAYLIST)
             $("#player")[0].volume = 0.7
         }
+        let data = JSON.parse(res)
+
+        PLAYLIST = data.playlist
+        PLAY_INDEX = data.play_index
+        // 调节音量
+        $("#player")[0].volume = data.volume
+        // 设定播放模式为上次播放模式
+        switch_playMode(data.play_mode)
+
         render_playlist(PLAYLIST.songs, PLAYLIST.name)
     })
 })

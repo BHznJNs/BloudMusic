@@ -1,5 +1,6 @@
 const { ipcRenderer } = require("electron")
-// 渲染进程与播放控件进程的互动
+
+const { toggle_play } = require("./main_keyEvent")
 
 // 获取播放控件的 窗口id
 var play_widget_winId

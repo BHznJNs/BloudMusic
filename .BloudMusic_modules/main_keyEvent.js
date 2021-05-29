@@ -37,3 +37,4 @@ $(document).keydown((event) => {
             break
     }
 })
+exports.toggle_play = toggle_play
