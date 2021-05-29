@@ -62,8 +62,8 @@ function create_window () {
 	// 隐藏系统窗口菜单
 	// Menu.setApplicationMenu(null)
 	main_win = new BrowserWindow({
-		minWidth: 560,
-		minHeight: 360,
+		minWidth: 600,
+		minHeight: 400,
 		show: false,
 		icon: join(__dirname, "./imgs/icons/CloudMusic_icon.png"),
 		webPreferences: {

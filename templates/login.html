@@ -17,6 +17,7 @@
 	</div>
 	<!-- Main -->
 	<div id="main" class="flex-center shadow">
+		<!-- 装饰图片 -->
 		<div class="login-img h-100 overflow-hidden">
 			<img class="login-img user-select-none" src="../imgs/login_img.png" draggable="false">
 		</div>
@@ -27,12 +28,14 @@
 				<b class="login-head user-select-none">登录</b>
 			</div>
 
+			<!-- 帐号输入（手机号 || 邮箱） -->
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text">帐号</span>
 				</div>
 				<input type="text" id="account-num" class="form-control" placeholder="输入手机号或邮箱帐号">
 			</div>
+			<!-- 密码输入 -->
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text">密码</span>
@@ -52,7 +55,7 @@
 				</label>
 			</div>
 
-			<button class="btn btn-outline-info" onclick="to_login()"><b>登录</b></button>
+			<button class="btn btn-outline-info" onclick="login()"><b>登录</b></button>
 		</div>
 	</div>
 

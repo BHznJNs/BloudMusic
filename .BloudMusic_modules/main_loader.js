@@ -1,8 +1,7 @@
+const { readFile } = require("fs")
 const { render_nav, render_content } = require("./main_render")
 
 $("#song-name").hide()
-// 设置 audio 音量
-$("#player")[0].volume = 0.7
 
 // 设置 日推 日期
 $(async () => {
@@ -52,14 +51,13 @@ $(async () => {
     }
     $("#date-month").text(month)
     $("#date-day").text(day + "日")
-    console.log(month, day)
 })
 
 // 替换用户昵称、头像、背景
 $(async () => {
-    const { read_file } = require("../.BloudMusic_modules/general/operate_file")
+    readFile("data/user.json", "utf8", (err, res) => {
+        if (err) {console.log(err); return}
 
-    read_file("data/user.json", (err)=>{console.log(err)}, (res) => {
         let data = JSON.parse(res)
 
         let user_name = data.name

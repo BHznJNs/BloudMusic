@@ -1,4 +1,3 @@
-// const FS = require("fs")
 const { access, mkdir, rmdirSync } = require("fs")
 const { F_OK } = require("fs").constants
 
@@ -21,20 +20,20 @@ function make_dir(path) {
         () => {
             mkdir(path, (err) => {
                 if (err) {
-                    throw err
+                    console.log(err)
                 }  
             })
         },
         () => {console.log("File \"" + path + "\" exist!")}
     )
 }
-function del_dir(path, callback, callback_err) {
+function del_dir(path, callback_err, callback) {
     try {
         rmdirSync(path, {recursive: true})
-        callback()
-    } catch (err) {
-        callback_err()
-    }
+        if (callback) {
+            callback()
+        }
+    } catch (err) {}
 }
 
 exports.make_dir = make_dir

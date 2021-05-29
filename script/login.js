@@ -3,26 +3,27 @@ window.$ = window.jQuery = require("jquery")
 const { show_load, hide_load } = require("../.BloudMusic_modules/control_load")
 const { check_account } = require("../.BloudMusic_modules/check_account")
 const { get_user } = require("../.BloudMusic_modules/get_data/get_user")
-const { save_data } = require("../.BloudMusic_modules/general/operate_file")
-const { make_dir } = require("../.BloudMusic_modules/general/operate_dir")
+const { save_data, make_dir } = require("../.BloudMusic_modules/general/operate_file")
 const { get_playlist, filter_playlist } = require("../.BloudMusic_modules/get_data/operate_playlist")
 const { collected_art, followed_art } = require("../.BloudMusic_modules/get_data/get_artists")
+const { get_playlist_songs } = require("../.BloudMusic_modules/get_data/get_play_data")
 
 // 如果 “data” 与 “cache” 文件夹不存在，则创建
 make_dir("data")
 make_dir("cache")
-
+// 函数：编辑进度条 长度 & 文本
 function edit_bar(bar_length, text) { // edit progress bar
     $("#progress-bar").width(bar_length)
     $("#progress-text").text(text)
 }
 
-// 主函数
-async function to_login() {
+// 函数：登录
+async function login() {
+    // 校验用户输入
     let data = check_account()
     if (data) {
         show_load()
-    } else {return 0}
+    } else {return}
     edit_bar("5%", "用户资料获取中......")
 
     // 获取用户信息
@@ -36,7 +37,7 @@ async function to_login() {
         alert("用户资料请求错误！")
         hide_load()
     }
-
+    // 保存用户资料
     let user = JSON.stringify(user_data)
     save_data("data/user.json", user)
 
@@ -58,10 +59,17 @@ async function to_login() {
     edit_bar("45%", "用户创建歌单数据已保存。")
     // 如果 checkbox get-specials-pl 被选中
     if ($("#get-specials-pl").prop("checked")) {
-        if (filtered_pl.special_pl[0].name) {
+        var special_pl = filtered_pl.special_pl
+        if (special_pl[0].name) {
             save_data(
                 "data/special_playlists.json",
-                JSON.stringify(filtered_pl.special_pl)
+                JSON.stringify(special_pl)
+            )
+            // 保存用户收藏单曲
+            let loves = await get_playlist_songs(special_pl[0].id)
+            save_data(
+                "cache/loves.json",
+                JSON.stringify(loves)
             )
         }
     }
@@ -79,7 +87,7 @@ async function to_login() {
 
     // 获取用户关注歌手
     // 如果 checkbox get-follows 被选中
-    edit_bar("65%", "关注数据请求中，请稍等......")
+    edit_bar("65%", "歌手数据请求中，请稍等......")
     if ($("#get-follows").prop("checked")) {
         // user collected artists 用户收藏歌手
         let user_collected_art = await collected_art(cookie)
@@ -99,7 +107,7 @@ async function to_login() {
     //———————————————————————————————————————————————————————
 
     edit_bar("100%", "请求完成！")
-    
+    // 切换页面到播放页面 main.html
     setTimeout(() => {
         location.replace("main.html")
     }, 500)

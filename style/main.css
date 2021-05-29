@@ -7,19 +7,26 @@ body {
     margin: 0;
     background-image: linear-gradient(to bottom right, #0099CC, #FF9966)
 }
+/* 关闭按钮 | Close Button */
+div.close {
+    cursor: pointer;
+    transition: .2s
+}
 /* ———— */
 
-/* Icon */
-div.tool-icon {
-    z-index: 9999;
+/* 按钮 | Icons */
+div.tool-icon { /* 按钮菜单 | Icon Menu */
+    z-index: 11;
     top: 0;
     width: 3vw;
     margin: 2vh 1vw
 }
-div.right {right: 0}
+div.right {right: 0} /* 在右边的按钮菜单 | Right Icon Menu */
 img.icon {
+    height: 100%;
     cursor: pointer;
     filter: blur(3px);
+    user-select: none;
     transition: .2s
 }
 img.icon:hover, img.icon-active {filter: blur(0)}
@@ -30,7 +37,7 @@ div.tool-icon > img.icon {
 }
 /* ———— */
 
-/* Dropdown & Menu & Item */
+/* 下拉按钮 & 下拉菜单 & 下拉条目 | Dropdown & Menu & Item */
 div.dropdown {margin-bottom: 1rem}
 div.dropdown:hover img.icon {filter: blur(0)}
 div.dropdown > div.menu {
@@ -39,7 +46,7 @@ div.dropdown > div.menu {
     margin-top: .4rem;
     border-width: 0 !important;
     overflow: hidden;
-    z-index: 999;
+    z-index: 10;
     background-color: rgba(255, 255, 255, .75);
     transition: .6s
 }
@@ -73,12 +80,12 @@ div.menu > div.item:active {background-color: #333}
 }
 /* ———— */
 
-/* Navbar */
+/* 导航栏 | Navbar */
 nav.navbar {
     position: relative;
     padding: .5rem 1rem;
     opacity: .85;
-    z-index: 999;
+    z-index: 1;
     box-shadow: 0 .5rem 1rem -2px rgba(0, 0, 0, .15)
 }
 img.navbar-brand {height: 2.5rem}
@@ -93,7 +100,7 @@ a.nav-link {color: #666}
 a.nav-link:hover {color: #333}
 /* ———— */
 
-/* User imgs */
+/* 用户图像 | User imgs */
 div.user-imgs {
     position: relative;
     width: 85%;
@@ -104,27 +111,24 @@ div.user-imgs {
     div.user-imgs {border-radius: 0 0 .6rem .6rem}
 }
 
-#user-avatar {
+#user-avatar { /* 用户头像 */
     left: 2rem;
     bottom: 1rem;
     width: 16%
 }
-#user-background {
+#user-background { /* 用户背景图 */
     margin-top: -15%;
     margin-bottom: -15%
 }
-div.cover {
+div.cover { /* 用户头像蒙版 */
     left: 0;
     bottom: 0;
     box-shadow: 0 0 4rem rgb(255, 255, 255, .45) inset
 }
 /* ———— */
 
-/* Scroll */
-#scroll {
-    padding: 0 1rem;
-    /* box-shadow: 0 -.5rem 1rem -2px rgba(0, 0, 0, .3) inset */
-}
+/* 滚动 | Scroll */
+#scroll {padding: 0 1rem}
 @media screen and (min-width: 800px) {
     #scroll {padding: 0 1.5rem}
 }
@@ -133,7 +137,8 @@ h4.scroll-title {
     margin: 1rem 0 0;
     padding: .2rem .5rem .1rem;
     border-radius: 6px 6px 0 0;
-    background-color: rgba(51, 51, 51, .6)
+    background-color: rgba(51, 51, 51, .6);
+    user-select: none;
 }
 div.scroll-sep {
     height: 4px;
@@ -155,45 +160,37 @@ div.scroll-item {
 @media screen and (min-width: 800px) {
     div.scroll-item {margin: 0 .6rem 1rem}
 }
-/* Recommends */
+/* 每日推荐 | Recommends */
 div.recommend {
-    display: flex;
     flex-direction: column;
     height: 120px;
     max-height: 14vw
 }
-#date-month {background-color: hsl(0, 20%, 60%)}
+#date-month { /* 月份 */
+    background-color: hsl(0, 20%, 60%)
+}
 div.date-day-outer {
     flex: auto;
     background-color: rgba(255, 255, 255, .85)
 }
-#date-day {
+#date-day { /* 日期 */
     top: 50%;
-    transform: translateY(calc(50% - 1.6rem)); /* 文本竖直居中 */
+    transform: translateY(-50%); /* 文本竖直居中 */
     width: 100%;
-    font-size: 1.6rem
-}
-@media screen and (min-width: 600px) {
-    #date-day {
-        font-size: 2rem;
-        transform: translateY(calc(50% - 2.4rem))
-    }
-}
-@media screen and (min-width: 800px) {
-    #date-day {
-        font-size: 2.4rem;
-        transform: translateY(calc(50% - 3rem))
-    }
+    margin: auto;
+    font-size: 3.6vw
 }
 /* —— */
-div.item-img {position: relative}
-
-img.icon-play {
+div.item-img {
+    position: relative;
+    width: 100%
+}
+img.icon-play { /* 播放按钮 */
     position: absolute;
     bottom: 0;
 	right: 0;
-    width: 44px;
-	max-width: 5vw;
+    height: 5vw;
+	max-height: 44px;
     padding: .1rem;
     filter: blur(0);
     opacity: .3;
@@ -203,22 +200,24 @@ img.icon-play {
 img.icon-play:hover {opacity: .85}
 img.icon-play:active {opacity: .6}
 
-p.item-name {
+div.scroll-item > p.item-name { /* 条目名 */
+    width: 100%;
+    margin: 0;
 	padding: .1em .4em;
 	color: white;
 	background-color: rgba(51, 51, 51, .45);
 	cursor: pointer
 }
-p.item-name:hover {text-decoration: underline}
+div.scroll-item > p.item-name:hover {text-decoration: underline}
 /* ———— */
 
-/* Playbar */
+/* 播放栏 | Playbar */
 #playbar {
     position: relative;
 	background-color: rgb(255, 255, 255, .75);
 	height: 8vh;
 	max-height: 50px;
-	border-radius: 12px 12px 0 0
+	border-radius: 12px 12px 0 0;
 }
 audio {
     width: 60vw;
@@ -229,16 +228,18 @@ img.button {
     margin: 0 2vw;
     user-select: none
 }
-img.btn-back {transform: rotate(180deg)}
+/* 前进 & 后退 按钮 */
+img.btn-back {transform: rotate(180deg)} 
 img.btn-back, img.btn-next {padding: .2rem 0}
-/* Playbar Widget */
+#love {display: inline-block !important}
+/* 播放栏控件 | Playbar Widget */
 div.playbar-widget {
     position: absolute;
     bottom: 100%;
     overflow: hidden;
-    background-color: rgb(255, 255, 255, .75);
+    background-color: rgb(255, 255, 255, .75)
 }
-#song-name {
+#song-name { /* 正在播放的单曲名 */
     max-height: 0;
     border-radius: .3rem .3rem 0 0;
     transition: .3s
@@ -248,28 +249,28 @@ div.playbar-widget {
     padding: .2rem .5rem
 }
 
-#playlist {
+#playlist { /* 播放列表 */
     height: 40vh;
-    width: 75%;
     max-width: 800px;
     border-radius: .6rem .6rem 0 0;
-    box-shadow: 0 -.3rem 1rem -4px rgba(0, 0, 0, .15),
-                0 -.5rem 1rem -4px rgba(0, 0, 0, .15) inset;
+    box-shadow: 0 -.3rem 1rem -4px rgba(0, 0, 0, .15), /* 周围阴影 */
+                0 -.5rem 1rem -6px rgba(0, 0, 0, .15) inset; /* 底边阴影 */
     pointer-events: none;
     opacity: 0;
-    transition: .6s;
+    transition: .6s
+}
+#playlist-name { /* 播放列表 歌单/歌手 名称 */
+    font-size: 1.15rem;
+    padding: 0.3625rem 0
 }
 div.playlist-active {
     opacity: 1 !important;
-    pointer-events: auto !important;
+    pointer-events: auto !important
 }
-div.playlist > nav.navbar {
-    padding: .2rem 1rem;
+#playlist > nav.navbar {
+    padding: .1rem 1rem
 }
-div.close {
-    cursor: pointer;
-    transition: .2s
-}
+/* 播放列表条目 | Songs */
 #songs {
     overflow-y: auto;
     padding-bottom: 2rem
@@ -280,12 +281,12 @@ div.close {
     height: 1.6rem;
     border-color: rgb(255, 255, 255, .75) !important;
     box-sizing: content-box;
-    transition: .2s;
+    transition: .2s
 }
 #songs > div.item:hover {
     background-color: rgb(255, 255, 255, .75)
 }
-div.item > img {
+div.item > img { /* 播放单曲按钮 */
     user-select: none;
     cursor: pointer;
     opacity: .45
@@ -295,8 +296,29 @@ div.item > img:active {opacity: .75}
 div.item > div.separator {
     width: 3px;
     height: 100%;
-    background-color: #666;
+    background-color: #666
 }
+div.item:hover div.separator {background-color: #333}
 div.item > div.song-name, div.item > div.artist {
-    width: 40%;
+    width: 40%
+}
+
+/* 提示框 | Toast */
+div.notification { /* 提示框（toast）展示区 */
+    position: absolute;
+    bottom: calc(100% + 2vw);
+    right: 1vw;
+}
+div.toast { /* 提示框 */
+    position: relative;
+    max-height: 0 !important;
+    z-index: 100;
+    pointer-events: none;
+    overflow: hidden;
+    transition: .4s;
+}
+div.toast-active {
+    max-height: 100vh !important;
+    opacity: 1 !important;
+    pointer-events: auto !important
 }

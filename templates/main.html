@@ -9,22 +9,27 @@
     <title>BloudMusic</title>
 </head>
 <body>
+    <!-- 工具图标 | Tool Icons -->
     <div class="tool-icon position-fixed">
-        <img class="icon shadow" onclick="toggle_fullscreen()" src="../imgs/icons/fullscreen.svg" title="全屏" id="fullscreen" draggable="false"/>
-        <img class="icon shadow" onclick="show_play_widget()" src="../imgs/icons/play_widget.svg" title="播放部件" draggable="false"/>
+        <!-- 全屏图标 -->
+        <img class="icon shadow-sm" onclick="toggle_fullscreen()" src="../imgs/icons/fullscreen.svg" title="全屏" id="fullscreen" draggable="false"/>
+        <!-- 打开播放控件 -->
+        <img class="icon shadow-sm" onclick="show_play_widget()" src="../imgs/icons/play_widget.svg" title="播放部件" draggable="false"/>
     </div>
+    <!-- 下拉工具图标 | Dropdown Tool Icons -->
     <div class="tool-icon position-fixed right">
         <div class="dropdown">
             <img class="icon w-100" src="../imgs/icons/setting.svg" draggable="false">
-        
+
             <div class="menu shadow-sm border rounded-left position-absolute">
                 <div class="item text-center text-nowrap" onclick="location.reload()">刷新页面</div>
                 <div class="item text-center text-nowrap">首选项</div>
             </div>
         </div>
+        <!-- 用户 -->
         <div class="dropdown">
             <img class="icon w-100" src="../imgs/icons/user.svg" draggable="false">
-        
+
             <div class="menu shadow-sm border rounded-left position-absolute">
                 <div class="item text-center text-nowrap" onclick="logout()">退出登录</div>
             </div>
@@ -32,12 +37,15 @@
     </div>
 
     <div id="main" class="shadow d-flex flex-column overflow-hidden">
+        <!-- 导航栏 -->
         <nav class="navbar bg-light" id="navbar">
             <ul class="nav nav-pills">
+                <!-- 导航栏标志 -->
                 <img class="navbar-brand" src="../imgs/icons/CloudMusic_AngleRounded_icon.svg">
+                <!-- 导航栏标题，会被替换为用户昵称 -->
                 <div class="navbar-brand" id="nav-title">BloudMusic</div>
             </ul>
-            
+            <!-- 导航栏锚点链接 -->
             <ul id="nav-items" class="nav nav-pills">
                 <script type="text/html" id="nav-temp">
                     <% if (exist_created_pl) { %>
@@ -72,7 +80,7 @@
 
         <div id="scroll" class="overflow-auto">
             <script type="text/html" id="scroll-temp">
-                <div class="user-imgs mx-auto overflow-hidden shadow-lg">
+                <div class="user-imgs mx-auto overflow-hidden shadow">
                     <!-- 用户背景图 -->
                     <img src="" id="user-background" class="w-100"/>
                     <!-- 用户头像 -->
@@ -80,82 +88,89 @@
                     <!-- 蒙版 -->
                     <div class="cover position-absolute w-100 h-100"></div>
                 </div>
-
+                <!-- 用户创建歌单 -->
                 <% if (exist_created_pl) { %>
-                    <h4 id="my-pls" class="scroll-title text-white user-select-none">我的歌单</h4>
+                    <h4 id="my-pls" class="scroll-title text-white">我的歌单</h4>
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
                         <% created_pls.forEach((item) => { %>
                             <div class="scroll-item rounded-lg">
-                                <div class="item-img w-100 user-select-none">
+                                <div class="item-img user-select-none">
                                     <!-- 歌单封面 -->
                                     <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
-                                    <img class="icon icon-play user-select-none" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
+                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
                                 </div>
-                                <p class="item-name m-0 w-100 text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                                <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
                             </div>
                         <% }) %>
                     </div>
                 <% } %>
-
+                <!-- 特殊歌单 -->
                 <% if (exist_special_pl) { %>
-                    <h4 id="special-pls" class="scroll-title text-white user-select-none">每日推荐</h4>
+                    <h4 id="special-pls" class="scroll-title text-white">每日推荐</h4>
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
+                        <!-- 日推 -->
                         <div class="scroll-item rounded-lg">
-                            <div class="item-img w-100 user-select-none">
-                                <div class="recommend w-100 position-relative">
+                            <div class="item-img user-select-none">
+                                <div class="recommend d-flex w-100 position-relative">
                                     <div id="date-month" class="text-center text-white"></div>
-                                    <div class="date-day-outer">
+                                    <div class="date-day-outer position-relative">
                                         <div id="date-day" class="text-center position-absolute"></div>
                                     </div>
                                 </div>
-                                <img class="icon icon-play user-select-none" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('0', 'recommend')"/>
+                                <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('0', 'recommend')"/>
                             </div>
-                            <p class="item-name m-0 w-100 text-center text-truncate" title="">每日推荐</p>
+                            <p class="item-name text-center text-truncate" title="">每日推荐</p>
                         </div>
+                        <!-- 用户 收藏单曲 & 音乐雷达 -->
                         <% special_pls.forEach((item) => { %>
                             <div class="scroll-item rounded-lg">
-                                <div class="item-img w-100 user-select-none">
+                                <div class="item-img user-select-none">
                                     <!-- 歌单封面 -->
                                     <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
-                                    <img class="icon icon-play user-select-none" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
+                                    <% if (special_pls.indexOf(item) == 0) { %>
+                                        <!-- 用户收藏单曲 -->
+                                        <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'loves')"/>
+                                    <% } else {%>
+                                        <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
+                                    <% } %>
                                 </div>
-                                <p class="item-name m-0 w-100 text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                                <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
                             </div>
                         <% }) %>
                     </div>
                 <% } %>
-                
+                <!-- 用户收藏歌单 -->
                 <% if (exist_collected_pl) { %>
-                    <h4 id="collected-pls" class="scroll-title text-white user-select-none">歌单收藏</h4>
+                    <h4 id="collected-pls" class="scroll-title text-white">歌单收藏</h4>
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
                         <% collected_pls.forEach((item) => { %>
                             <div class="scroll-item rounded-lg">
-                                <div class="item-img w-100 user-select-none">
+                                <div class="item-img user-select-none">
                                     <!-- 歌单封面 -->
                                     <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
-                                    <img class="icon icon-play user" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
+                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
                                 </div>
-                                <p class="item-name m-0 w-100 text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                                <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
                             </div>
                         <% }) %>
                     </div>
                 <% } %>
-
+                <!-- 用户 收藏 & 关注 歌手 -->
                 <% if (exist_artists) { %>
-                    <h4 id="follows" class="scroll-title text-white user-select-none">我的关注</h4>
+                    <h4 id="follows" class="scroll-title text-white">我的关注</h4>
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
                         <% artists.forEach((item) => { %>
                             <div class="scroll-item rounded-lg">
-                                <div class="item-img w-100 user-select-none">
+                                <div class="item-img user-select-none">
                                     <!-- 歌手头图 -->
                                     <img class="w-100" src="<%= item.img_url %>?param=120y120" draggable="false"/>
-                                    <img class="icon icon-play user" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.artist_id %>', 'artist')"/>
+                                    <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.artist_id %>', 'artist')"/>
                                 </div>
-                                <p class="item-name m-0 w-100 text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                                <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
                             </div>
                         <% }) %>
                     </div>
@@ -163,21 +178,29 @@
             </script>
         </div>
     </div>
-
+    <!-- 播放栏 -->
     <div id="playbar" class="shadow d-flex justify-content-center">
-        <img class="icon button btn-back h-100" onclick="previous()" src="../imgs/icons/next.svg" draggable="false" title="上一首"></img>
-        <img class="icon button btn-next h-100" onclick="next()" src="../imgs/icons/next.svg" draggable="false" title="下一首"></img>
-        <audio id="player" class="h-100" onended="next()" src="" draggable="false" controls autoplay></audio>
-        <img id="playlist-icon" class="icon button h-100" onclick="toggle_playlist()" src="../imgs/icons/list.svg" draggable="false" data-toggle="false" title="播放列表"></img>
+        <!-- 前进 & 后退 -->
+        <img class="icon button btn-back" onclick="previous()" src="../imgs/icons/next.svg" draggable="false" title="上一首"></img>
+        <img class="icon button btn-next" onclick="next()" src="../imgs/icons/next.svg" draggable="false" title="下一首"></img>
+        <!-- 播放器 -->
+        <audio id="player" class="h-100" onended="next()" draggable="false" controls autoplay></audio>
+        <!-- 切换喜欢 -->
+        <img id="love" class="icon button" src="../imgs/icons/love.svg" onclick="toggle_love()" data-loved="false" draggable="false" title="添加喜欢">
         
-        <div id="playlist" class="playbar-widget d-flex flex-column overflow-hidden">
+        <!-- 切换播放列表显示状态 -->
+        <img id="playlist-icon" class="icon button" onclick="toggle_playlist()" src="../imgs/icons/list.svg" draggable="false" title="播放列表"></img>
+        <!-- 播放列表 -->
+        <div id="playlist" class="playbar-widget d-flex flex-column w-75 overflow-hidden">
+            <!-- 播放列表导航栏 -->
             <nav class="navbar bg-light">
                 <ul class="nav nav-pills">
-                    <div class="navbar-brand">播放列表</div>
-                    <div class="navbar-brand" id="playlist-name"></div>
+                    <img class="navbar-brand" src="../imgs/icons/list.svg" style="padding: .4rem 0"/>
+                    <div class="navbar-brand" id="playlist-name">播放列表</div>
                 </ul>
                 <div class="close user-select-none" onclick="toggle_playlist()">&times;</div>
             </nav>
+            <!-- 播放列表单曲 -->
             <div id="songs">
                 <script type="text/html" id="playlist-temp">
                     <% playlist.forEach((item) => { %>
@@ -191,9 +214,25 @@
                 </script>
             </div>
         </div>
+        <!-- 正在播放的单曲名 -->
         <div id="song-name" class="playbar-widget"></div>
-
-        <img class="icon button h-100" src="../imgs/icons/loop.svg" draggable="false" title="循环方式：列表循环" id="play-mode" onclick="switch_playMode()"></img>
+        <!-- 播放模式切换 -->
+        <img id="play-mode" class="icon button" src="../imgs/icons/loop.svg" onclick="switch_playMode()" draggable="false" title="循环方式：列表循环"></img>
+        <!-- 提示框（toast）展示区 -->
+        <div class="notification">
+            <div id="notification">
+                <script type="text/html" id="notification-temp">
+                    <div class="toast rounded-lg">
+                        <div class="toast-header">
+                            <img src="../imgs/icons/CloudMusic_icon.svg" class="mr-2" style="height: 1.4rem; user-select: none" draggable="false">
+                            <strong class="mr-auto user-select-none">BloudMusic</strong>
+                            <div class="close user-select-none ml-2" onclick="close_notify(this)">&times;</div>
+                        </div>
+                        <div class="toast-body"><%= content %></div>
+                    </div>
+                </script>
+            </div>
+        </div>
     </div>
     
     <script src="../script/main.js"></script>

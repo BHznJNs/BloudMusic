@@ -10,7 +10,7 @@ function get_user_login(data) { // 登录
 		}
 	
 		post(url, data).then((res) => {
-			resolve({
+			resolve({ // 用户ID、用户昵称、用户关注数、用户歌单数、Cookie、用户 头像 & 背景图
 				id: res.data.account.id,
 				name: res.data.profile.nickname,
 				follows: res.data.profile.follows,

@@ -10,15 +10,18 @@ function get_artists(data) {
 }
 
 // 函数：获取歌单信息
-function get_playlist(list_id) {
+function get_playlist_songs(list_id) {
     return new Promise((resolve) => {
         get("http://localhost:3000/playlist/detail?id=" + list_id).then((res) => {
+            let playlist = res.data.playlist
+            // 获取歌单中所有单曲 ID
             let song_ids = []
-            res.data.playlist.trackIds.forEach((item) => {
+            playlist.trackIds.forEach((item) => {
                 song_ids.push(item.id)
             })
+            // 获取歌单中所有单曲信息
             let songs = []
-            res.data.playlist.tracks.forEach((item) => {
+            playlist.tracks.forEach((item) => {
                 let artists = get_artists(item.ar)
                 songs.push({
                     id: item.id,
@@ -28,6 +31,7 @@ function get_playlist(list_id) {
             })
             resolve({
                 id: list_id,
+                name: playlist.name,
                 songs: songs,
                 song_ids: song_ids,
                 type_: "playlist"
@@ -42,11 +46,12 @@ function get_playlist(list_id) {
 // 函数：获取歌手热门歌曲
 function get_art_hs(artist_id) { // get artist hot song
     return new Promise((resolve) => {
-        get("http://localhost:3000/artists?id=" + artist_id).then((res) => {        
-            let data = res.data.hotSongs
+        get("http://localhost:3000/artists?id=" + artist_id).then((res) => {   
+            let hot_songs = res.data.hotSongs
+
             let song_ids = []
             let songs = []
-            data.forEach((item) => {
+            hot_songs.forEach((item) => {
                 song_ids.push(item.id)
                 let artists = get_artists(item.ar)
                 songs.push({
@@ -57,6 +62,7 @@ function get_art_hs(artist_id) { // get artist hot song
             })
             resolve({
                 id: artist_id,
+                name: res.data.artist.name + " 的热门单曲",
                 songs: songs,
                 song_ids: song_ids,
                 type_: "artist"
@@ -75,21 +81,25 @@ function get_song(song_id) {
     return new Promise((resolve) => {
         get("http://localhost:3000/song/detail?ids=" + song_id).then((res) => {
             let data = res.data.songs[0]
+            let privileges = res.data.privileges[0]
 
-            let song_name = data.name
+            var copyright = true
+            var VIP = false
             // 判断有无版权
             if (data.noCopyrightRcmd != null && data.copyright != 0) {
-                song_name += "(无版权)"
+                var copyright = false
             }
             // 判断是否付费专享
-            if (res.data.privileges[0].fee == 1) {
-                song_name += "[付费专享]"
+            if (privileges.fee == 1 || privileges.st < 0 && privileges.payed == 0) {
+                var VIP = true
             }
 
             let artists = get_artists(data.ar)
             resolve({
-                name: song_name,
+                name: data.name,
                 id: data.id,
+                copyright: copyright,
+                VIP: VIP,
                 artist_name: artists
             })
         }).catch((err) => {
@@ -118,6 +128,7 @@ function get_recommends() {
             // console.log(data);
             resolve({
                 id: 0,
+                name: "每日推荐",
                 songs: songs,
                 song_ids: song_ids,
                 type_: "recommend"
@@ -129,7 +140,7 @@ function get_recommends() {
     })
 }
 
-exports.get_playlist = get_playlist
+exports.get_playlist_songs = get_playlist_songs
 exports.get_art_hs = get_art_hs
 exports.get_song = get_song
 exports.get_recommends = get_recommends

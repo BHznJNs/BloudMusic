@@ -1,12 +1,15 @@
-const { access, accessSync, writeFileSync, createWriteStream, readFile, readFileSync } = require("fs")
+const { access, accessSync, writeFileSync, createWriteStream, readFile, readFileSync, mkdir } = require("fs")
 const { F_OK } = require("fs").constants
 const Axios = require("axios")
 
-function save_data(path, data) {
+function save_data(path, data, callback_err) {
     try {
         writeFileSync(path, data, "utf8")
     } catch(err) {
         console.log(err)
+        if (callback_err) {
+            callback_err()
+        }
     }
 }
 function save_img(url, path) {
@@ -22,24 +25,17 @@ function save_img(url, path) {
     })
 }
 
-function read_file(path, callback_err, callback) {
-    readFile(path, "utf8", (err, res) => {
-        if (err) {
-            callback_err(err)
-        } else {
-            callback(res)
-        }
-    })
-}
+
 function read_file_sync(path, callback, callback_err) {
     try {
         let data = readFileSync(path, "utf8")
         callback(data)
     } catch (err) {
+        console.log(err)
         callback_err(err)
     }
 }
-
+// 函数：异步检测文件是否存在
 function exist_file(path, callback_err, callback) {
     access(path, F_OK, (err) => {
         if (err) {
@@ -51,6 +47,7 @@ function exist_file(path, callback_err, callback) {
         }
     })
 }
+// 函数：同步检测文件是否存在
 function exist_file_sync(path, callback, callback_err) {
     try {
         accessSync(path, F_OK)
@@ -59,12 +56,28 @@ function exist_file_sync(path, callback, callback_err) {
         callback_err(err)
     }
 }
+// 函数：异步创建文件夹
+function make_dir(path) {
+    exist_file(
+        path,
+        // 若文件夹不存在，则创建
+        () => {
+            mkdir(path, (err) => {
+                if (err) {
+                    console.log(err)
+                }  
+            })
+        },
+        () => {console.log("File \"" + path + "\" exist!")}
+    )
+}
 
 exports.save_data = save_data
 exports.save_img = save_img
 
-exports.read_file = read_file
 exports.read_file_sync = read_file_sync
 
 exports.exist_file = exist_file
 exports.exist_file_sync = exist_file_sync
+
+exports.make_dir = make_dir

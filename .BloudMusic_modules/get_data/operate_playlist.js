@@ -1,5 +1,6 @@
 const { get } = require("axios")
 const { hide_load } = require("../control_load")
+const { get_playlist_songs } = require("./get_play_data")
 
 // 函数：获取用户歌单
 function get_playlist(userId) {
@@ -24,11 +25,11 @@ function get_playlist(userId) {
         })
     })
 }
-// 函数：筛选歌单
-function filter_playlist(userId, playlists) { //operate playlist array
-    var mine_pl = [] // my playlists
-    var special_pl = [] // 
-    var collected_pl = [] // my collected playlists
+// 函数：操作歌单
+function filter_playlist(userId, playlists) {
+    var mine_pl = [] // 用户创建歌单
+    var special_pl = [] // 特殊歌单：用户收藏单曲、音乐雷达
+    var collected_pl = [] // 用户收藏歌单
 
     playlists.forEach((list) => {
         if (playlists.indexOf(list) == 0 || ["云音乐官方歌单", "云音乐私人雷达"].includes(list.creator)) {
