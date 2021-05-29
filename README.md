@@ -10,6 +10,7 @@
 <hr />
 <h3>使用方法</h3>
 <ul>
+  <li><b>现在你可以在解压源码包后使用 <code>./install.sh</code> 来安装了(记得给文件运行权限)</b></li>
   <li><a href="https://nodejs.org/en/download/">到此</a>下载并安装 Node.js</li>
   <li><a href="https://github.com/BHznJNs/BloudMusic/releases/">到此</a>下载并解压源码压缩包</li>
   <li>打开你的 终端/terminal/cmd/powershell ，<code>cd</code> 进入解压目录，如 <code>cd ~/BloudMusic</code> </li>
