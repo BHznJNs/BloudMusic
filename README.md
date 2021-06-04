@@ -20,6 +20,45 @@
   <li>输入 <code>npm start</code> 以运行程序 (如果出现类似 <code>Error: Cannot find module '/home/pi/BloudMusic-1.4.0/NeteaseCloudMusicApi-master/NCMapi.js'</code> 报错，请将 <code>package.json</code> 文件中第14行和第16行的 “NeteaseCloudMusicApi” 改为 “NeteaseCloudMusicApi-master”)</li>
 </ul>
 <hr />
+<h3>键盘快捷键一览表</h3>
+<table>
+  <tr>
+    <td>Esc | Escape</td>
+    <td>打开播放小控件</td>
+  </tr>
+  <tr>
+    <td>空格 | Blank_space</td>
+    <td>暂停 / 继续播放</td>
+  </tr>
+  <tr>
+    <td>Ctrl + T</td>
+    <td>切换播放模式</td>
+  </tr>
+  <tr>
+    <td>数字小键盘2</td>
+    <td>降低音量</td>
+  </tr>
+  <tr>
+    <td>数字小键盘8</td>
+    <td>提高音量</td>
+  </tr>
+  <tr>
+    <td>数字小键盘4</td>
+    <td>上一首</td>
+  </tr>
+  <tr>
+    <td>数字小键盘6</td>
+    <td>下一首</td>
+  </tr>
+  <tr>
+    <td>F11</td>
+    <td>切换全屏</td>
+  </tr>
+  <tr>
+    <td>...</td>
+  </tr>
+</table>
+<hr />
 <h3>注：</h3>
 <ul>
   <li>本项目适合爱折腾的用户使用（折腾本项目需要一定的 CSS 和 Javascript 基础）</li>
