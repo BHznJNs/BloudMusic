@@ -130,6 +130,8 @@ function get_data(id, type_, options) {
                 break
             case "followed_art": // 用户关注歌手
                 SPLIT_DETAIL.id = await get_artist_data(id)
+                result = await get_hotSongs(SPLIT_DETAIL.id)
+                break
             case "collected_art": // 用户收藏歌手
             case "artist":
                 SPLIT_DETAIL.id = id
