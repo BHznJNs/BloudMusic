@@ -307,8 +307,8 @@
                             <span class="px-1"> ...... </span>
                             <li class="page-item">
                                 <% let page %>
-                                <% if (!String(list.album_size/20).split(".")[1]) { %>
-                                    <% page = list.album_size/20 %>
+                                <% if (list.album_size % 20 == 0) { %>
+                                    <% page = list.album_size / 20 %>
                                 <% } else { %>
                                     <% page = Number(String(list.album_size/20).split(".")[0]) + 1 %>
                                 <% } %>

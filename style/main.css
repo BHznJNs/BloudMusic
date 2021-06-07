@@ -204,7 +204,10 @@ div.modal {
 }
 div.modal * {pointer-events: inherit}
 div.modal-dialog {min-width: 200px}
-div.modal-content {background-color: rgb(255, 255, 255, .85)}
+div.modal-content {
+    border-radius: .4rem;
+    background-color: rgb(255, 255, 255, .85)
+}
 div.modal-active {
     pointer-events: auto;
     opacity: 1

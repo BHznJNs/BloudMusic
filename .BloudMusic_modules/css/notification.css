@@ -12,7 +12,7 @@ div.toast { /* 提示框 */
     overflow: hidden;
     transition: .4s;
 }
-div.toast-active {
+div.toast-active { /* 提示框可视状态 */
     max-height: 100vh !important;
     opacity: 1 !important;
     pointer-events: auto !important

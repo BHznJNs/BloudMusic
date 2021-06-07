@@ -44,17 +44,22 @@ var LOVEs = []
 //————————————————————————————————————————
 // 载入界面时，加载上次播放数据
 $(async () => {
+    // 读取用户喜欢数据
     readFile("cache/loves.json", "utf8", (err, res) => {
-        if (err) {console.log(err); return}
+        if (err) {
+            console.log("loves.json 不存在！" + err)
+            return
+        }
         let data = JSON.parse(res)
         LOVEs = data
     })
+    // 读取上次退出保存数据
     readFile("cache/last_played.json", "utf8", (err, res) => {
         if (err) { // 如果上次播放数据保存错误 || 文件不存在
-            console.log("文件 \"cache/last_played.json\" 不存在！")
-            PLAYLIST = LOVEs
+            console.log("last_played.json 不存在！")
+            PLAYLIST = LOVEs // 默认将播放列表设为用户收藏单曲
             console.log("PLAYLIST = LOVEs", PLAYLIST)
-            $("#player")[0].volume = 0.7
+            $("#player")[0].volume = 0.7 // 默认音量
         }
         let data = JSON.parse(res)
 
@@ -64,7 +69,7 @@ $(async () => {
         $("#player")[0].volume = data.volume
         // 设定播放模式为上次播放模式
         switch_playMode(data.play_mode)
-
+        // 加载上次播放列表
         render_playlist(PLAYLIST, PLAYLIST.name)
     })
 })
@@ -73,7 +78,7 @@ $(async () => {
 function logout() {
     del_dir("data") // 清空 data 目录
     del_dir("cache") // 清空 cache 目录
-    location.replace("login.html")
+    location.replace("login.html") // 切换到登录界面
 }
 
 // 函数：切换播放列表 打开 / 关闭
@@ -82,7 +87,7 @@ async function toggle_playlist() {
     $("#playlist").toggleClass("playlist-active")
 }
 
-// 函数：切换播放模式
+// 函数：切换播放模式       参数：指定切换播放模式
 function switch_playMode(mode) {
     let modes = ["loop", "random", "loop_one"]
     let modes_cn = {
@@ -90,9 +95,9 @@ function switch_playMode(mode) {
         "random": "随机",
         "loop_one": "单曲循环"
     }
-    if (mode) {
+    if (mode) { // 如果传入参数
         var index = modes.indexOf(mode) - 1
-    } else {
+    } else { // 如果未传入参数
         var index = modes.indexOf(PLAY_MODE)
     }
 
@@ -106,16 +111,17 @@ function switch_playMode(mode) {
     $("#play-mode").attr("title", `循环方式：${modes_cn[PLAY_MODE]}`)
 }
 
-// 函数：判断是否切换播放
+// 函数：判断是否切换播放 & 获取播放数据
 function switch_play(id, type_, options) {
     return new Promise(async (resolve) => {
+        // 判断是否切换播放
         if (id != PLAYLIST.id || type_ != PLAYLIST.type_) {
             PLAY_INDEX = 0
             switch (type_) { // 获取播放列表
                 case "playlist": // 歌单
                     PLAYLIST = await get_playlist_songs(id)
                     break
-                case "album":
+                case "album": // 专辑
                     PLAYLIST = await get_album_songs(id, PLAYLIST.type_)
                     break
                 case "followed_art": // 用户关注歌手
@@ -132,7 +138,7 @@ function switch_play(id, type_, options) {
                 case "song_in_playlist": // 播放列表中单曲
                     PLAY_INDEX = PLAYLIST.song_ids.indexOf(Number(id))
                     break
-                case "songs": //     来自 split 参数
+                case "songs": // 播放全部（来自 split 参数）
                     PLAYLIST = options.songs
                     break
             }
@@ -217,7 +223,7 @@ function next() {
             }
             break
         case "random": // 随机播放
-            //———————————从 0 ～ 播放列表.length 中随机取整数
+            //           从 0 ～ 播放列表.length 中随机取整数
             PLAY_INDEX = Math.floor(Math.random()*PLAYLIST.song_ids.length)
             break
         case "loop_one":
