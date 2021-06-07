@@ -20,35 +20,36 @@ function split() {
     }, 800)
 }
 // 函数：创建新的额外分屏
-function new_split(type_) {
+function new_split() {
     let split_temp = $("div.split-outer").html()
+    // 创造元素
     let place_holder = document.createElement("div")
     $(place_holder).html(split_temp)
     let child = $(place_holder.children[0])
+    // 插入元素
     $("div.split-outer").append(child)
-
+    // 隐藏原分屏内容
     $("#split:nth-last-child(2) #split-scroll").hide()
-
-    // switch (type_) {
-    //     case "album":
-    //         $("#split:last-child ul.nav:last-child").hide()
-    //         break
-    // }
 }
 // 函数：分屏加载
-function split_render(list, type_) {
-    let temp
+function split_render(ori_list, type_) {
+    let is_more = false
+    let temp, list
     // 根据传入类型选择模板和返回数据
     if (type_ == "albums") {
         temp = $("#split-albums-temp").text()
         list = {
-            albums: list.albums,
-            album_size: list.album_size,
-            page: list.page
+            albums: ori_list.albums,
+            album_size: ori_list.album_size,
+            page: ori_list.page
         }
     } else {
         temp = $("#split-songs-temp").text()
-        list = list.songs
+        list = ori_list.songs
+        // 判断是否需要加载更多
+        if (ori_list.song_ids.length > ori_list.songs.length) {
+            is_more = true
+        }
     }
 
     // 设置分屏菜单栏选项
@@ -60,7 +61,7 @@ function split_render(list, type_) {
     }
 
     let template = compile(temp)
-    let html_output = template({ list, type_ })
+    let html_output = template({ list, type_, is_more })
     $("#split:last-child #split-scroll").html(html_output)
 }
 // 函数：打开分屏
@@ -110,7 +111,7 @@ function artist_detail(obj, options={}) {
     data = JSON.parse(data)
     // 如果歌手数大于1
     if (data.length > 1) {
-        show_modal(data)
+        show_modal(data, options)
         return
     }
     get_detail(data[0].id, "artist", options)
@@ -144,7 +145,7 @@ function get_data(id, type_, options) {
                 result = await get_album_songs(id)
                 break
         }
-
+        // 设置全局变量 name 值
         SPLIT_DETAIL.name = result.name
         resolve(result)
     })
@@ -153,13 +154,20 @@ function get_data(id, type_, options) {
 async function get_detail(id, type_, options={}) {
     let list = await get_data(id, type_, options)
     if (!list) {return}
+    // 如果不创建新分屏
+    if (!options.new_split) {
+        // 清空最后一个分屏
+        $("#split:last-child #split-scroll").empty()
+        // 移除全局变量中数据
+        SPLIT_DETAIL.content.pop()
+    }
+    // 全局变量加入当前播放数据
     SPLIT_DETAIL.content.push(list)
-
+    // 展示分屏
     show_split(type_, options)
-    // 清空分屏
-    $("#split:last-child #split-scroll").empty()
-
+    // 分屏加载
     split_render(list, type_)
+    // 设置分屏标题及其属性
     $("#split:last-child #split-nav-title").text(SPLIT_DETAIL.name)
     $("#split:last-child #split-nav-title").attr("title", SPLIT_DETAIL.name)
 }
@@ -169,6 +177,9 @@ function play_all() {
     list = SPLIT_DETAIL.content.slice(-1)[0]
     play(0, "songs", {songs: list})
 }
+
+exports.SPLIT_DETAIL = SPLIT_DETAIL
+
 exports.split = split
 exports.show_split = show_split
 exports.close_split = close_split

@@ -216,6 +216,39 @@ function get_album_songs(id) {
         )
     })
 }
+// 函数：获取并返回多个单曲信息
+function get_songs(ids=[]) {
+    let song_ids = ids.join(",")
+    let url = "http://localhost:3000/song/detail?ids=" + song_ids
+    return new Promise((resolve) => {
+        geter(
+            url,
+            6000,
+            (res) => {
+                let songs = []
+                res.data.songs.forEach((item) => {
+                    let artists = get_artists(item.ar)
+                    songs.push({ // 单曲ID，单曲名，歌手数据
+                        id: item.id,
+                        name: item.name,
+                        artists: artists,
+                        album: {
+                            id: item.al.id,
+                            name: item.al.name
+                        },
+                        cover_url: item.al.picUrl
+                    })
+                })
+                resolve(songs)
+            },
+            (err) => {
+                console.log("歌曲信息请求错误！" + err)
+                show_notify("歌曲信息请求错误！")
+                resolve(false)
+            }
+        )
+    })
+}
 // 函数：获取并返回单曲信息
 function get_song(song_id) {
     let url = "http://localhost:3000/song/detail?ids=" + song_id
@@ -231,8 +264,8 @@ function get_song(song_id) {
 
                 let artists = get_artists(data.ar)
                 resolve({
-                    name: data.name,
                     id: data.id,
+                    name: data.name,
                     no_copyright: no_copyright,
                     VIP: VIP,
                     artists: artists.detail,
@@ -288,11 +321,47 @@ function get_recommends() {
         )
     })
 }
+
+// 函数：加载更多                     origin_list
+async function load_more(obj, temp, ori_list) {
+    let parent = $(obj).parent() // 获取父元素
+    let [songs, song_ids] = [ori_list.songs, ori_list.song_ids]
+
+    // 函数：判断是否需要加载并获取数据
+    let list
+    if (song_ids.length == songs.length) {
+        return
+    } else if (song_ids.length - songs.length < 10) {
+        list = await get_songs(song_ids.slice(songs.length))
+    } else {
+        list = await get_songs(song_ids.slice(songs.length, songs.length + 10))
+    }
+    if (!list) {return} // 如果请求错误
+    $(parent).children("div.load-more").remove() // 去除加载按钮
+    ori_list.songs = [...ori_list.songs, ...list] // 合并数组
+    // 界面编译及加载
+    let is_more = false
+    if (ori_list.song_ids.length > ori_list.songs.length) {
+        is_more = true
+    }
+    let place_holder = document.createElement("div")
+    renderer(
+        temp,
+        { list, is_more },
+        place_holder
+    )
+    // 插入节点
+    let child = $(place_holder.children)
+    $(parent).append(child)
+}
+
 exports.get_artist_data = get_artist_data
+exports.load_more = load_more
 
 exports.get_playlist_songs = get_playlist_songs
 exports.get_hotSongs = get_hotSongs
 exports.get_albums = get_albums
 exports.get_album_songs = get_album_songs
 exports.get_song = get_song
+exports.get_songs = get_songs
 exports.get_recommends = get_recommends

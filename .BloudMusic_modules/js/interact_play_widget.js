@@ -30,7 +30,7 @@ ipcRenderer.on("player_volumn", (event, value) => {
 })
 // 接受到 get_play_data 时，返回歌曲信息和播放器播放状态
 ipcRenderer.on("get_play_data", () => {
-    send_data("player_song_name", $("#song-name").html())
+    send_data("player_song_name", $("title").html())
     send_data("player_volumn", $("#player")[0].volume)
     send_data("player_is_paused", $("#player")[0].paused)
 })

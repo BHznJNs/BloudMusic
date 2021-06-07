@@ -37,7 +37,7 @@ addEventListener("resize", () => {
     }
     WIDTH = $(window).width()
 })
-
+// 事件监听：进程通信保存图片
 ipcRenderer.on("save-data", (event, data) => {
     if (!data.path) {return}
     save_img(data.url, data.path)

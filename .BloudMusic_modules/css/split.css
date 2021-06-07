@@ -1,5 +1,6 @@
 /* 分屏样式 | Split Style */
 div.main-fold #main-scroll {padding: 0 1rem}
+#split-scroll {padding-bottom: 24px}
 
 /* 专辑样式 */
 #split-scroll div.scroll-content {padding: 0 1rem}

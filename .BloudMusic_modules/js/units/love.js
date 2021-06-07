@@ -6,7 +6,7 @@ function toggle_love_icon() {
         love_obj.attr("data-loved", "true")
         love_obj.attr("title", "已喜欢")
         love_obj.attr("src", "../imgs/icons/loved.svg")
-    } else {
+    } else { // 如果音乐未添加过喜欢
         love_obj.attr("data-loved", "false")
         love_obj.attr("title", "添加喜欢")
         love_obj.attr("src", "../imgs/icons/love.svg")
@@ -18,15 +18,15 @@ function request_love(id, bool) {
     let url = `http://localhost:3000/like?id=${id}&like=${bool}`
     return new Promise((resolve) => {
         get(url, {
-            timeout: 8000,
+            timeout: 4000,
             cancelToken: new CancelToken(function executor(c) {
                 cancel = c
             })
         }).then(() => {
             resolve(true)
-        }).catch(() => { // 超时
+        }).catch((err) => { // 超时
             cancel()
-            console.log("Toggle love timeout!")
+            console.log("切换喜欢超时!", err)
             resolve(false)
         })
     })
@@ -34,10 +34,10 @@ function request_love(id, bool) {
 // 函数：操作喜欢列表
 function operate_love(bool) {
     let id = PLAY_INFO.id
-    if (bool == "true") {
+    if (bool) { // 将添加入喜欢列表
         LOVEs.song_ids.unshift(id)
         LOVEs.songs.unshift(PLAY_INFO)
-    } else {
+    } else { // 将从喜欢列表移除
         let index = LOVEs.song_ids.indexOf(id)
         LOVEs.song_ids.splice(index, 1)
         if (index <= LOVEs.songs.length - 1) {
@@ -55,12 +55,13 @@ function toggle_love() {
 
     let love_obj = $("#love")
     // 判断是否添加喜欢过
+    // 如果未添加喜欢，将添加喜欢
     if (love_obj.attr("data-loved") == "false") {
-        var loved = "true"
+        var loved = true
         var message = `单曲 ${PLAY_INFO.name} 已添加喜欢。`
         var fail_message = "添加喜欢失败。"
-    } else {
-        var loved = "false"
+    } else { // 如果已添加喜欢，将取消喜欢
+        var loved = false
         var message = `单曲 ${PLAY_INFO.name} 已取消喜欢。`
         var fail_message = "取消喜欢失败。"
     }

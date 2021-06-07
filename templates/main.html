@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../.BloudMusic_modules/css/split.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/notification.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/songs.css">
-    <link rel="stylesheet" href="../.BloudMusic_modules/css/albums.css">
     <link rel="stylesheet" href="../style/main.css">
     <title>BloudMusic</title>
 </head>
@@ -175,7 +174,7 @@
                             <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
                             <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
                         </div>
-                        <p class="item-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></p>
+                        <p class="item-name text-center text-truncate" onclick="get_detail('<%= item.id %>', 'playlist')" title="<%= item.name %>"><%= item.name %></p>
                     </div>
 
                     <% }) %>
@@ -238,12 +237,14 @@
                 </ul>
             </nav>
 
-            <div id="split-scroll" class="overflow-auto pb-4"></div>
+            <div id="split-scroll" class="overflow-auto"></div>
             <!-- 分屏界面单曲模板 -->
             <script type="text/html" id="split-songs-temp">
+                <% if (type_ != "load_more") { %>
                 <button class="btn btn-info mt-2 mx-4" onclick="play_all()">播放全部</button>
+                <% } %>
                 <% list.forEach((item) => { %>
-                <div class="songs-item mx-auto mt-2">
+                <div class="songs-item">
                     <!-- 专辑封面，右键点击可显示下载选项 -->
                     <img class="song-cover user-select-none" src="<%= item.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" draggable="false"/>
 
@@ -261,6 +262,9 @@
                     <img class="icon-play h-100" src="../imgs/icons/play.svg" onclick="play('<%= item.id %>', 'song')" draggable="false"/>
                 </div>
                 <% }) %>
+                <% if (is_more) { %>
+                <div class="load-more songs-item text-center" onclick="load_more(this, '#split-songs-temp', SPLIT_DETAIL.content.slice(-1)[0])">加载更多</div>
+                <% } %>
             </script>
 
             <!-- 分屏界面专辑模板 -->
@@ -271,9 +275,9 @@
                     <div class="scroll-item rounded-lg">
                         <div class="item-img user-select-none">
                             <!-- 专辑封面，右键点击可显示下载选项 -->
-                            <img class="w-100" src="<%= item.cover_url %>?param=120y120" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" draggable="false"/>
+                            <img class="w-100" src="<%= item.cover_url %>?param=120y120" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" draggable="false"/>
 
-                            <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'album')"/>
+                            <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'album')" onerror="this.src='../imgs/icons/album_default.svg'"/>
                         </div>
                         <p class="item-name text-center text-truncate" onclick="get_detail('<%= item.id %>', 'album', {new_split: true})" title="<%= item.name %>"><%= item.name %></p>
                     </div>
@@ -297,6 +301,18 @@
                                 <a class="page-link" onclick="get_detail('', 'albums', {page: Number('<%= page + 1 %>')})">
                                     <%= page + 1 %>
                                 </a>
+                            </li>
+                            <% } %>
+                            <% if ((page + 2) * 20 < list.album_size) { %>
+                            <span class="px-1"> ...... </span>
+                            <li class="page-item">
+                                <% let page %>
+                                <% if (!String(list.album_size/20).split(".")[1]) { %>
+                                    <% page = list.album_size/20 %>
+                                <% } else { %>
+                                    <% page = Number(String(list.album_size/20).split(".")[0]) + 1 %>
+                                <% } %>
+                                <a class="page-link" onclick="get_detail('', 'albums', {page: '<%= page %>'})"><%= page %></a>
                             </li>
                             <% } %>
                         </ul>
@@ -331,17 +347,21 @@
 
                 <div class="close user-select-none" onclick="toggle_playlist()">&times;</div>
             </nav>
+
             <!-- 播放列表单曲 -->
-            <div id="playlist-songs" class="overflow-auto pb-4"></div>
+            <div id="playlist-songs" class="overflow-auto"></div>
             <script type="text/html" id="playlist-songs-temp">
                 <% list.forEach((item) => { %>
-                <div class="songs-item d-flex border-top border-bottom">
+                <div class="songs-item border-top border-bottom">
                     <img class="icon-play h-100" src="../imgs/icons/play.svg" onclick="play('<%= item.id %>', 'song_in_playlist')" draggable="false"/>
                     <div class="song-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></div>
                     <div class="separator"></div>
                     <div class="artist text-deco-under text-center text-truncate" onclick="artist_detail(this)" data-artists="<%= JSON.stringify(item.artists.detail) %>" title="<%= item.artists.name %>"><%= item.artists.name %></div>
                 </div>
                 <% }) %>
+                <% if (is_more) { %>
+                <div class="load-more border-top border-bottom" onclick="load_more(this, '#playlist-songs-temp', PLAYLIST)">加载更多</div>
+                <% } %>
             </script>
         </div>
         <!-- 正在播放的单曲名 -->
@@ -381,7 +401,11 @@
                 <div class="modal-body"></div>
                 <script type="text/html" id="modal-temp">
                     <% list.forEach((item) => { %>
-                    <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>')"><%= item.name %></div>
+                        <% if (options.new_split) { %>
+                        <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>', JSON.parse('<%= options %>'))"><%= item.name %></div>
+                        <% } else { %>
+                        <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>')"><%= item.name %></div>
+                        <% } %>
                     <% }) %>
                 </script>
             </div>

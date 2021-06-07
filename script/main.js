@@ -4,14 +4,17 @@ const { readFile } = require("fs")
 const { compile } = require("ejs")
 const { get, CancelToken } = require("axios")
 
+const { renderer } = require("../.BloudMusic_modules/js/general/renderer")
 const { save_data } = require("../.BloudMusic_modules/js/general/operate_file")
 const { del_dir } = require("../.BloudMusic_modules/js/general/operate_dir")
+
 const { render_playlist } = require("../.BloudMusic_modules/js/main_render")
 const { show_notify, close_notify } = require("../.BloudMusic_modules/js/units/notify")
 const { toggle_fullscreen } = require("../.BloudMusic_modules/js/fullscreen")
 const { show_play_widget, send_data } = require("../.BloudMusic_modules/js/interact_play_widget")
-const { split, show_split, close_split, artist_detail, get_detail, play_all } = require("../.BloudMusic_modules/js/units/split")
+const { SPLIT_DETAIL, split, show_split, close_split, artist_detail, get_detail, play_all } = require("../.BloudMusic_modules/js/units/split")
 const { show_modal, hide_modal } = require("../.BloudMusic_modules/js/units/modal")
+const { load_more } = require("../.BloudMusic_modules/js/load_more")
 
 const { geter } = require("../.BloudMusic_modules/js/general/geter")
 const { toggle_love, toggle_love_icon } = require("../.BloudMusic_modules/js/units/love") // 切换单曲喜欢状态
@@ -62,7 +65,7 @@ $(async () => {
         // 设定播放模式为上次播放模式
         switch_playMode(data.play_mode)
 
-        render_playlist(PLAYLIST.songs, PLAYLIST.name)
+        render_playlist(PLAYLIST, PLAYLIST.name)
     })
 })
 //————————————————————————————————————————
@@ -134,7 +137,7 @@ function switch_play(id, type_, options) {
                     break
             }
             if (["playlist", "album", "songs", "collected_art", "followed_art", "loves", "recommend"].includes(type_)) {
-                render_playlist(PLAYLIST.songs, PLAYLIST.name)
+                render_playlist(PLAYLIST, PLAYLIST.name)
             }
         }
         resolve()

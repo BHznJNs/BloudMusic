@@ -1,9 +1,7 @@
 const { exist_file_sync, read_file_sync } = require("./general/operate_file")
 
-var exist_created_pl
-var exist_special_pl
-var exist_collected_pl
-var exist_artists
+var exist_created_pl, exist_special_pl
+var exist_collected_pl, exist_artists
 // 函数：获取并加载页面顶栏
 async function render_nav() {
     exist_file_sync(
@@ -27,21 +25,19 @@ async function render_nav() {
         () => {exist_artists = false}
     )    
 
-    let temp = $("#nav-temp").text()
-    let template = compile(temp)
-    let html_output = template({
-        exist_created_pl, exist_special_pl,
-        exist_collected_pl, exist_artists
-    })
-    $("#main-nav-items").html(html_output)
+    renderer(
+        "#nav-temp",
+        {
+            exist_created_pl, exist_special_pl,
+            exist_collected_pl, exist_artists
+        },
+        "#main-nav-items"
+    )
 }
 
 
-var created_pls
-var special_pls
-var collected_pls
-var collected_arts = []
-var followed_arts = []
+var created_pls, special_pls,collected_pls
+var [collected_arts, followed_arts] = [[], []]
 // 函数：读取歌单及歌手数据
 function get_data() {
     if (exist_created_pl) { // 用户创建歌单
@@ -95,28 +91,34 @@ function get_data() {
 }
 // 函数：界面主要内容编译及加载
 async function render_content() {
-    let temp = $("#scroll-temp").text()
-    let template = compile(temp)
-
     get_data()
-
-    let html_output = template({
-        exist_created_pl, exist_special_pl,
-        exist_collected_pl, exist_artists,
-        created_pls, special_pls,
-        collected_pls,
-        collected_arts, followed_arts
-    })
-    $("#main-scroll").html(html_output)
+    renderer(
+        "#scroll-temp",
+        {
+            exist_created_pl, exist_special_pl,
+            exist_collected_pl, exist_artists,
+            created_pls, special_pls,
+            collected_pls,
+            collected_arts, followed_arts
+        },
+        "#main-scroll"
+    )
 }
 
 // 函数：播放列表界面加载
 async function render_playlist(list, playlist_name) {
-    let temp = $("#playlist-songs-temp").text()
-    let template = compile(temp)
+    // 判断是否需要加载更多
+    let is_more = false
+    if (list.song_ids.length > list.songs.length) {
+        is_more = true
+    }
 
-    let html_output = template({ list })
-    $("#playlist-songs").html(html_output)
+    list = list.songs
+    renderer(
+        "#playlist-songs-temp",
+        { list, is_more },
+        "#playlist-songs"
+    )
     $("#playlist-name").text("播放列表：" + playlist_name)
 }
 exports.render_nav = render_nav
