@@ -6,6 +6,7 @@
 <h3>屏幕截图</h3>
 <img src="imgs/screenshots/main.png"/>
 <img src="imgs/screenshots/login.png"/>
+<img src="imgs/screenshots/split.png"/>
 <img src="imgs/screenshots/play_widget.png"/>
 <hr />
 <h3>使用方法</h3>
