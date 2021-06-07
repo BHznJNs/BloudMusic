@@ -1,16 +1,30 @@
 window.$ = window.jQuery = require("jquery")
+const { encode } = require("ini")
 
-const { show_load, hide_load } = require("../.BloudMusic_modules/control_load")
-const { check_account } = require("../.BloudMusic_modules/check_account")
-const { get_user } = require("../.BloudMusic_modules/get_data/get_user")
-const { save_data, make_dir } = require("../.BloudMusic_modules/general/operate_file")
-const { get_playlist, filter_playlist } = require("../.BloudMusic_modules/get_data/operate_playlist")
-const { collected_art, followed_art } = require("../.BloudMusic_modules/get_data/get_artists")
-const { get_playlist_songs } = require("../.BloudMusic_modules/get_data/get_play_data")
+const { show_load, hide_load } = require("../.BloudMusic_modules/js/control_load")
+const { check_account } = require("../.BloudMusic_modules/js/check_account")
+const { get_user } = require("../.BloudMusic_modules/js/get_data/get_user")
+const { save_data, make_dir } = require("../.BloudMusic_modules/js/general/operate_file")
+const { get_playlist, filter_playlist } = require("../.BloudMusic_modules/js/get_data/operate_playlist")
+const { collected_art, followed_art } = require("../.BloudMusic_modules/js/get_data/get_artists")
+const { get_playlist_songs } = require("../.BloudMusic_modules/js/get_data/get_play_data")
 
 // 如果 “data” 与 “cache” 文件夹不存在，则创建
 make_dir("data")
 make_dir("cache")
+// 默认配置文件
+var default_conf = encode({
+    UI: {
+        autoFullscreen: false, // 自动全屏
+        iconStyle: "scale" // scale(缩放) || blur(模糊)
+    },
+    playWidget: { // 屏幕播放控件
+        // 相对屏幕左上角位置(单位：像素)
+        offsetX: 20,
+        offsetY: 20
+    }
+})
+save_data("config.ini", default_conf)
 // 函数：编辑进度条 长度 & 文本
 function edit_bar(bar_length, text) { // edit progress bar
     $("#progress-bar").width(bar_length)
@@ -42,7 +56,7 @@ async function login() {
     save_data("data/user.json", user)
 
     edit_bar("25%", "用户资料已保存。")
-    //——————————————————————————————————
+    //——————————————————————————————————————————————————————
 
     // 获取歌单
     edit_bar("30%", "歌单数据获取中......")
@@ -83,7 +97,7 @@ async function login() {
         }
     }
     edit_bar("60%", "用户收藏歌单数据已保存。")
-    //———————————————————————————————————————————————
+    //———————————————————————————————————————————————————————————————————————————————————————
 
     // 获取用户关注歌手
     // 如果 checkbox get-follows 被选中
@@ -104,7 +118,7 @@ async function login() {
         )
         edit_bar("95%", "关注歌手数据已保存。")
     }  
-    //———————————————————————————————————————————————————————
+    //———————————————————————————————————————————————————————————————————————————————————————————————
 
     edit_bar("100%", "请求完成！")
     // 切换页面到播放页面 main.html

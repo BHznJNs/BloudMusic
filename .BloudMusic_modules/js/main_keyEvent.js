@@ -6,8 +6,9 @@ function toggle_play() {
         // 播放上次最后播放的音乐
         PLAY_INDEX -= 1
         next()
+        return
     }
-
+    // 切换 播放 / 暂停
     if (player.paused) {
         player.play()
     } else {
@@ -16,7 +17,6 @@ function toggle_play() {
 }
 
 // 按键事件触发
-var is_fullscreen = false
 $(document).keydown((event) => {
     switch (event.keyCode) {
         case 27: // Excape 打开播放控件
@@ -30,6 +30,26 @@ $(document).keydown((event) => {
             if (event.ctrlKey) {
                 switch_playMode()
             }
+            break
+        case 98: // 数字小键盘2 降低音量
+            if ($("#player")[0].volume >= .1) {
+                $("#player")[0].volume -= .1
+            } else {
+                $("#player")[0].volume = 0
+            }
+            break
+        case 104: // 数字小键盘8 提高音量
+            if ($("#player")[0].volume <= .9) {
+                $("#player")[0].volume += .1
+            } else {
+                $("#player")[0].volume = 1
+            }
+            break
+        case 100: // 数字小键盘4 上一首
+            previous()
+            break
+        case 102: // 数字小键盘6 下一首
+            next()
             break
         case 122: // F11 切换全屏
             event.preventDefault()

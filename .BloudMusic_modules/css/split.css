@@ -1,0 +1,76 @@
+/* 分屏样式 | Split Style */
+div.main-fold #main-scroll {padding: 0 1rem}
+
+/* 专辑样式 */
+#split-scroll div.scroll-content {padding: 0 1rem}
+@media screen and (min-width: 800px) {
+    #split-scroll div.scroll-content {padding: 1rem 1.5rem 0}
+}
+
+@media screen and (max-width: 999px) {
+    /* main 分屏状态 */
+    div.main-fold {opacity: 0}
+    div.main-fold div.scroll-item {display: none !important}
+    /* split 分屏状态 */
+    div.split-unfold {
+        width: 90vw !important;
+        margin-right: 5vw !important;
+    }
+    div.split-unfold #split-nav-title {
+        max-width: calc(90vw - 9.5rem - 3px);;
+        margin: 0
+    }
+}
+@media screen and (min-width: 1000px) {
+    /* main 分屏状态 */
+    div.main-fold {width: 43vw !important}
+    div.main-fold div.scroll-item, div.split-unfold div.scroll-item {
+        max-width: 10vw !important;
+        margin: 0 .4rem 1rem !important
+    }
+    div.main-fold .recommend {max-height: 10vw}
+    div.main-fold .nav-pills:first-child {
+        transition: 1s;
+        border-bottom: solid 3px #666;
+        width: 100%
+    }
+    div.main-fold #main-nav-items {
+        margin-left: auto;
+        margin-right: auto
+    }
+    div.main-fold img.navbar-brand {
+        position: fixed
+    }
+    div.main-fold #main-nav-title {
+        width: 100%;
+        text-align: center
+    }
+    /* split 分屏状态 */
+    div.split-unfold {
+        width: 43vw !important;
+        margin-right: 5vw !important
+    }
+    div.split-unfold #split-nav-title {
+        max-width: calc(43vw - 9.5rem - 3px);;
+        margin: 0
+    }
+}
+
+div.split-outer {
+    top: 4vh;
+    right: 0
+}
+#split {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 84vh;
+    margin-right: 0;
+    border-radius: .6rem;
+    background-color: rgba(255, 255, 255, .45);
+    transition: .8s;
+}
+#split:not(:last-child) {
+    width: 0 !important
+}

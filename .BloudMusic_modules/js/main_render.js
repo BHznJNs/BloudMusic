@@ -1,32 +1,4 @@
-const { compile } = require("ejs")
 const { exist_file_sync, read_file_sync } = require("./general/operate_file")
-
-// 函数：展示消息
-async function show_notify(content) {
-    let temp = $("#notification-temp").text()
-    let template = compile(temp)
-    let html_output = template({ content })
-
-    let place_holder = document.createElement("div")
-    $(place_holder).html(html_output)
-    // 添加节点
-    let child = $(place_holder.children[0])
-    $("#notification").append(child)
-    $(child).addClass("toast-active")
-    // 定时 8 秒后关闭
-    setTimeout(() => {
-        close_notify(child.find("div.close"))
-    }, 8000)
-}
-// 函数：关闭消息
-async function close_notify(obj) {
-    let parent = $(obj).parents(".toast")
-    $(parent).removeClass("toast-active")
-    setTimeout(() => {
-        $(parent).remove()
-    }, 400)
-}
-
 
 var exist_created_pl
 var exist_special_pl
@@ -61,7 +33,7 @@ async function render_nav() {
         exist_created_pl, exist_special_pl,
         exist_collected_pl, exist_artists
     })
-    $("#nav-items").html(html_output)
+    $("#main-nav-items").html(html_output)
 }
 
 
@@ -135,22 +107,18 @@ async function render_content() {
         collected_pls,
         collected_arts, followed_arts
     })
-    $("#scroll").html(html_output)
+    $("#main-scroll").html(html_output)
 }
 
 // 函数：播放列表界面加载
-var playlist_temp = $("#playlist-temp").text()
-async function render_playlist(playlist, playlist_name) {
-    let temp = playlist_temp
+async function render_playlist(list, playlist_name) {
+    let temp = $("#playlist-songs-temp").text()
     let template = compile(temp)
 
-    let html_output = template({playlist})
-    $("#songs").html(html_output)
+    let html_output = template({ list })
+    $("#playlist-songs").html(html_output)
     $("#playlist-name").text("播放列表：" + playlist_name)
 }
-exports.show_notify = show_notify
-exports.close_notify = close_notify
-
 exports.render_nav = render_nav
 exports.render_content = render_content
 exports.render_playlist = render_playlist

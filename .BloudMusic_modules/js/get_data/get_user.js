@@ -25,5 +25,4 @@ function get_user_login(data) { // 登录
 		})
 	})
 }
-// get_user(data)
 exports.get_user = get_user_login

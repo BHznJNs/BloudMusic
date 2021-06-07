@@ -1,4 +1,3 @@
-const { readFile } = require("fs")
 const { render_nav, render_content } = require("./main_render")
 
 $("#song-name").hide()
@@ -61,7 +60,7 @@ $(async () => {
         let data = JSON.parse(res)
 
         let user_name = data.name
-        $("#nav-title").text(user_name)
+        $("#main-nav-title").text(user_name)
 
         let avatar_url = data.avatar_url
         let background_url = data.background_url

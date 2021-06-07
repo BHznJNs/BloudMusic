@@ -10,9 +10,9 @@ function collected_art(cookie) {
             let artists = []
             data.forEach((item) => {
                 artists.push({ // 歌手昵称、歌手头像、歌手ID
-                    name: item.name,     // 替换 http 为 https
-                    img_url: item.img1v1Url.replace("http", "https"),
-                    artist_id: item.id
+                    name: item.name,
+                    artist_id: item.id,
+                    img_url: item.img1v1Url.replace("http", "https") // 替换 http 为 https
                 })
             })
             resolve(artists)
@@ -32,10 +32,10 @@ function followed_art(userId, follows) { // followed artists
             let all_follows = res.data.follow
             all_follows.forEach((item) => {
                 if ([2, 4].includes(item.userType)) {
-                    artists_ids.push({
+                    artists_ids.push({ // 歌手昵称、歌手头像、歌手ID
                         name: item.nickname,
                         user_id: item.userId,
-                        img_url: item.avatarUrl
+                        img_url: item.avatarUrl.replace("http", "https")
                     })
                 }
             })

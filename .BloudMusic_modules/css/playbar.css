@@ -1,0 +1,60 @@
+/* 播放栏 | Playbar */
+#playbar {
+    position: relative;
+	background-color: rgb(255, 255, 255, .75);
+	height: 8vh;
+	max-height: 50px;
+	border-radius: 12px 12px 0 0;
+}
+audio {
+    width: 60vw;
+    outline: none
+}
+img.button {
+    padding: .4rem 0;
+    margin: 0 2vw;
+    user-select: none
+}
+/* 前进 & 后退 按钮 */
+img.btn-back {transform: rotate(180deg)} 
+img.btn-back, img.btn-next {padding: .2rem 0}
+#love {display: inline-block !important}
+/* 播放栏控件 | Playbar Widget */
+div.playbar-widget {
+    position: absolute;
+    bottom: 100%;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255, .75)
+}
+#song-name { /* 正在播放的单曲名 */
+    max-height: 0;
+    border-radius: .3rem .3rem 0 0;
+    transition: .3s
+}
+
+#playbar:hover #song-name {
+    max-height: 100vh;
+    padding: .2rem .5rem
+}
+
+#playlist { /* 播放列表 */
+    height: 40vh;
+    max-width: 800px;
+    border-radius: .6rem .6rem 0 0;
+    box-shadow: 0 -.3rem 1rem -4px rgba(0, 0, 0, .15), /* 周围阴影 */
+                0 -.5rem 1rem -6px rgba(0, 0, 0, .15) inset; /* 底边阴影 */
+    pointer-events: none;
+    opacity: 0;
+    transition: .6s
+}
+#playlist-name { /* 播放列表 歌单/歌手 名称 */
+    font-size: 1.15rem;
+    padding: 0.3625rem 0
+}
+div.playlist-active {
+    opacity: 1 !important;
+    pointer-events: auto !important
+}
+#playlist > nav.navbar {
+    padding: .1rem 1rem
+}

@@ -7,7 +7,9 @@ cd NeteaseCloudMusicApi
 if [ ! -d "./node_modules/express" ]; then
   npm install express -s
   # 文件重命名
-  mv app.js NCMapi.js
+  if [ -d "./app.js" ]; then
+	mv app.js NCMapi.js
+  fi
 fi
 
 cd ../
@@ -18,4 +20,5 @@ if [ ! -d "./node_modules/electron/dist" ]; then
   node ./node_modules/electron/install.js
 fi
 
+# 启动程序
 # npm start

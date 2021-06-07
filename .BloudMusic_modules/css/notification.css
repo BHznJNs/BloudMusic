@@ -1,0 +1,19 @@
+/* 提示框 | Toast */
+div.notification { /* 提示框（toast）展示区 */
+    position: absolute;
+    bottom: calc(100% + 2vh);
+    right: 1vw;
+}
+div.toast { /* 提示框 */
+    position: relative;
+    max-height: 0 !important;
+    z-index: 100;
+    pointer-events: none;
+    overflow: hidden;
+    transition: .4s;
+}
+div.toast-active {
+    max-height: 100vh !important;
+    opacity: 1 !important;
+    pointer-events: auto !important
+}

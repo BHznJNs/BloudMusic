@@ -1,5 +1,3 @@
-const { ipcRenderer } = require("electron")
-
 // 切换全屏
 var is_fullscreen = false
 function toggle_fullscreen() {
@@ -8,7 +6,7 @@ function toggle_fullscreen() {
 }
 // 切换全屏图标
 function toggle_fs_icon() {
-    if (!is_fullscreen) {
+    if (!is_fullscreen) { // 未全屏，将要切换至全屏
         $("#fullscreen").attr("src", "../imgs/icons/quit_fullscreen.svg")
         is_fullscreen = true
     } else {

@@ -1,16 +1,25 @@
 window.$ = window.jQuery = require("jquery")
 const { ipcRenderer } = require("electron")
 const { readFile } = require("fs")
+const { compile } = require("ejs")
+const { get, CancelToken } = require("axios")
 
-const { save_data } = require("../.BloudMusic_modules/general/operate_file")
-const { del_dir } = require("../.BloudMusic_modules/general/operate_dir")
-const { render_playlist, show_notify, close_notify } = require("../.BloudMusic_modules/main_render")
-const { toggle_fullscreen } = require("../.BloudMusic_modules/toggle_fullscreen")
-const { toggle_love, toggle_love_icon } = require("../.BloudMusic_modules/toggle_love") // 切换单曲喜欢状态
-const { get_song, get_playlist_songs, get_art_hs, get_recommends } = require("../.BloudMusic_modules/get_data/get_play_data")
-const { show_play_widget, send_data } = require("../.BloudMusic_modules/interact_play_widget")
-require("../.BloudMusic_modules/main_keyEvent") // 按键事件触发
-require("../.BloudMusic_modules/main_loader") // 页面载入时
+const { save_data } = require("../.BloudMusic_modules/js/general/operate_file")
+const { del_dir } = require("../.BloudMusic_modules/js/general/operate_dir")
+const { render_playlist } = require("../.BloudMusic_modules/js/main_render")
+const { show_notify, close_notify } = require("../.BloudMusic_modules/js/units/notify")
+const { toggle_fullscreen } = require("../.BloudMusic_modules/js/fullscreen")
+const { show_play_widget, send_data } = require("../.BloudMusic_modules/js/interact_play_widget")
+const { split, show_split, close_split, artist_detail, get_detail, play_all } = require("../.BloudMusic_modules/js/units/split")
+const { show_modal, hide_modal } = require("../.BloudMusic_modules/js/units/modal")
+
+const { geter } = require("../.BloudMusic_modules/js/general/geter")
+const { toggle_love, toggle_love_icon } = require("../.BloudMusic_modules/js/units/love") // 切换单曲喜欢状态
+const { get_song, get_playlist_songs, get_artist_data, get_hotSongs, get_recommends, get_album_songs } = require("../.BloudMusic_modules/js/get_data/get_play_data")
+
+require("../.BloudMusic_modules/js/main_keyEvent") // 按键事件触发
+require("../.BloudMusic_modules/js/main_loader") // 页面载入时
+require("../.BloudMusic_modules/js/main_eventListener") // 事件监听
 
 // 全局变量：播放信息
 var PLAYLIST = { // 定义全局播放列表
@@ -29,6 +38,7 @@ var PLAY_INFO = {
 }
 // 全局变量：喜欢的单曲
 var LOVEs = []
+//————————————————————————————————————————
 // 载入界面时，加载上次播放数据
 $(async () => {
     readFile("cache/loves.json", "utf8", (err, res) => {
@@ -55,34 +65,14 @@ $(async () => {
         render_playlist(PLAYLIST.songs, PLAYLIST.name)
     })
 })
-
-// 事件监听：退出或刷新页面时，保存 播放数据 & 喜欢列表
-addEventListener("beforeunload", () => {
-    if (PLAYLIST.songs.length) {
-        save_data(
-            "cache/last_played.json",
-            JSON.stringify({
-                playlist: PLAYLIST,
-                play_index: PLAY_INDEX,
-                play_mode: PLAY_MODE,
-                volume: $("#player")[0].volume
-            }),
-            (err) => {save_data("cache/err.log", err)}
-        )
-        save_data(
-            "cache/loves.json",
-            JSON.stringify(LOVEs),
-            (err) => {save_data("cache/err.log", err)}
-        )
-    }
-})
-
+//————————————————————————————————————————
 // 函数：退出登录
 function logout() {
     del_dir("data") // 清空 data 目录
     del_dir("cache") // 清空 cache 目录
     location.replace("login.html")
 }
+
 // 函数：切换播放列表 打开 / 关闭
 async function toggle_playlist() {
     $("#playlist-icon").toggleClass("icon-active")
@@ -114,7 +104,7 @@ function switch_playMode(mode) {
 }
 
 // 函数：判断是否切换播放
-function switch_play(id, type_) {
+function switch_play(id, type_, options) {
     return new Promise(async (resolve) => {
         if (id != PLAYLIST.id || type_ != PLAYLIST.type_) {
             PLAY_INDEX = 0
@@ -122,9 +112,13 @@ function switch_play(id, type_) {
                 case "playlist": // 歌单
                     PLAYLIST = await get_playlist_songs(id)
                     break
-                case "collected_art": // 用户收藏歌手
+                case "album":
+                    PLAYLIST = await get_album_songs(id, PLAYLIST.type_)
+                    break
                 case "followed_art": // 用户关注歌手
-                    PLAYLIST = await get_art_hs(id, type_)
+                    id = await get_artist_data(id)
+                case "collected_art": // 用户收藏歌手
+                    PLAYLIST = await get_hotSongs(id)
                     break
                 case "loves": // 喜欢列表
                     PLAYLIST = LOVEs
@@ -132,36 +126,61 @@ function switch_play(id, type_) {
                 case "recommend": // 每日推荐
                     PLAYLIST = await get_recommends()
                     break
-                case "song": // 播放列表中单曲
+                case "song_in_playlist": // 播放列表中单曲
                     PLAY_INDEX = PLAYLIST.song_ids.indexOf(Number(id))
                     break
+                case "songs": //     来自 split 参数
+                    PLAYLIST = options.songs
+                    break
             }
-        }
-        if (["playlist", "collected_art", "followed_art", "loves", "recommend"].includes(type_)) {
-            render_playlist(PLAYLIST.songs, PLAYLIST.name)
+            if (["playlist", "album", "songs", "collected_art", "followed_art", "loves", "recommend"].includes(type_)) {
+                render_playlist(PLAYLIST.songs, PLAYLIST.name)
+            }
         }
         resolve()
     })
 }
+// 函数：给播放过单曲增加提示
+function add_style_played(song_data, type_) {
+    if (type_ == "song") {return}
+    if (PLAY_INDEX < PLAYLIST.songs.length) {
+        let item = $("#playlist-songs").children()[PLAY_INDEX]
+        $(item).addClass("item-played")
+        // 如果单曲 无版权 或 未付费，则播放下一首并添加样式
+        if (song_data.no_copyright || song_data.VIP) {
+            $(item).addClass("item-disabled")
+            next()
+        }
+    }
+}
 // 函数：根据传入信息获取并播放单曲
-async function play(id, type_) {
-    await switch_play(id, type_)
-
-    let song_id = PLAYLIST.song_ids[PLAY_INDEX]
+async function play(id, type_, options={}) {
+    if (type_ != "song") {
+        await switch_play(id, type_, options)
+        var song_id = PLAYLIST.song_ids[PLAY_INDEX]
+    } else { // 如果类型为单曲，则
+        var song_id = id
+    }
     // 获取播放数据
     let song_data = await get_song(song_id)
-    // 如果单曲 无版权 或 未付费，则播放下一首
-    if (!song_data.copyright || song_data.VIP) {
-        next()
+    // 如果单曲信息获取失败
+    if (!song_data) {
+        if (PLAY_MODE == "loop" && type_ != "song") {
+            PLAY_INDEX -= 1
+        }
+        return
     }
-
-    $("#player").attr("src", "https://music.163.com/song/media/outer/url?id=" + song_data.id + ".mp3")
+    // 播放列表添加样式
+    add_style_played(song_data, type_)
+    // 修改播放器 URL，播放单曲
+    $("#player").attr("src", `https://music.163.com/song/media/outer/url?id=${song_data.id}.mp3`)
 
     $("#song-name").show()
-    // 修改 song-name 控件文字 和 文档 title
-    let song_name = `${song_data.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${song_data.artist_name}`
-    $("#song-name").html(song_name)
-    $("title").html(song_name)
+    // 修改 song-name 控件属性
+    $("#song-name span.song-name").html(song_data.name)
+    $("#song-name span.artists").html(song_data.artist_name)
+    $("#song-name span.artists").attr("data-artists", JSON.stringify(song_data.artists))
+
 
     PLAY_INFO = {
         id: song_id,
@@ -170,9 +189,12 @@ async function play(id, type_) {
     }
     // 切换喜欢图标
     toggle_love_icon()
-
-    try {send_data("player_song_name", $("#song-name").html())} catch {}
+    // 修改文档 title，并向播放控件发送数据
+    let song_name = `${song_data.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${song_data.artist_name}`
+    $("title").html(song_name)
+    try {send_data("player_song_name", song_name)} catch {}
 }
+//————————————————————————————————————————
 // 函数：上一首
 function previous() {
     PLAY_INDEX -= 1
@@ -183,6 +205,7 @@ function previous() {
 }
 // 函数：下一首
 function next() {
+    if (PLAY_INFO)
     switch (PLAY_MODE) {
         case "loop": // 列表循环播放
             PLAY_INDEX += 1
@@ -194,6 +217,10 @@ function next() {
             //———————————从 0 ～ 播放列表.length 中随机取整数
             PLAY_INDEX = Math.floor(Math.random()*PLAYLIST.song_ids.length)
             break
+        case "loop_one":
+            $("#player")[0].currentTime = 0
+            $("#player")[0].play()
+            return
     }
     play(PLAYLIST.id, PLAYLIST.type_)
 }

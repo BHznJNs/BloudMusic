@@ -1,0 +1,88 @@
+/* 单曲列表 | Songs */
+div.songs-item { /* 单曲 */
+    display: flex;
+    align-items: center;
+    border-color: rgb(255, 255, 255, .75) !important;
+    box-sizing: content-box;
+    transition: .2s
+}
+/* Playlist Songs */
+#playlist-songs div.songs-item {
+    justify-content: space-around;
+    height: 1.6rem
+}
+#playlist-songs div.songs-item:hover, div.item-played {
+    /* 单曲鼠标经过样式 & 播放过之后样式 */
+    background-color: rgb(255, 255, 255, .75)
+}
+#playlist-songs div.song-name, #playlist-songs div.artist {
+    width: 40%
+}
+div.item-disabled {
+    /* 单曲无法播放(VIP || 无版权)样式 */
+    opacity: .6
+}
+/* ———— */
+/* Split Songs */
+#split-scroll div.songs-item {
+    width: 85%;
+    padding-right: .4rem;
+    border: solid;
+    border-radius: .4rem;
+    background-color: rgb(255, 255, 255, .45);
+}
+img.song-cover { /* 单曲所在专辑封面 */
+    width: 80px;
+    border-right: solid rgb(255, 255, 255, .75)
+}
+#split-scroll div.songs-item:hover {
+    background-color: rgb(255, 255, 255, .75);
+}
+div.song-info { /* 单曲信息 */
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 0 .4rem;
+    width: calc(100% - .4rem - 120px);
+}
+div.song-info > div.song-name { /* 单曲名称 */
+    width: 100%;
+    padding: 0 .2rem;
+    font-size: large;
+}
+div.song-name+div.separator {
+    width: 100%;
+    height: 3px;
+    margin: .2rem 0;
+    background-color: #666;
+}
+div.artist+div.separator {
+    width: 3px;
+    background-color: #666;
+}
+div.song-info div.artist { /* 单曲作者 */
+    max-width: calc(40% - 3px);
+}
+div.song-info div.album-name { /* 单曲所在专辑名 */
+    max-width: calc(60% - 3px);
+    cursor: pointer
+}
+/* ———— */
+
+div.songs-item > img.icon-play { /* 播放单曲按钮 */
+    width: 40px;
+    user-select: none;
+    cursor: pointer;
+    opacity: .45
+}
+div.songs-item > img.icon-play:hover {opacity: 1}
+div.songs-item > img.icon-play:active {opacity: .75}
+
+div.songs-item > div.separator { /* 分割 */
+    width: 3px;
+    height: 100%;
+    background-color: #666
+}
+div.songs-item:hover div.separator {
+    background-color: #333
+}

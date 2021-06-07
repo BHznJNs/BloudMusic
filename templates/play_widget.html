@@ -9,12 +9,12 @@
 </head>
 <body>
     <div id="main" class="d-flex flex-column border-dark">
-        <div id="content" class="d-flex justify-content-between shadow h-50">
+        <div id="content" class="shadow h-50">
             <!-- 歌名 -->
-            <div class="song-name rounded d-flex justify-content-center">
+            <div class="song-name rounded">
                 <div id="song-name" class="text-nowrap"></div>
                 <!-- 阴影效果 -->
-                <div class="cover position-absolute"></div>
+                <div class="cover w-100 h-100"></div>
             </div>
             <!-- 关闭按钮 -->
             <div class="close text-white user-select-none" onclick="close_widget()">&times;</div>
@@ -29,7 +29,7 @@
             <!-- 音量调节 -->
             <div class="volume-box position-relative" class="h-100">
                 <div class="volume h-100">
-                    <img id="volume-icon" class="icon h-100" src="../imgs/icons/sound_on.svg" draggable="false"/>
+                    <img id="volume-icon" class="icon h-100" onclick="toggle_mute()" src="../imgs/icons/sound_on.svg" draggable="false"/>
                     <input id="volume" class="rounded" type="range" onmousemove="toggle_sound_icon()" onmouseup="send_volumn()">    
                 </div>
             </div>

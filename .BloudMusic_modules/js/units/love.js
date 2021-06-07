@@ -1,7 +1,5 @@
-const { get } = require("axios")
-
 // 函数：判断音乐是否添加过喜欢，并切换喜欢图标
- function toggle_love_icon() {
+function toggle_love_icon() {
     // 如果音乐添加过喜欢
     var love_obj = $("#love")
     if (LOVEs.song_ids.includes(PLAY_INFO.id)) {
@@ -14,19 +12,24 @@ const { get } = require("axios")
         love_obj.attr("src", "../imgs/icons/love.svg")
     }
 }
-
 // 函数：向服务器请求 添加 / 删除 喜欢
 function request_love(id, bool) {
-    return new Promise((resolve, reject) => {
-        get(`http://localhost:3000/like?id=${id}&like=${bool}`).then((res) => {
-            let status = res.data.code
-            if (status == 200) {
-                resolve(true)
-            } else {
-                reject()
-            }
+    let cancel
+    let url = `http://localhost:3000/like?id=${id}&like=${bool}`
+    return new Promise((resolve) => {
+        get(url, {
+            timeout: 8000,
+            cancelToken: new CancelToken(function executor(c) {
+                cancel = c
+            })
+        }).then(() => {
+            resolve(true)
+        }).catch(() => { // 超时
+            cancel()
+            console.log("Toggle love timeout!")
+            resolve(false)
         })
-    }).catch(() => {return false})
+    })
 }
 // 函数：操作喜欢列表
 function operate_love(bool) {
