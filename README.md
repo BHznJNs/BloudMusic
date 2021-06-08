@@ -1,17 +1,24 @@
 <h1>BloudMusic</h1>
-<h3>简介</h3>
+<h2>简介</h2>
 <p>一个第三方的网易云音乐客户端，使用 Electron.js 开发</p>
 <p>基于这位大佬写的 api <a href="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify / NeteaseCloudMusicApi</a>开发，在此致谢。</p>
 <hr />
-<h3>屏幕截图</h3>
+
+<h2>屏幕截图</h2>
 <img src="imgs/screenshots/main.png"/>
 <img src="imgs/screenshots/login.png"/>
 <img src="imgs/screenshots/split.png"/>
 <img src="imgs/screenshots/play_widget.png"/>
 <hr />
-<h3>使用方法</h3>
+
+<h2>使用方法</h2>
 <ul>
-  <li><b>现在你可以在解压源码包后使用 <code>./install.sh</code> 来安装了(记得给文件运行权限)</b></li>
+  <h3>脚本安装</h3>
+  <li><b>在解压源码包后在项目目录中使用 <code>./install.sh</code> (记得给文件运行权限)</b></li>
+  
+  ————————————————————————————————————————
+  
+  <h3>手动安装</h3>
   <li><a href="https://nodejs.org/en/download/">到此</a>下载并安装 Node.js</li>
   <li><a href="https://github.com/BHznJNs/BloudMusic/releases/">到此</a>下载并解压源码压缩包</li>
   <li>打开你的 终端/terminal/cmd/powershell ，<code>cd</code> 进入解压目录，如 <code>cd ~/BloudMusic</code> </li>
@@ -21,7 +28,8 @@
   <li>输入 <code>npm start</code> 以运行程序 (如果出现类似 <code>Error: Cannot find module '/home/pi/BloudMusic-1.4.0/NeteaseCloudMusicApi-master/NCMapi.js'</code> 报错，请将 <code>package.json</code> 文件中第14行和第16行的 “NeteaseCloudMusicApi” 改为 “NeteaseCloudMusicApi-master”)</li>
 </ul>
 <hr />
-<h3>键盘快捷键一览表</h3>
+
+<h2>键盘快捷键一览表</h2>
 <table>
   <tr>
     <td>Esc | Escape</td>
@@ -64,7 +72,8 @@
   </tr>
 </table>
 <hr />
-<h3>注：</h3>
+
+<h2>注：</h2>
 <ul>
   <li>本项目适合爱折腾的用户使用（折腾本项目需要一定的 CSS 和 Javascript 基础）</li>
   <li>本项目未加入任何社交功能（以后也大概率不会加入）</li>
@@ -74,7 +83,8 @@
   <li>开发及测试使用树莓派4B，所以兼容性可能不会很好，但优化应该OK</li>
 </ul>
 <hr />
-<h3>以下功能已实现：</h3>
+
+<h2>以下功能已实现：</h2>
 <ul>
   <li>在页面中加入用户头图和背景图作为装饰</li>
   <li>用户创建歌单播放</li>
@@ -93,7 +103,8 @@
   <li>...</li>
 </ul>
 <hr />
-<h3>TODO</h3>
+
+<h2>TODO</h2>
 <ul>
   <li>查看历史日推功能</li>
   <li>歌手切换关注状态</li>
