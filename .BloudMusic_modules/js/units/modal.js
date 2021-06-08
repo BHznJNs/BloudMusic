@@ -2,7 +2,7 @@
 function show_modal(list, options={}) {
     let temp = $("#modal-temp").text()
     let template = compile(temp)
-    console.log(options)
+
     let html_output = template({ list, options })
     $("#selector div.modal-body").html(html_output)
 

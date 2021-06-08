@@ -402,7 +402,7 @@
                 <script type="text/html" id="modal-temp">
                     <% list.forEach((item) => { %>
                         <% if (options.new_split) { %>
-                        <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>', JSON.parse('<%= options %>'))"><%= item.name %></div>
+                        <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>', {new_split: JSON.parse('<%= options.new_split %>')})"><%= item.name %></div>
                         <% } else { %>
                         <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>')"><%= item.name %></div>
                         <% } %>
