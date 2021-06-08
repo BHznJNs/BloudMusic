@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../.BloudMusic_modules/css/split.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/notification.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/songs.css">
+    <link rel="stylesheet" href="../.BloudMusic_modules/css/modal.css">
     <link rel="stylesheet" href="../style/main.css">
     <title>BloudMusic</title>
 </head>
@@ -240,10 +241,19 @@
             <div id="split-scroll" class="overflow-auto"></div>
             <!-- 分屏界面单曲模板 -->
             <script type="text/html" id="split-songs-temp">
-                <% if (type_ != "load_more") { %>
-                <button class="btn btn-info mt-2 mx-4" onclick="play_all()">播放全部</button>
+                <!-- 歌手图像 -->
+                <% if (list.img_url) { %> <!-- 如果传入歌手图像 -->
+                <div class="artist-img mx-auto overflow-hidden shadow">
+                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'">
+                    <div class="cover position-absolute w-100 h-100"></div>
+                </div>
                 <% } %>
-                <% list.forEach((item) => { %>
+
+                <% if (type_ != "load_more") { %>
+                <button class="btn-play-all btn btn-info mt-2 mx-4" onclick="play_all()">播放全部</button>
+                <div class="scroll-sep"></div>
+                <% } %>
+                <% list.songs.forEach((item) => { %>
                 <div class="songs-item">
                     <!-- 专辑封面，右键点击可显示下载选项 -->
                     <img class="song-cover user-select-none" src="<%= item.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" draggable="false"/>
@@ -267,10 +277,15 @@
                 <% } %>
             </script>
 
-            <!-- 分屏界面专辑模板 -->
+            <!-- 分屏界面歌手专辑模板 -->
             <script type="text/html" id="split-albums-temp">
-                <div class="scroll-content">
+                <!-- 歌手图像 -->
+                <div class="artist-img mx-auto overflow-hidden shadow">
+                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'">
+                    <div class="cover position-absolute w-100 h-100"></div>
+                </div>
 
+                <div class="scroll-content">
                     <% list.albums.forEach((item) => { %>
                     <div class="scroll-item rounded-lg">
                         <div class="item-img user-select-none">
@@ -367,7 +382,7 @@
         <!-- 正在播放的单曲名 -->
         <div id="song-name" class="playbar-widget">
             <span class="song-name"></span>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="user-select-none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span class="artists text-deco-under" onclick="artist_detail(this)" data-artists=""></span>
         </div>
         <!-- 播放模式切换 -->
@@ -398,6 +413,7 @@
                     <h5 class="modal-title">选择</h5>
                     <div class="close" onclick="hide_modal(undefined)">&times;</div>
                 </div>
+
                 <div class="modal-body"></div>
                 <script type="text/html" id="modal-temp">
                     <% list.forEach((item) => { %>

@@ -33,7 +33,7 @@ var PLAYLIST = { // 定义全局播放列表
 }
 var PLAY_INDEX = 0 // 播放序列 index
 var PLAY_MODE = "loop" // 播放模式
-// 全局变量：播放单曲信息
+// 全局变量：播放单曲信息（用于操作喜欢列表）
 var PLAY_INFO = {
     id: 0,
     name: "",
@@ -190,7 +190,7 @@ async function play(id, type_, options={}) {
     $("#song-name span.artists").html(song_data.artist_name)
     $("#song-name span.artists").attr("data-artists", JSON.stringify(song_data.artists))
 
-
+    // 修改当前播放单曲信息
     PLAY_INFO = {
         id: song_id,
         name: song_data.name,
@@ -214,7 +214,8 @@ function previous() {
 }
 // 函数：下一首
 function next() {
-    if (PLAY_INFO)
+    // if (PLAY_INFO)
+    // 根据播放模式进行切歌
     switch (PLAY_MODE) {
         case "loop": // 列表循环播放
             PLAY_INDEX += 1

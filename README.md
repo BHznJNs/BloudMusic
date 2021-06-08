@@ -32,6 +32,10 @@
     <td>暂停 / 继续播放</td>
   </tr>
   <tr>
+    <td>Alt + P</td>
+    <td>切换播放列表 打开 / 关闭</td>
+  </tr>
+  <tr>
     <td>Ctrl + T</td>
     <td>切换播放模式</td>
   </tr>

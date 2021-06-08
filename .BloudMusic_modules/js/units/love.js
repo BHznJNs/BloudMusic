@@ -34,10 +34,10 @@ function request_love(id, bool) {
 // 函数：操作喜欢列表
 function operate_love(bool) {
     let id = PLAY_INFO.id
-    if (bool) { // 将添加入喜欢列表
+    if (bool) { // 将单曲添加入喜欢列表
         LOVEs.song_ids.unshift(id)
         LOVEs.songs.unshift(PLAY_INFO)
-    } else { // 将从喜欢列表移除
+    } else { // 将单曲从喜欢列表移除
         let index = LOVEs.song_ids.indexOf(id)
         LOVEs.song_ids.splice(index, 1)
         if (index <= LOVEs.songs.length - 1) {
@@ -67,18 +67,18 @@ function toggle_love() {
     }
     // 切换图标 & 请求服务器
     love_obj.fadeOut(300, async () => {
-        love_obj.css("pointer-events", "none")
+        love_obj.css("pointer-events", "none") // 禁用喜欢按钮
         var res = await request_love(PLAY_INFO.id, loved)
-        
+
         if (res) { // 如果请求成功
-            operate_love(loved)
-            toggle_love_icon()
+            operate_love(loved) // 操作喜欢列表
+            toggle_love_icon() // 切换图标
             show_notify(message)
-        } else {
+        } else { // 如果请求 失败 || 超时
             show_notify(fail_message)
         }
-        
-        love_obj.fadeIn(300, () => {
+
+        love_obj.fadeIn(300, () => { // 取消禁用
             love_obj.css("pointer-events", "auto")
         })
     })

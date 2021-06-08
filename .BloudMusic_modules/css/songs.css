@@ -47,6 +47,7 @@ div.item-disabled {
 }
 img.song-cover { /* 单曲所在专辑封面 */
     width: 80px;
+    border-radius: .2rem 0 0 .2rem;
     border-right: solid rgb(255, 255, 255, .75)
 }
 #split-scroll div.songs-item:hover {

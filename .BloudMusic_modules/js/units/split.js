@@ -31,8 +31,8 @@ function new_split() {
     // 隐藏原分屏内容
     $("#split:nth-last-child(2) #split-scroll").hide()
 }
-// 函数：分屏加载
-function split_render(ori_list, type_) {
+// 函数：分屏加载       origin_list
+function render_split(ori_list, type_) {
     let is_more = false
     let temp, list
     // 根据传入类型选择模板和返回数据
@@ -41,11 +41,15 @@ function split_render(ori_list, type_) {
         list = {
             albums: ori_list.albums,
             album_size: ori_list.album_size,
-            page: ori_list.page
+            page: ori_list.page,
+            img_url: ori_list.img_url
         }
     } else {
         temp = $("#split-songs-temp").text()
-        list = ori_list.songs
+        list = {
+            songs: ori_list.songs,
+            img_url: ori_list.img_url
+        }
         // 判断是否需要加载更多
         if (ori_list.song_ids.length > ori_list.songs.length) {
             is_more = true
@@ -105,12 +109,13 @@ async function close_split() {
     }
 }
 //————————————————————————————————————————
-// 函数：点击歌手在分屏中查看详情
+// 函数：点击歌手名在分屏中查看详情
 function artist_detail(obj, options={}) {
     let data = $(obj).attr("data-artists")
     data = JSON.parse(data)
-    // 如果歌手数大于1
+    // 如果歌手数大于1，即有多个歌手
     if (data.length > 1) {
+        // 展示选择框 & 中止函数
         show_modal(data, options)
         return
     }
@@ -166,7 +171,7 @@ async function get_detail(id, type_, options={}) {
     // 展示分屏
     show_split(type_, options)
     // 分屏加载
-    split_render(list, type_)
+    render_split(list, type_)
     // 设置分屏标题及其属性
     $("#split:last-child #split-nav-title").text(SPLIT_DETAIL.name)
     $("#split:last-child #split-nav-title").attr("title", SPLIT_DETAIL.name)

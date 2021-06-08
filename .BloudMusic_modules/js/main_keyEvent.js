@@ -26,6 +26,11 @@ $(document).keydown((event) => {
             event.preventDefault()
             toggle_play()
             break
+        case 80: // Alt + P 切换播放列表 打开 / 关闭
+            if (event.altKey) {
+                toggle_playlist()
+            }
+            break
         case 84: // Ctrl + T 切换播放模式
             if (event.ctrlKey) {
                 switch_playMode()

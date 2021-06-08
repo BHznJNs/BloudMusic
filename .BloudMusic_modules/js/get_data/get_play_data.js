@@ -135,6 +135,7 @@ async function get_hotSongs(id) {
                     name: res.data.artist.name,
                     songs: songs,
                     song_ids: song_ids,
+                    img_url: res.data.artist.picUrl,
                     type_: "artist"
                 })
             },
@@ -164,6 +165,7 @@ function get_albums(artist_id, page) {
                 resolve({
                     id: artist_id,
                     name: res.data.artist.name,
+                    img_url: res.data.artist.picUrl,
                     page: page,
                     albums: albums,
                     album_size: res.data.artist.albumSize

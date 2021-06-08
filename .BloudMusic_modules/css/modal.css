@@ -1,0 +1,38 @@
+/* 模态框 | Modal */
+div.modal {
+    display: flex;
+    background-color: rgb(51, 51, 51, .45);
+    pointer-events: none;
+    opacity: 0;
+    transition: .6s
+}
+div.modal * {pointer-events: inherit}
+div.modal-dialog {min-width: 200px}
+div.modal-content {
+    border-radius: .4rem;
+    background-color: rgb(255, 255, 255, .85)
+}
+div.modal-active {
+    pointer-events: auto;
+    opacity: 1
+}
+div.modal-header {padding: .5rem .8rem}
+div.modal-body {padding: .5rem .8rem 1rem}
+img.modal-title {height: 2rem}
+
+#selector div.item {
+    padding: 0 .4rem;
+    user-select: none;
+    cursor: pointer;
+    transition: .2s
+}
+#selector div.item:not(:last-child) {margin-bottom: .4rem}
+#selector div.item:hover {
+    color: white;
+    background-color: #333;
+    border-color: white;
+}
+#selector div.item:active {
+    color: white;
+    background-color: #666
+}
