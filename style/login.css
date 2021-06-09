@@ -79,7 +79,7 @@ button.btn-outline-info {
 	width: 40%;
 	max-width: 150px;
 	margin-top: 2vh;
-	padding: 0.2rem auto;
+	padding: .2rem .75rem;
 	border-width: 3px;
 	font-size: large;
 }

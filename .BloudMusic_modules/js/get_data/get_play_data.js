@@ -324,41 +324,7 @@ function get_recommends() {
     })
 }
 
-// 函数：加载更多                     origin_list
-async function load_more(obj, temp, ori_list) {
-    let parent = $(obj).parent() // 获取父元素
-    let [songs, song_ids] = [ori_list.songs, ori_list.song_ids]
-
-    // 函数：判断是否需要加载并获取数据
-    let list
-    if (song_ids.length == songs.length) {
-        return
-    } else if (song_ids.length - songs.length < 10) {
-        list = await get_songs(song_ids.slice(songs.length))
-    } else {
-        list = await get_songs(song_ids.slice(songs.length, songs.length + 10))
-    }
-    if (!list) {return} // 如果请求错误
-    $(parent).children("div.load-more").remove() // 去除加载按钮
-    ori_list.songs = [...ori_list.songs, ...list] // 合并数组
-    // 界面编译及加载
-    let is_more = false
-    if (ori_list.song_ids.length > ori_list.songs.length) {
-        is_more = true
-    }
-    let place_holder = document.createElement("div")
-    renderer(
-        temp,
-        { list, is_more },
-        place_holder
-    )
-    // 插入节点
-    let child = $(place_holder.children)
-    $(parent).append(child)
-}
-
 exports.get_artist_data = get_artist_data
-exports.load_more = load_more
 
 exports.get_playlist_songs = get_playlist_songs
 exports.get_hotSongs = get_hotSongs

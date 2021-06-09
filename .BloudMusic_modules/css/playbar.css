@@ -5,6 +5,7 @@
 	height: 8vh;
 	max-height: 50px;
 	border-radius: 12px 12px 0 0;
+    contain: content
 }
 audio {
     width: 60vw;

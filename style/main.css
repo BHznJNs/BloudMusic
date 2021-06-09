@@ -51,7 +51,8 @@ div.menu > div.item:active {background-color: #333}
     margin: 4vh 0 0 5vw;
     border-radius: .6rem;
     background-color: rgba(255, 255, 255, .45);
-    transition: .8s
+    transition: .8s;
+    contain: content
 }
 /* ———— */
 

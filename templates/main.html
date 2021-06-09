@@ -244,7 +244,7 @@
                 <!-- 歌手图像 -->
                 <% if (list.img_url) { %> <!-- 如果传入歌手图像 -->
                 <div class="artist-img mx-auto overflow-hidden shadow">
-                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'">
+                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
                     <div class="cover position-absolute w-100 h-100"></div>
                 </div>
                 <% } %>
@@ -256,7 +256,7 @@
                 <% list.songs.forEach((item) => { %>
                 <div class="songs-item">
                     <!-- 专辑封面，右键点击可显示下载选项 -->
-                    <img class="song-cover user-select-none" src="<%= item.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" draggable="false"/>
+                    <img class="song-cover user-select-none" src="<%= item.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" loading="lazy" draggable="false"/>
 
                     <div class="song-info">
                         <div class="song-name text-left text-truncate" title="<%= item.name %>"><%= item.name %></div>
@@ -281,7 +281,7 @@
             <script type="text/html" id="split-albums-temp">
                 <!-- 歌手图像 -->
                 <div class="artist-img mx-auto overflow-hidden shadow">
-                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'">
+                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
                     <div class="cover position-absolute w-100 h-100"></div>
                 </div>
 
@@ -290,7 +290,7 @@
                     <div class="scroll-item rounded-lg">
                         <div class="item-img user-select-none">
                             <!-- 专辑封面，右键点击可显示下载选项 -->
-                            <img class="w-100" src="<%= item.cover_url %>?param=120y120" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" draggable="false"/>
+                            <img class="w-100" src="<%= item.cover_url %>?param=120y120" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" loading="lazy" draggable="false"/>
 
                             <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'album')" onerror="this.src='../imgs/icons/album_default.svg'"/>
                         </div>

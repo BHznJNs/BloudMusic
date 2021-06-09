@@ -81,6 +81,7 @@ div.split-outer {
     border-radius: .6rem;
     background-color: rgba(255, 255, 255, .45);
     transition: .8s;
+    contain: content
 }
 #split:not(:last-child) {width: 0 !important}
 
@@ -110,7 +111,10 @@ div.cover { /* 歌手头像蒙版 */
 }
 
 /* 播放全部按钮 */
-button.btn-play-all {border-radius: .25rem .25rem 0 0 !important}
+button.btn-play-all {
+    padding: 0.2rem .75rem;
+    border-radius: .25rem .25rem 0 0 !important
+}
 #split-scroll div.scroll-sep {
     height: 3px;
     margin: 0 1.5rem 1rem;
