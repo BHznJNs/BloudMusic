@@ -1,7 +1,10 @@
 <h1>BloudMusic</h1>
+<p>抛弃累赘功能，追求纯粹的音乐体验。</p>
+<hr />
+
 <h2>简介</h2>
-<p>一个第三方的网易云音乐客户端，使用 Electron.js 开发</p>
-<p>基于这位大佬写的 api <a href="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify / NeteaseCloudMusicApi</a>开发，在此致谢。</p>
+<p>一个个人开发的第三方网易云音乐客户端，使用 Electron.js 开发</p>
+<p>基于这位大佬写的 api <a href="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify / NeteaseCloudMusicApi</a>开发，在此致谢</p>
 <hr />
 
 <h2>屏幕截图</h2>
@@ -79,7 +82,7 @@
   <li>本项目未加入任何社交功能（以后也大概率不会加入）</li>
   <li>本项目未加入任何 mv 相关功能（以后也大概率不会加入）</li>
   <li>本项目仍处于开发中</li>
-  <li>对于同一首歌，请勿频繁<b>切换喜欢状态</b>（之后可能会改动），由于 NeteaseCloudMusicApi 的缓存机制，可能导致操作无法成功 </li>
+  <li>对于同一首歌，请勿频繁<b>切换喜欢状态</b>（之后可能会改动），由于 NeteaseCloudMusicApi 的缓存机制，可能导致操作无法成功</li>
   <li>开发及测试使用树莓派4B，所以兼容性可能不会很好，但优化应该OK</li>
 </ul>
 <hr />
