@@ -1,5 +1,5 @@
 // 函数：展示消息
-async function show_notify(content) {
+async function show_notify(content, time=8000) {
     let place_holder = document.createElement("div")
     renderer(
         "#notification-temp",
@@ -13,7 +13,7 @@ async function show_notify(content) {
     // 定时 8 秒后关闭
     setTimeout(() => {
         close_notify(child.find("div.close"))
-    }, 8000)
+    }, time)
 }
 // 函数：关闭消息
 async function close_notify(obj) {

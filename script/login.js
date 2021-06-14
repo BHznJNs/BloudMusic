@@ -1,13 +1,15 @@
 window.$ = window.jQuery = require("jquery")
 const { encode } = require("ini")
 
+const { geter } = require("../.BloudMusic_modules/js/general/geter")
+const { get_artists } = require("../.BloudMusic_modules/js/get_data/get_general")
+
 const { show_load, hide_load } = require("../.BloudMusic_modules/js/control_load")
 const { check_account } = require("../.BloudMusic_modules/js/check_account")
 const { get_user } = require("../.BloudMusic_modules/js/get_data/get_user")
 const { save_data, make_dir } = require("../.BloudMusic_modules/js/general/operate_file")
-const { get_playlist, filter_playlist } = require("../.BloudMusic_modules/js/get_data/operate_playlist")
-const { collected_art, followed_art } = require("../.BloudMusic_modules/js/get_data/get_artists")
-const { get_playlist_songs } = require("../.BloudMusic_modules/js/get_data/get_play_data")
+const { get_playlist, get_playlist_songs, filter_playlist } = require("../.BloudMusic_modules/js/get_data/operate_playlist")
+const { collected_art, followed_art } = require("../.BloudMusic_modules/js/get_data/get_artist")
 
 // 如果 “data” 与 “cache” 文件夹不存在，则创建
 make_dir("data")

@@ -3,7 +3,7 @@ body {
 	margin: 0;
 	height: 100vh;
 	overflow: hidden;
-	background-image: linear-gradient(to bottom right, #0099CC, #FF9966)
+	background-image: linear-gradient(to bottom right, #0099D5, #FF9966)
 }
 
 .flex-center {
@@ -59,7 +59,7 @@ b.login-head {
 	padding:  0 1rem;
 	font-size: xx-large;
 	color: white;
-	text-shadow: -3px -3px 2px #0099CC, 3px 3px 2px #FF9966
+	text-shadow: -3px -3px 2px #0099D5, 3px 3px 2px #FF9966
 }
 
 div.input-group {

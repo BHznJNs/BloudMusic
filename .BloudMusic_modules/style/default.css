@@ -1,0 +1,58 @@
+:root {
+    --default-text-cl: #212529;
+    --bg-cl: linear-gradient(to bottom right, #0099D5, #FF9966);
+    --main-bg-cl: rgba(255, 255, 255, .45);
+    --split-bg-cl: rgba(255, 255, 255, .45);
+    --scroll-sep-bg: #138496;
+
+    --separator-cl: #666;
+    --separator-hover: #333;
+    --songs-item: rgb(255, 255, 255, .45);
+    --songs-item-hover: rgb(255, 255, 255, .75);
+    --playbar-bg-cl: rgba(255, 255, 255, .75);
+
+    --navbar-bg-cl: white;
+    --nav-link-cl: #666;
+    --nav-link-hover: #333;
+    --toast-bg-cl: rgba(255, 255, 255, 0.85);
+    --toast-header-bg-cl: rgba(255, 255, 255, 0.85);
+    --modal-bg-cl: rgba(255, 255, 255, 0.85);
+
+    /* ———————————————————— */
+
+    --dark-shadow-cl: rgba(0, 0, 0, .15);
+    --light-shadow-cl: rgba(255, 255, 255, .45);
+}
+
+/* 滚动条 | Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgb(255, 255, 255, .85)
+}
+::-webkit-scrollbar-thumb {background-color: #999}
+::-webkit-scrollbar-thumb:hover {background-color: #666}
+::-webkit-scrollbar-thumb:active {background-color: #333}
+/* ———— */
+
+/* Btn | Button */
+.btn {
+    color: white !important;
+    background-color: #17a2b8
+}
+.btn:hover {
+    background-color: #138496
+}
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgb(23, 162, 184, .45) !important
+}
+/* ———— */
+
+/* Other */
+div.songs-item {
+    border-color: rgb(255, 255, 255, .75) !important
+}
+#playlist-songs div.songs-item:hover, #playlist-songs div.load-more, div.item-played {
+    /* 单曲鼠标经过样式 & 播放过之后样式 */
+    background-color: rgb(255, 255, 255, .75)
+}
+/* ———— */

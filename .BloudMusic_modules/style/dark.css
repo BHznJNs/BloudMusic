@@ -1,0 +1,73 @@
+:root {
+    --default-text-cl: white;
+    --bg-cl: linear-gradient(to bottom right, #003966, #772500);
+    --main-bg-cl: rgba(255, 255, 255, .45);
+    --split-bg-cl: rgba(255, 255, 255, .45);
+    --scroll-sep-bg: #006064;
+
+    --separator-cl: #bbb;
+    --separator-hover: #eee;
+    --songs-item: #666;
+    --songs-item-hover: #999;
+    --playbar-bg-cl: rgba(102, 102, 102, .75);
+
+    --navbar-bg-cl: #666;
+    --nav-link-cl: #eee;
+    --nav-link-hover: #bbb;
+    --toast-bg-cl: rgb(102, 102, 102, .85);
+    --toast-header-bg-cl: rgb(51, 51, 51, .85);
+    --modal-bg-cl: rgb(102, 102, 102, .85);
+
+    /* ———————————————————— */
+
+    --dark-shadow-cl: rgba(0, 0, 0, .15);
+    --light-shadow-cl: rgba(255, 255, 255, .45);
+}
+
+/* 滚动条 | Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #333
+}
+::-webkit-scrollbar-thumb {background-color: #666}
+::-webkit-scrollbar-thumb:hover {background-color: #999}
+::-webkit-scrollbar-thumb:active {background-color: white}
+/* ———— */
+
+/* Audio */
+::-webkit-media-controls-panel {
+    background-color: #666
+}
+/* ———— */
+
+/* Btn | Button */
+.btn {
+    color: white !important;
+    background-color: #00838F
+}
+.btn:hover {
+    background-color: #006064
+}
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 131, 143, 0.451) !important
+}
+/* ———— */
+
+/* Other */
+#netease-music-icon {filter: contrast(.85)}
+img.icon {filter: blur(3px) brightness(6) !important}
+img.icon:hover {filter: blur(0) brightness(6) !important}
+
+div.user-imgs, div.cover-outer, div.scroll-item > div.item-img, div.songs-item > img.song-cover {
+    filter: brightness(.85)
+}
+img.icon-play, #playlist img.navbar-brand {filter: brightness(6)}
+
+div.songs-item {
+    border-color: rgba(153, 153, 153, .75) !important
+}
+#playlist-songs div.songs-item:hover, #playlist-songs div.load-more, div.item-played {
+    /* 单曲鼠标经过样式 & 播放过之后样式 */
+    background-color: rgba(153, 153, 153, .75)
+}
+/* ———— */

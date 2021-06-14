@@ -1,5 +1,7 @@
-const { get_albums } = require("../get_data/get_play_data")
+const { get_albums } = require("../get_data/get_album")
 const { sleep } = require("../general/sleep")
+const { get_album_songs } = require("../get_data/get_album")
+const { get_play_data } = require("../get_data/get_play_data")
 
 // 全局变量：是否已分屏
 var SPLITED = false
@@ -37,7 +39,7 @@ function render_split(ori_list, type_) {
     let temp, list
     // 根据传入类型选择模板和返回数据
     if (type_ == "albums") {
-        temp = $("#split-albums-temp").text()
+        temp = "#split-albums-temp"
         list = {
             albums: ori_list.albums,
             album_size: ori_list.album_size,
@@ -45,7 +47,7 @@ function render_split(ori_list, type_) {
             img_url: ori_list.img_url
         }
     } else {
-        temp = $("#split-songs-temp").text()
+        temp = "#split-songs-temp"
         list = {
             songs: ori_list.songs,
             img_url: ori_list.img_url
@@ -55,7 +57,6 @@ function render_split(ori_list, type_) {
             is_more = true
         }
     }
-
     // 设置分屏菜单栏选项
     let nav_item = $("#split:last-child ul.nav").children()
     if (["album", "playlist"].includes(type_)) {
@@ -63,14 +64,18 @@ function render_split(ori_list, type_) {
     } else {
         nav_item.slice(2, 5).show()
     }
-
-    let template = compile(temp)
-    let html_output = template({ list, type_, is_more })
-    $("#split:last-child #split-scroll").html(html_output)
+    // 编译 & 加载分屏
+    renderer(
+        temp,
+        { list, type_, is_more },
+        "#split:last-child #split-scroll"
+    )
+    // 最后一个分屏回到顶部
+    $("#split:last-child #split-scroll")[0].scrollTop = 0
 }
 // 函数：打开分屏
 async function show_split(type_, options={}) {
-    //   如果分屏中无元素                                             如果不为 get_data 调用
+    //  如果分屏中无元素                                             如果不为 get_data 调用
     if (!$("#split:last-child #split-scroll").children().length && !type_) {return}
     if (options.new_split) {new_split(type_)}
     // 如果已打开分屏
@@ -78,7 +83,8 @@ async function show_split(type_, options={}) {
 
     split()
     $("#main").addClass("main-fold")
-    $("#split").addClass("split-unfold")    
+    $("#split").addClass("split-unfold")
+
     SPLITED = true
 }
 // 函数：关闭分屏
@@ -126,28 +132,32 @@ function get_data(id, type_, options) {
     return new Promise(async (resolve) => {
         let result
         switch (type_) {
-            case "playlist": // 歌单
-                result = await get_playlist_songs(id)
+            case "playlist":
+                result = await get_play_data(id, "playlist")
                 SPLIT_DETAIL.id = result.id
                 break
             case "recommend": // 每日推荐
-                result = await get_recommends()
+                result = await get_play_data(null, "recommend")
+                break
+            case "loves": // 用户收藏单曲
+                result = LOVEs
                 break
             case "followed_art": // 用户关注歌手
                 id = await get_artist_data(id)
             case "collected_art": // 用户收藏歌手
             case "artist":
                 SPLIT_DETAIL.id = id
-                result = await get_hotSongs(SPLIT_DETAIL.id)
+                result = await get_play_data(id, type_)
                 break
             case "songs": // 歌手热门单曲
-                result = await get_hotSongs(SPLIT_DETAIL.id)
+                result = await get_play_data(SPLIT_DETAIL.id, type_)
                 break
             case "albums": // 歌手专辑
-                result = await get_albums(SPLIT_DETAIL.id, options.page)
+                result = await get_play_data(SPLIT_DETAIL.id, "albums", options)
+                // result = await get_albums(SPLIT_DETAIL.id, options.page)
                 break
             case "album": // 专辑中单曲
-                result = await get_album_songs(id)
+                result = await get_play_data(id, "album")
                 break
         }
         // 设置全局变量 name 值

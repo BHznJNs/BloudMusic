@@ -1,0 +1,35 @@
+/* 按钮 | Icons */
+div.tool-icon { /* 按钮菜单 | Icon Menu */
+    z-index: 11;
+    top: 0;
+    width: 3vw;
+    margin: 2vh 1vw
+}
+div.right {right: 0} /* 在右边的按钮菜单 | Right Icon Menu */
+img.icon {
+    height: 100%;
+    cursor: pointer;
+    filter: blur(3px);
+    user-select: none;
+    transition: .2s
+}
+img.icon:hover, img.icon-active {filter: blur(0)}
+img.icon:active {opacity: .75}
+div.tool-icon > img.icon {
+    width: 100%;
+    margin-bottom: 1rem
+}
+
+/* 关闭按钮 | Close Button */
+div.close {
+    cursor: pointer;
+    user-select: none;
+    transition: .2s
+}
+/* 播放按钮 | Play Icon */
+img.icon-play {
+    opacity: .3;
+    transition: .2s
+}
+img.icon-play:hover {opacity: .85}
+img.icon-play:active {opacity: .6}

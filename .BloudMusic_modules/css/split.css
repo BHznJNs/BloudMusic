@@ -30,14 +30,15 @@ div.main-fold #main-scroll {padding: 0 1rem}
         margin: 0 .4rem 1rem !important
     }
     div.main-fold div.user-imgs {border-radius: 0 0 .4rem .4rem} /* 分屏状态下用户图像 */
-    @media screen and (min-width: 1560px) { /* 分屏状态下用户图像 */
+    @media screen and (min-width: 1560px) { /* 断点 */
+        div.main-fold {width: 44vw !important}
         div.main-fold div.user-imgs {border-radius: 0 0 .6rem .6rem}
     }
 
     div.main-fold .recommend {max-height: 10vw}
     div.main-fold .nav-pills:first-child {
         transition: 1s;
-        border-bottom: solid 3px #666;
+        border-bottom: solid 3px var(--navbar-sep-cl);
         width: 100%
     }
     div.main-fold #main-nav-items {
@@ -63,6 +64,7 @@ div.main-fold #main-scroll {padding: 0 1rem}
 
     div.split-unfold div.artist-imgs {border-radius: 0 0 .4rem .4rem} /* 分屏状态下用户图像 */
     @media screen and (min-width: 1560px) { /* 分屏状态下用户图像 */
+        div.split-unfold {width: 44vw !important}
         div.split-unfold div.artist-imgs {border-radius: 0 0 .6rem .6rem}
     }
 }
@@ -79,14 +81,14 @@ div.split-outer {
     height: 84vh;
     margin-right: 0;
     border-radius: .6rem;
-    background-color: rgba(255, 255, 255, .45);
+    background-color: var(--split-bg-cl);
     transition: .8s;
     contain: content
 }
 #split:not(:last-child) {width: 0 !important}
 
 /* 歌手图像 */
-div.artist-img { /* 容器 */
+#split-scroll div.cover-outer { /* 容器 */
     position: relative;
     width: 85%;
     max-height: 360px;
@@ -95,28 +97,29 @@ div.artist-img { /* 容器 */
     background-color: white
 }
 @media screen and (min-width: 800px) and (max-width: 999px) {
-    div.artist-img {border-radius: 0 0 .6rem .6rem}
+    div.cover-outer {border-radius: 0 0 .6rem .6rem}
 }
 
-img.artist-img {
+#split-scroll img.cover {
     width: 100%;
     margin-top: -15%;
     margin-bottom: -15%;
     user-select: none;
 }
-div.cover { /* 歌手头像蒙版 */
+#split-scroll div.mask { /* 歌手头像蒙版 */
     left: 0;
     bottom: 0;
-    box-shadow: 0 0 4rem rgb(255, 255, 255, .45) inset
+    box-shadow: 0 0 2rem var(--light-shadow-cl) inset
 }
 
 /* 播放全部按钮 */
 button.btn-play-all {
-    padding: 0.2rem .75rem;
-    border-radius: .25rem .25rem 0 0 !important
+    padding: .2rem .75rem;
+    border: none;
+    border-radius: .3rem .3rem 0 0 !important
 }
 #split-scroll div.scroll-sep {
     height: 3px;
     margin: 0 1.5rem 1rem;
-    background-color: #138496
+    background-color: var(--scroll-sep-bg)
 }

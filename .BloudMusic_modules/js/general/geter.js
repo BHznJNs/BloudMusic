@@ -1,3 +1,4 @@
+const { get, CancelToken } = require("axios")
 // 对 axios 中 get 函数的简单封装
 function geter(url, time, callback, callback_err) {
     let cancel

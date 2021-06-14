@@ -1,3 +1,5 @@
+const { show_notify } = require("./units/notify")
+
 // 函数：切换播放状态
 function toggle_play() {
     let player = $("#player")[0]
@@ -17,6 +19,7 @@ function toggle_play() {
 }
 
 // 按键事件触发
+var volume
 $(document).keydown((event) => {
     switch (event.keyCode) {
         case 27: // Excape 打开播放控件
@@ -26,29 +29,37 @@ $(document).keydown((event) => {
             event.preventDefault()
             toggle_play()
             break
+        case 77: // Alt + M 切换播放模式
+            if (event.altKey) {
+                switch_playMode()
+            }
+            break
         case 80: // Alt + P 切换播放列表 打开 / 关闭
             if (event.altKey) {
                 toggle_playlist()
             }
             break
-        case 84: // Ctrl + T 切换播放模式
-            if (event.ctrlKey) {
-                switch_playMode()
-            }
-            break
         case 98: // 数字小键盘2 降低音量
+            if (!$("#player").attr("src")) {return} // 如果播放器中无 URL
             if ($("#player")[0].volume >= .1) {
                 $("#player")[0].volume -= .1
             } else {
                 $("#player")[0].volume = 0
             }
+            // 提示当前音量
+            volume = `${$("#player")[0].volume * 100}`.split('.')[0]
+            show_notify(`当前音量：${volume}%`, 2000)
             break
         case 104: // 数字小键盘8 提高音量
+            if (!$("#player").attr("src")) {return} // 如果播放器中无 URL
             if ($("#player")[0].volume <= .9) {
                 $("#player")[0].volume += .1
             } else {
                 $("#player")[0].volume = 1
             }
+            // 提示当前音量
+            volume = `${$("#player")[0].volume * 100}`.split('.')[0]
+            show_notify(`当前音量：${volume}%`, 2000)
             break
         case 100: // 数字小键盘4 上一首
             previous()

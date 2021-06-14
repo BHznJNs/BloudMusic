@@ -106,7 +106,7 @@ async function render_content() {
 }
 
 // 函数：播放列表界面加载
-async function render_playlist(list, playlist_name) {
+async function render_playlist(list, list_name) {
     // 判断是否需要加载更多
     let is_more = false
     if (list.song_ids.length > list.songs.length) {
@@ -119,7 +119,8 @@ async function render_playlist(list, playlist_name) {
         { list, is_more },
         "#playlist-songs"
     )
-    $("#playlist-name").text("播放列表：" + playlist_name)
+    $("#playlist-name").text("播放列表：" + list_name)
+    $("#playlist-name").attr("title", list_name)
 }
 exports.render_nav = render_nav
 exports.render_content = render_content

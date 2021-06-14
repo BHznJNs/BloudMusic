@@ -1,11 +1,10 @@
 // 函数：加载并展示模态框
 function show_modal(list, options={}) {
-    let temp = $("#modal-temp").text()
-    let template = compile(temp)
-
-    let html_output = template({ list, options })
-    $("#selector div.modal-body").html(html_output)
-
+    renderer(
+        "#modal-temp",
+        { list, options },
+        "#selector div.modal-body"
+    )
     $("#selector").addClass("modal-active")
 }
 // 函数：隐藏模态框

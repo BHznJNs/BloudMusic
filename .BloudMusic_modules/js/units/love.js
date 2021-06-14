@@ -2,7 +2,7 @@
 function toggle_love_icon() {
     // 如果音乐添加过喜欢
     var love_obj = $("#love")
-    if (LOVEs.song_ids.includes(PLAY_INFO.id)) {
+    if (LOVEs.song_ids.includes(Number(PLAY_INFO.id))) {
         love_obj.attr("data-loved", "true")
         love_obj.attr("title", "已喜欢")
         love_obj.attr("src", "../imgs/icons/loved.svg")

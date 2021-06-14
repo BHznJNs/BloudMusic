@@ -1,4 +1,4 @@
-const { get_songs } = require("./get_data/get_play_data")
+const { get_songs } = require("./get_data/get_song")
 
 // 函数：判断是否需要加载并获取数据
 function get_data(list) {

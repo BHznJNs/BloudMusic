@@ -4,6 +4,7 @@ const { save_img } = require("./general/operate_file")
 // 事件监听：退出或刷新页面时，保存 播放数据 & 喜欢列表
 addEventListener("beforeunload", () => {
     if (PLAYLIST.songs.length) {
+        // 保存播放数据
         save_data(
             "cache/last_played.json",
             JSON.stringify({
@@ -12,12 +13,15 @@ addEventListener("beforeunload", () => {
                 play_mode: PLAY_MODE,
                 volume: $("#player")[0].volume
             }),
-            (err) => {save_data("cache/err.log", err)}
+            () => {}
+            // (err) => {save_data("cache/err.log", err)}
         )
+        // 保存喜欢列表
         save_data(
             "cache/loves.json",
             JSON.stringify(LOVEs),
-            (err) => {save_data("cache/err.log", err)}
+            () => {}
+            // (err) => {save_data("cache/err.log", err)}
         )
     }
 })
@@ -31,7 +35,7 @@ addEventListener("resize", () => {
     } else if ($(window).width() < 1000 && WIDTH > 999) {
         // 当窗口宽度变化超过阈值时
         split()
-    } else if (Math.abs($(window).width() - WIDTH) > 200) {
+    } else if (Math.abs($(window).width() - WIDTH) > 160) {
         // 当窗口宽度变化过大时
         split()
     }

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../.BloudMusic_modules/style/dark.css" id="style">
+    <link rel="stylesheet" href="../.BloudMusic_modules/css/icon-blur.css" id="icon-style">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/playbar.css">
-    <link rel="stylesheet" href="../.BloudMusic_modules/css/scrollbar.css">
-    <link rel="stylesheet" href="../.BloudMusic_modules/css/icon.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/split.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/notification.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/songs.css">
@@ -47,16 +47,16 @@
 
     <div id="main" class="shadow d-flex flex-column overflow-hidden">
         <!-- 导航栏 -->
-        <nav class="navbar bg-light">
+        <nav class="navbar">
             <ul class="nav nav-pills">
                 <!-- 导航栏标志 -->
-                <img class="navbar-brand" src="../imgs/icons/CloudMusic_AngleRounded_icon.svg" draggable="false"/>
+                <img id="netease-music-icon" class="navbar-brand" src="../imgs/icons/CloudMusic_AngleRounded_icon.svg" draggable="false"/>
                 <!-- 导航栏标题，会被替换为用户昵称 -->
                 <div class="navbar-brand" id="main-nav-title">BloudMusic</div>
             </ul>
             <!-- 导航栏锚点链接 -->
             <ul id="main-nav-items" class="nav nav-pills">
-                <script type="text/html" id="nav-temp">
+                <script type="text/x-template" id="nav-temp">
                     <% if (exist_created_pl) { %>
                     <li class="nav-item">
                         <a class="nav-link" href="#my-pls" draggable="false">我的歌单</a>
@@ -88,19 +88,19 @@
         </nav>
 
         <div id="main-scroll" class="overflow-auto">
-            <script type="text/html" id="scroll-temp">
+            <script type="text/x-template" id="scroll-temp">
                 <div class="user-imgs mx-auto overflow-hidden shadow">
                     <!-- 用户背景图 -->
                     <img src="" id="user-background" class="w-100 user-select-none"/>
                     <!-- 用户头像 -->
                     <img src="" id="user-avatar" class="position-absolute shadow rounded-lg user-select-none"/>
                     <!-- 蒙版 -->
-                    <div class="cover position-absolute w-100 h-100"></div>
+                    <div class="mask position-absolute w-100 h-100"></div>
                 </div>
 
                 <!-- 用户创建歌单 -->
                 <% if (exist_created_pl) { %>
-                <h4 id="my-pls" class="scroll-title text-white">我的歌单</h4>
+                <h4 id="my-pls" class="scroll-title btn">我的歌单</h4>
                 <div class="scroll-sep"></div>
                 <div class="scroll-content">
 
@@ -119,7 +119,7 @@
 
                 <!-- 特殊歌单 -->
                 <% if (exist_special_pl) { %>
-                <h4 id="special-pls" class="scroll-title text-white">每日推荐</h4>
+                <h4 id="special-pls" class="scroll-title btn">每日推荐</h4>
                 <div class="scroll-sep"></div>
                 <div class="scroll-content">
                     <!-- 日推 -->
@@ -144,7 +144,7 @@
                         <div class="item-img user-select-none">
                             <!-- 歌单封面 -->
                             <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
-                            <!-- 用户收藏单曲 -->
+                            <!-- 播放按钮 -->
                             <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'loves')"/>
                         </div>
                         <p class="item-name text-center text-truncate" onclick="get_detail('<%= item.id %>', 'loves')" title="<%= item.name %>"><%= item.name %></p>
@@ -152,7 +152,7 @@
                         <div class="item-img user-select-none">
                             <!-- 歌单封面 -->
                             <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
-                            <!-- 用户收藏单曲 -->
+                            <!-- 播放按钮 -->
                             <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'playlist')"/>
                         </div>
                         <p class="item-name text-center text-truncate" onclick="get_detail('<%= item.id %>', 'playlist')" title="<%= item.name %>"><%= item.name %></p>
@@ -164,7 +164,7 @@
 
                 <!-- 用户收藏歌单 -->
                 <% if (exist_collected_pl) { %>
-                <h4 id="collected-pls" class="scroll-title text-white">歌单收藏</h4>
+                <h4 id="collected-pls" class="scroll-title btn">歌单收藏</h4>
                 <div class="scroll-sep"></div>
                 <div class="scroll-content">
 
@@ -184,7 +184,7 @@
 
                 <!-- 用户 收藏 & 关注 歌手 -->
                 <% if (exist_artists) { %>
-                <h4 id="follows" class="scroll-title text-white">我的关注</h4>
+                <h4 id="follows" class="scroll-title btn">我的关注</h4>
                 <div class="scroll-sep"></div>
                 <div class="scroll-content">
                     
@@ -220,7 +220,7 @@
     <!-- 分屏界面 -->
     <div class="split-outer position-fixed w-0">
         <div id="split" class="shadow d-flex flex-column overflow-hidden">
-            <nav class="navbar bg-light">
+            <nav class="navbar">
                 <ul class="nav nav-pills">
                     <!-- 导航栏关闭图标 -->
                     <img class="icon navbar-brand" onclick="close_split()" src="../imgs/icons/return.svg" draggable="false">
@@ -240,34 +240,31 @@
 
             <div id="split-scroll" class="overflow-auto"></div>
             <!-- 分屏界面单曲模板 -->
-            <script type="text/html" id="split-songs-temp">
-                <!-- 歌手图像 -->
-                <% if (list.img_url) { %> <!-- 如果传入歌手图像 -->
-                <div class="artist-img mx-auto overflow-hidden shadow">
-                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
-                    <div class="cover position-absolute w-100 h-100"></div>
+            <script type="text/x-template" id="split-songs-temp">
+                <!-- 歌单封面 / 专辑封面 / 歌手图像 -->
+                <div class="cover-outer mx-auto overflow-hidden shadow">
+                    <img class="cover" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
+                    <div class="mask position-absolute w-100 h-100"></div>
                 </div>
-                <% } %>
 
                 <% if (type_ != "load_more") { %>
-                <button class="btn-play-all btn btn-info mt-2 mx-4" onclick="play_all()">播放全部</button>
+                <button class="btn-play-all btn mt-2 mx-4" onclick="play_all()">播放全部</button>
                 <div class="scroll-sep"></div>
                 <% } %>
                 <% list.songs.forEach((item) => { %>
                 <div class="songs-item">
                     <!-- 专辑封面，右键点击可显示下载选项 -->
-                    <img class="song-cover user-select-none" src="<%= item.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" loading="lazy" draggable="false"/>
+                    <img class="song-cover user-select-none" src="<%= item.album.cover_url %>?param=80y80" oncontextmenu="ipcRenderer.send('img-download-menu', '<%= item.album.cover_url %>')" onerror="this.src='../imgs/icons/album_default.svg'" loading="lazy" draggable="false"/>
 
                     <div class="song-info">
                         <div class="song-name text-left text-truncate" title="<%= item.name %>"><%= item.name %></div>
                         <div class="separator"></div>
-                        <div class="artist text-deco-under text-center text-truncate" onclick="artist_detail(this, {new_split: true})" data-artists="<%= JSON.stringify(item.artists.detail) %>" title="<%= item.artists.name %>"><%= item.artists.name %></div>
+                        <div class="artist text-deco-under text-center text-truncate" onclick="artist_detail(this, {new_split: true})" data-artists="<%= JSON.stringify(item.artists.detail) %>" title="<%= item.artists.name %>" <% if (type_ == "album") { %>style="max-width: 100%"<% } %>><%= item.artists.name %></div>
                         
                         <% if (type_ != "album") {%>
                         <div class="separator"></div>
                         <div class="album-name text-deco-under text-center text-truncate" onclick="get_detail('<%= item.album.id %>', 'album', {new_split: true})" title="<%= item.album.name %>"><%= item.album.name %></div>    
                         <% } %>
-
                     </div>
                     <img class="icon-play h-100" src="../imgs/icons/play.svg" onclick="play('<%= item.id %>', 'song')" draggable="false"/>
                 </div>
@@ -278,10 +275,10 @@
             </script>
 
             <!-- 分屏界面歌手专辑模板 -->
-            <script type="text/html" id="split-albums-temp">
+            <script type="text/x-template" id="split-albums-temp">
                 <!-- 歌手图像 -->
-                <div class="artist-img mx-auto overflow-hidden shadow">
-                    <img class="artist-img" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
+                <div class="cover-outer mx-auto overflow-hidden shadow">
+                    <img class="cover" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
                     <div class="cover position-absolute w-100 h-100"></div>
                 </div>
 
@@ -325,7 +322,7 @@
                                 <% if (list.album_size % 20 == 0) { %>
                                     <% page = list.album_size / 20 %>
                                 <% } else { %>
-                                    <% page = Number(String(list.album_size/20).split(".")[0]) + 1 %>
+                                    <% page = Number(String(list.album_size/20).split('.')[0]) + 1 %>
                                 <% } %>
                                 <a class="page-link" onclick="get_detail('', 'albums', {page: '<%= page %>'})"><%= page %></a>
                             </li>
@@ -343,7 +340,7 @@
     <div id="playbar" class="shadow d-flex justify-content-center">
         <!-- 前进 & 后退 -->
         <img class="icon button btn-back" onclick="previous()" src="../imgs/icons/next.svg" draggable="false" title="上一首"></img>
-        <img class="icon button btn-next" onclick="next()" src="../imgs/icons/next.svg" draggable="false" title="下一首"></img>
+        <img class="icon button btn-next" onclick="next(this)" src="../imgs/icons/next.svg" draggable="false" title="下一首"></img>
         <!-- 播放器 -->
         <audio id="player" class="h-100" onended="next()" draggable="false" controls autoplay></audio>
         <!-- 切换喜欢 -->
@@ -354,10 +351,10 @@
         <!-- 播放列表 -->
         <div id="playlist" class="playbar-widget d-flex flex-column w-75 overflow-hidden">
             <!-- 播放列表导航栏 -->
-            <nav class="navbar bg-light">
+            <nav class="navbar">
                 <ul class="nav nav-pills">
-                    <img class="navbar-brand" src="../imgs/icons/list.svg" style="padding: .4rem 0"/>
-                    <div class="navbar-brand" id="playlist-name">播放列表</div>
+                    <img class="navbar-brand" src="../imgs/icons/list.svg" draggable="false"/>
+                    <div id="playlist-name" class="navbar-brand text-truncate" title="">播放列表</div>
                 </ul>
 
                 <div class="close user-select-none" onclick="toggle_playlist()">&times;</div>
@@ -365,7 +362,7 @@
 
             <!-- 播放列表单曲 -->
             <div id="playlist-songs" class="overflow-auto"></div>
-            <script type="text/html" id="playlist-songs-temp">
+            <script type="text/x-template" id="playlist-songs-temp">
                 <% list.forEach((item) => { %>
                 <div class="songs-item border-top border-bottom">
                     <img class="icon-play h-100" src="../imgs/icons/play.svg" onclick="play('<%= item.id %>', 'song_in_playlist')" draggable="false"/>
@@ -391,7 +388,7 @@
         <!-- 提示框（toast）展示区 -->
         <div class="notification">
             <div id="notification">
-                <script type="text/html" id="notification-temp">
+                <script type="text/x-template" id="notification-temp">
                     <div class="toast rounded-lg">
                         <div class="toast-header">
                             <img src="../imgs/icons/CloudMusic_icon.svg" class="mr-2" style="height: 1.4rem; user-select: none" draggable="false">
@@ -405,6 +402,8 @@
         </div>
     </div>
     <!-- ———————————————————————————————————————— -->
+
+    <!-- 选择模态框 | Modal -->
     <div id="selector" class="modal align-items-center">
         <div class="modal-dialog shadow">
             <div class="modal-content">
@@ -415,7 +414,7 @@
                 </div>
 
                 <div class="modal-body"></div>
-                <script type="text/html" id="modal-temp">
+                <script type="text/x-template" id="modal-temp">
                     <% list.forEach((item) => { %>
                         <% if (options.new_split) { %>
                         <div class="item border rounded text-center" onclick="hide_modal('<%= item.id %>', {new_split: JSON.parse('<%= options.new_split %>')})"><%= item.name %></div>

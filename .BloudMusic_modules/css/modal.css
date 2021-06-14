@@ -7,18 +7,23 @@ div.modal {
     transition: .6s
 }
 div.modal * {pointer-events: inherit}
-div.modal-dialog {min-width: 200px}
-div.modal-content {
-    border-radius: .4rem;
-    background-color: rgb(255, 255, 255, .85)
-}
-div.modal-active {
+div.modal-active { /* 模态框启用状态 */
     pointer-events: auto;
     opacity: 1
 }
+
+div.modal-dialog {min-width: 200px}
+div.modal-content {
+    border-radius: .4rem;
+    color: var(--default-text-cl);
+    background-color: var(--modal-bg-cl)
+}
 div.modal-header {padding: .5rem .8rem}
 div.modal-body {padding: .5rem .8rem 1rem}
-img.modal-title {height: 2rem}
+.modal-title {
+    height: 2rem;
+    user-select: none
+}
 
 #selector div.item {
     padding: 0 .4rem;

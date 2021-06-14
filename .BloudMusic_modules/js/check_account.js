@@ -1,3 +1,4 @@
+// 函数：检查用户输入是否合法
 function check_account() {
     let account_num = $("#account-num").val()
     let password = $("#password").val()

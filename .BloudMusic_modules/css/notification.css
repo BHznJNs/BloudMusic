@@ -6,11 +6,23 @@ div.notification { /* 提示框（toast）展示区 */
 }
 div.toast { /* 提示框 */
     position: relative;
+    max-width: 300px;
     max-height: 0 !important;
     z-index: 100;
+    color: var(--default-text-cl);
+    background-color: var(--toast-bg-cl);
     pointer-events: none;
+    word-wrap: break-word; /* 长单词拆行 */
     overflow: hidden;
-    transition: .4s;
+    transition: .4s
+}
+div.toast-header {
+    color: inherit;
+    background-color: var(--toast-header-bg-cl)
+}
+
+@media screen and (max-width: 800px) {
+    div.toast {max-width: 40vw}
 }
 div.toast-active { /* 提示框可视状态 */
     max-height: 100vh !important;

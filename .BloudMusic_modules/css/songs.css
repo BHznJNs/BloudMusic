@@ -1,8 +1,7 @@
-/* 单曲列表 | Songs */
+/* 播放列表 | Songs */
 div.songs-item { /* 单曲 */
     display: flex;
     align-items: center;
-    border-color: rgb(255, 255, 255, .75) !important;
     box-sizing: content-box;
     transition: .2s
 }
@@ -11,17 +10,15 @@ div.songs-item { /* 单曲 */
 #playlist-songs div.songs-item, #playlist-songs div.load-more {
     display: flex;
     justify-content: space-around;
-    height: 1.6rem
+    height: 1.6rem;
+    color: var(--default-text-cl)
 }
 #playlist-songs div.load-more { /* 加载更多 */
     user-select: none;
     cursor: pointer
 }
 #playlist-songs div.load-more:hover {background-color: white}
-#playlist-songs div.songs-item:hover, #playlist-songs div.load-more, div.item-played {
-    /* 单曲鼠标经过样式 & 播放过之后样式 */
-    background-color: rgb(255, 255, 255, .75)
-}
+
 #playlist-songs div.song-name, #playlist-songs div.artist {
     width: 40%
 }
@@ -30,14 +27,16 @@ div.item-disabled {
     opacity: .6
 }
 /* ———— */
-/* Split Songs */
+
+/* 分屏单曲列表 | Split Songs */
 #split-scroll div.songs-item {
     width: 85%;
     padding-right: .4rem;
     margin: .6rem auto;
     border: solid;
     border-radius: .4rem;
-    background-color: rgb(255, 255, 255, .45);
+    color: var(--default-text-cl);
+    background-color: var(--songs-item);
 }
 #split-scroll div.load-more {
     display: block !important;
@@ -48,10 +47,11 @@ div.item-disabled {
 img.song-cover { /* 单曲所在专辑封面 */
     width: 80px;
     border-radius: .2rem 0 0 .2rem;
-    border-right: solid rgb(255, 255, 255, .75)
+    border-right: solid;
+    border-color: inherit
 }
 #split-scroll div.songs-item:hover {
-    background-color: rgb(255, 255, 255, .75);
+    background-color: var(--songs-item-hover);
 }
 div.song-info { /* 单曲信息 */
     display: flex;
@@ -69,12 +69,12 @@ div.song-name+div.separator {
     width: 100%;
     height: 3px;
     margin: .2rem 0;
-    background-color: #666;
+    background-color: var(--separator-cl);
 }
 div.artist+div.separator {
     width: 3px;
     margin: 0 2px;
-    background-color: #666;
+    background-color: var(--separator-cl);
 }
 div.song-info div.artist { /* 单曲作者 */
     max-width: calc(40% - 5px);
@@ -85,6 +85,7 @@ div.song-info div.album-name { /* 单曲所在专辑名 */
 }
 /* ———— */
 
+/* 共用部分 | Public */
 div.songs-item > img.icon-play { /* 播放单曲按钮 */
     width: 40px;
     user-select: none;
@@ -97,8 +98,8 @@ div.songs-item > img.icon-play:active {opacity: .75}
 div.songs-item > div.separator { /* 分割 */
     width: 3px;
     height: 100%;
-    background-color: #666
+    background-color: var(--separator-cl)
 }
 div.songs-item:hover div.separator {
-    background-color: #333
+    background-color: var(--separator-hover)
 }

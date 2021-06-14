@@ -3,7 +3,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    background-image: linear-gradient(to bottom right, #0099CC, #FF9966)
+    background-image: var(--bg-cl)
 }
 .no-hidden-block {display: block !important}
 .text-deco-under:hover {
@@ -20,10 +20,12 @@ div.dropdown > div.menu {
     max-height: 0;
     margin-top: .4rem;
     border-width: 0 !important;
+    color: var(--default-text-cl);
+    background-color: var(--main-bg-cl);
+    backdrop-filter: blur(3px);
+    transition: .6s;
     overflow: hidden;
     z-index: 10;
-    background-color: rgba(255, 255, 255, .75);
-    transition: .6s
 }
 div.dropdown:hover div.menu {
     border-width: 1px !important;
@@ -31,7 +33,7 @@ div.dropdown:hover div.menu {
 }
 div.menu > div.item {
     padding: 2px .4rem;
-    border-bottom: solid 2px #333;
+    border-bottom: solid 2px var(--separator-cl);
     user-select: none;
     cursor: pointer;
     transition: .2s
@@ -50,7 +52,7 @@ div.menu > div.item:active {background-color: #333}
     height: 84vh;
     margin: 4vh 0 0 5vw;
     border-radius: .6rem;
-    background-color: rgba(255, 255, 255, .45);
+    background-color: var(--main-bg-cl);
     transition: .8s;
     contain: content
 }
@@ -60,13 +62,14 @@ div.menu > div.item:active {background-color: #333}
 nav.navbar {
     position: relative;
     padding: .5rem 1rem;
-    opacity: .85;
+    background-color: var(--navbar-bg-cl);
     z-index: 1;
-    box-shadow: 0 .5rem 1rem -2px rgba(0, 0, 0, .15)
+    box-shadow: 0 .5rem 1rem -2px var(--dark-shadow-cl)
 }
 nav.navbar .icon {filter: none}
 img.navbar-brand {height: 2.5rem}
 img.navbar-brand, div.navbar-brand, a.nav-link {user-select: none}
+div.navbar-brand {color: var(--default-text-cl)}
 a.nav-link {
     outline: none;
     cursor: pointer
@@ -74,10 +77,10 @@ a.nav-link {
 div.nav-sep { /* nav separator */
     width: 3px;
     height: 100%;
-    background-color: #666
+    background-color: var(--nav-link-cl)
 }
-a.nav-link {color: #666}
-a.nav-link:hover {color: #333}
+a.nav-link {color: var(--nav-link-cl)}
+a.nav-link:hover {color: var(--nav-link-hover)}
 /* ———— */
 
 /* 用户图像 | User imgs */
@@ -100,10 +103,10 @@ div.user-imgs {
     margin-top: -15%;
     margin-bottom: -15%
 }
-div.cover { /* 用户头像蒙版 */
+#main-scroll div.mask { /* 用户头像蒙版 */
     left: 0;
     bottom: 0;
-    box-shadow: 0 0 4rem rgb(255, 255, 255, .45) inset
+    box-shadow: 0 0 2rem var(--light-shadow-cl) inset
 }
 /* ———— */
 
@@ -113,17 +116,16 @@ div.cover { /* 用户头像蒙版 */
     #main-scroll {padding: 0 1.5rem}
 }
 h4.scroll-title {
-    display: inline-block;
     margin: 1rem 0 0;
-    padding: .2rem .5rem .1rem;
-    border-radius: 6px 6px 0 0;
-    background-color: rgba(51, 51, 51, .6);
-    user-select: none;
+    padding: .2rem .75rem;
+    border-radius: .3rem .3rem 0 0 !important;
+    cursor: default !important
 }
+h4.scroll-title:hover {background-color: var(--scroll-sep-bg)}
 #main-scroll div.scroll-sep {
     height: 3px;
     margin-bottom: 1rem;
-    background-color: #333
+    background-color: var(--scroll-sep-bg)
 }
 
 div.scroll-content {
