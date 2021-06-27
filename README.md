@@ -6,6 +6,7 @@
 
 <h2>屏幕截图</h2>
 <img src="imgs/screenshots/main.png"/>
+<img src="imgs/screenshots/dark_theme.png"/>
 <img src="imgs/screenshots/login.png"/>
 <img src="imgs/screenshots/split.png"/>
 <img src="imgs/screenshots/play_widget.png"/>
@@ -100,8 +101,6 @@
   <li>类似 iPad HD 版网易云音乐客户端的分屏效果</li>
   <li>歌手单击名字打开详情页</li>
   <li>分屏内单击专辑名字打开专辑详情页</li>
-  <li>用户收藏专辑获取</li>
-  <li>黑暗模式(作为主题加入)</li>
   <li>...</li>
 </ul>
 <hr />
@@ -109,9 +108,10 @@
 <h2>TODO</h2>
 <ul>
   <li>查看历史日推功能</li>
-  <li>多歌单一起播放</li>
   <li>歌手切换关注状态</li>
+  <li>黑暗模式</li>
   <li>歌单编辑(创建、删除、增加单曲、移除单曲、收藏、取消收藏)</li>
+  <li>用户收藏专辑获取</li>
   <li>专辑编辑(收藏、取消收藏)</li>
   <li>歌词显示</li>
   <li>设置界面</li>
