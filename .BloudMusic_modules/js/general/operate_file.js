@@ -50,7 +50,7 @@ function read_file_sync(path, callback, callback_err=()=>{}) {
     }
 }
 // 函数：异步检测文件是否存在
-function exist_file(path, callback_err, callback) {
+function exist_file(path, callback, callback_err=()=>{}) {
     access(path, F_OK, (err) => {
         if (err) {
             // 若文件夹不存在，则执行
@@ -70,21 +70,6 @@ function exist_file_sync(path, callback, callback_err) {
         callback_err(err)
     }
 }
-// 函数：异步创建文件夹
-function make_dir(path) {
-    exist_file(
-        path,
-        // 若文件夹不存在，则创建
-        () => {
-            mkdir(path, (err) => {
-                if (err) {
-                    console.log(err)
-                }  
-            })
-        },
-        () => {console.log("File \"" + path + "\" exist!")}
-    )
-}
 
 exports.save_data = save_data
 exports.save_img = save_img
@@ -93,5 +78,3 @@ exports.read_file_sync = read_file_sync
 
 exports.exist_file = exist_file
 exports.exist_file_sync = exist_file_sync
-
-exports.make_dir = make_dir

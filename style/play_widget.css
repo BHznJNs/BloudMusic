@@ -48,15 +48,6 @@ div.cover {
 }
 /* ———— */
 
-/* 关闭按钮 | Close button */
-div.close {
-    flex: auto;
-    text-align: center;
-    cursor: pointer;
-    transition: .2s;
-}
-/* ———— */
-
 /* 下方主要控制按钮 | Icon */
 img.icon {
     padding: 3px;

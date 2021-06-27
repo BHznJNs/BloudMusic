@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../.BloudMusic_modules/style/dark.css" id="style">
+    <link rel="stylesheet" href="../.BloudMusic_modules/css/bootstrap.css">
+    <link rel="stylesheet" href="../.BloudMusic_modules/theme/dark.css" id="theme">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/icon-blur.css" id="icon-style">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/playbar.css">
     <link rel="stylesheet" href="../.BloudMusic_modules/css/split.css">
@@ -81,6 +81,12 @@
                     <li class="nav-item"><div class="nav-sep"></div></li>
                     <li class="nav-item">
                         <a class="nav-link" href="#follows" draggable="false">我的关注</a>
+                    </li>
+                    <% } %>
+                    <% if (exist_albums) { %>
+                    <li class="nav-item"><div class="nav-sep"></div></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#albums" draggable="false">专辑收藏</a>
                     </li>
                     <% } %>
                 </script>
@@ -212,6 +218,25 @@
 
                 </div>
                 <% } %>
+
+                <!-- 用户收藏专辑 -->
+                <% if (exist_albums) { %>
+                    <h4 id="albums" class="scroll-title btn">专辑收藏</h4>
+                    <div class="scroll-sep"></div>
+                    <div class="scroll-content">
+    
+                        <% albums.forEach((item) => { %>
+                        <div class="scroll-item rounded-lg">
+                            <div class="item-img user-select-none">
+                                <!-- 专辑封面 -->
+                                <img class="w-100" src="<%= item.cover_url %>?param=120y120" draggable="false"/>
+                                <img class="icon icon-play" src="../imgs/icons/play_white.svg" title="播放" draggable="false" onclick="play('<%= item.id %>', 'album')"/>
+                            </div>
+                            <p class="item-name text-center text-truncate" onclick="get_detail('<%= item.id %>', 'album')" title="<%= item.name %>"><%= item.name %></p>
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% } %>
             </script>
         </div>
     </div>
@@ -242,10 +267,12 @@
             <!-- 分屏界面单曲模板 -->
             <script type="text/x-template" id="split-songs-temp">
                 <!-- 歌单封面 / 专辑封面 / 歌手图像 -->
+                <% if (list.img_url) { %>
                 <div class="cover-outer mx-auto overflow-hidden shadow">
                     <img class="cover" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
                     <div class="mask position-absolute w-100 h-100"></div>
                 </div>
+                <% } %>
 
                 <% if (type_ != "load_more") { %>
                 <button class="btn-play-all btn mt-2 mx-4" onclick="play_all()">播放全部</button>
@@ -363,7 +390,7 @@
             <!-- 播放列表单曲 -->
             <div id="playlist-songs" class="overflow-auto"></div>
             <script type="text/x-template" id="playlist-songs-temp">
-                <% list.forEach((item) => { %>
+                <% list.songs.forEach((item) => { %>
                 <div class="songs-item border-top border-bottom">
                     <img class="icon-play h-100" src="../imgs/icons/play.svg" onclick="play('<%= item.id %>', 'song_in_playlist')" draggable="false"/>
                     <div class="song-name text-center text-truncate" title="<%= item.name %>"><%= item.name %></div>
@@ -385,7 +412,7 @@
         <!-- 播放模式切换 -->
         <img id="play-mode" class="icon button" src="../imgs/icons/loop.svg" onclick="switch_playMode()" draggable="false" title="循环方式：列表循环"></img>
         
-        <!-- 提示框（toast）展示区 -->
+        <!-- 提示框（toast）区域 -->
         <div class="notification">
             <div id="notification">
                 <script type="text/x-template" id="notification-temp">

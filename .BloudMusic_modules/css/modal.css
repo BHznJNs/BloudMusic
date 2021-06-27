@@ -18,13 +18,16 @@ div.modal-content {
     color: var(--default-text-cl);
     background-color: var(--modal-bg-cl)
 }
-div.modal-header {padding: .5rem .8rem}
+div.modal-header {
+    padding: .5rem .8rem;
+    background-color: var(--modal-header-bg);
+}
 div.modal-body {padding: .5rem .8rem 1rem}
 .modal-title {
     height: 2rem;
     user-select: none
 }
-
+/* 选择选项 */
 #selector div.item {
     padding: 0 .4rem;
     user-select: none;

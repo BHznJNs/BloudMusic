@@ -38,7 +38,7 @@ div.main-fold #main-scroll {padding: 0 1rem}
     div.main-fold .recommend {max-height: 10vw}
     div.main-fold .nav-pills:first-child {
         transition: 1s;
-        border-bottom: solid 3px var(--navbar-sep-cl);
+        border-bottom: solid 3px var(--nav-link-cl);
         width: 100%
     }
     div.main-fold #main-nav-items {
@@ -121,5 +121,5 @@ button.btn-play-all {
 #split-scroll div.scroll-sep {
     height: 3px;
     margin: 0 1.5rem 1rem;
-    background-color: var(--scroll-sep-bg)
+    background-color: var(--btn-hover-bg-cl)
 }

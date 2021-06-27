@@ -1,3 +1,17 @@
+/* Btn | Button */
+.btn {
+    font-size: large;
+    color: white !important;
+    background-color: var(--btn-bg-cl)
+}
+.btn:hover {
+    background-color: var(--btn-hover-bg-cl)
+}
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem var(--btn-shadow-cl) !important
+}
+/* ———— */
+
 /* 按钮 | Icons */
 div.tool-icon { /* 按钮菜单 | Icon Menu */
     z-index: 11;
@@ -20,12 +34,6 @@ div.tool-icon > img.icon {
     margin-bottom: 1rem
 }
 
-/* 关闭按钮 | Close Button */
-div.close {
-    cursor: pointer;
-    user-select: none;
-    transition: .2s
-}
 /* 播放按钮 | Play Icon */
 img.icon-play {
     opacity: .3;

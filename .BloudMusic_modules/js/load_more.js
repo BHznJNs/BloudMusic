@@ -1,4 +1,4 @@
-const { get_songs } = require("./get_data/get_song")
+const { get_play_data } = require("./get_data/get_play_data")
 
 // 函数：判断是否需要加载并获取数据
 function get_data(list) {
@@ -10,9 +10,9 @@ function get_data(list) {
         if (song_ids.length == songs.length) {
             resolve(false)
         } else if (song_ids.length - songs.length < 10) {
-            target = await get_songs(song_ids.slice(songs.length))
+            target = await get_play_data(song_ids.slice(songs.length), "load_more")
         } else {
-            target = await get_songs(song_ids.slice(songs.length, songs.length + 10))
+            target = await get_play_data(song_ids.slice(songs.length, songs.length + 10), "load_more")
         }
         resolve(target)
     })

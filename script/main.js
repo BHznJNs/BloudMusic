@@ -1,18 +1,16 @@
 window.$ = window.jQuery = require("jquery")
 const { ipcRenderer } = require("electron")
-const { get, CancelToken } = require("axios")
 // 通用模块
 const { renderer } = require("../.BloudMusic_modules/js/general/renderer")
 const { save_data } = require("../.BloudMusic_modules/js/general/operate_file")
 const { del_dir } = require("../.BloudMusic_modules/js/general/operate_dir")
-const { geter } = require("../.BloudMusic_modules/js/general/geter")
 // 组件模块
 const { show_notify, close_notify } = require("../.BloudMusic_modules/js/units/notify")
 const { show_modal, hide_modal } = require("../.BloudMusic_modules/js/units/modal")
 const { toggle_love, toggle_love_icon } = require("../.BloudMusic_modules/js/units/love") // 切换单曲喜欢状态
 const { SPLIT_DETAIL, show_split, close_split, artist_detail, get_detail, play_all } = require("../.BloudMusic_modules/js/units/split")
 // 请求数据模块
-const { check_play, get_artists, get_artist_data, get_album_data } = require("../.BloudMusic_modules/js/get_data/get_general")
+const { get_artist_data } = require("../.BloudMusic_modules/js/get_data/get_general")
 const { get_play_data } = require("../.BloudMusic_modules/js/get_data/get_play_data")
 // 其它
 const { render_playlist } = require("../.BloudMusic_modules/js/main_render")
@@ -134,6 +132,9 @@ function add_style_played(song_data) {
 // 函数：根据传入信息获取并播放单曲
 async function play(id, type_, options={}) {
     if (type_ != "song") {
+        $("#player").attr("src", "") // 清除播放器中 URL，停止缓冲
+        $("title").html("")
+        $("#song-name").hide()
         await switch_play(id, type_, options)
         var song_id = PLAYLIST.song_ids[PLAY_INDEX]
     } else { // 如果类型为单曲，则
@@ -149,6 +150,7 @@ async function play(id, type_, options={}) {
         if (PLAY_MODE == "loop" && PLAYLIST.type_ != "song") {
             PLAY_INDEX -= 1
         }
+        next()
         return
     }
     // 播放列表添加样式
@@ -164,7 +166,7 @@ async function play(id, type_, options={}) {
 
     // 修改当前播放单曲信息
     PLAY_INFO = {
-        id: song_id,
+        id: Number(song_id),
         name: song_data.name,
         album: song_data.album,
         artists: song_data.artists
@@ -179,7 +181,6 @@ async function play(id, type_, options={}) {
 //————————————————————————————————————————
 // 函数：上一首
 function previous() {
-    $("#player").attr("src", "") // 清除播放器中 URL，加快访问速度
     PLAY_INDEX -= 1
         if (PLAY_INDEX < 0) {
         PLAY_INDEX = PLAYLIST.song_ids.length
@@ -188,7 +189,6 @@ function previous() {
 }
 // 函数：下一首
 function next(obj) {
-    $("#player").attr("src", "") // 清除播放器中 URL，加快访问速度
     // 暂时禁用下一首按键
     if (obj) {$(obj).css("pointer-events", "none")}
     // 根据播放模式进行切歌

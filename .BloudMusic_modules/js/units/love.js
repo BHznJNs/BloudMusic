@@ -1,3 +1,5 @@
+const { get, CancelToken } = require("axios")
+
 // 函数：判断音乐是否添加过喜欢，并切换喜欢图标
 function toggle_love_icon() {
     // 如果音乐添加过喜欢

@@ -1,5 +1,5 @@
 /* 提示框 | Toast */
-div.notification { /* 提示框（toast）展示区 */
+div.notification { /* 提示框（toast）区域 */
     position: absolute;
     bottom: calc(100% + 2vh);
     right: 1vw;

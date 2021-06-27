@@ -6,6 +6,7 @@ function show_load() {
 function hide_load() {
     $("button.btn").attr("disabled", false)
     $("#progress").height("0vh")
+    $("#progress-bar").width(0)
     $("div.progress-bar").removeClass("progress-bar-animated")
 }
 exports.show_load = show_load

@@ -37,5 +37,4 @@ function del_dir(path, callback_err, callback) {
 }
 
 exports.make_dir = make_dir
-exports.exist_dir = exist_dir
 exports.del_dir = del_dir

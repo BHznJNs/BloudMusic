@@ -1,40 +1,48 @@
 window.$ = window.jQuery = require("jquery")
 const { encode } = require("ini")
-
+// 共用模块
 const { geter } = require("../.BloudMusic_modules/js/general/geter")
-const { get_artists } = require("../.BloudMusic_modules/js/get_data/get_general")
+const { renderer } = require("../.BloudMusic_modules/js/general/renderer")
+const { show_notify, close_notify } = require("../.BloudMusic_modules/js/units/notify")
+// 获取数据模块
+const { get_login_data } = require("../.BloudMusic_modules/js/get_data/get_login_data")
 
 const { show_load, hide_load } = require("../.BloudMusic_modules/js/control_load")
 const { check_account } = require("../.BloudMusic_modules/js/check_account")
-const { get_user } = require("../.BloudMusic_modules/js/get_data/get_user")
-const { save_data, make_dir } = require("../.BloudMusic_modules/js/general/operate_file")
-const { get_playlist, get_playlist_songs, filter_playlist } = require("../.BloudMusic_modules/js/get_data/operate_playlist")
-const { collected_art, followed_art } = require("../.BloudMusic_modules/js/get_data/get_artist")
+const { make_dir } = require("../.BloudMusic_modules/js/general/operate_dir")
+const { save_data, exist_file } = require("../.BloudMusic_modules/js/general/operate_file")
 
 // 如果 “data” 与 “cache” 文件夹不存在，则创建
 make_dir("data")
 make_dir("cache")
 // 默认配置文件
-var default_conf = encode({
-    UI: {
-        autoFullscreen: false, // 自动全屏
-        iconStyle: "scale" // scale(缩放) || blur(模糊)
-    },
-    playWidget: { // 屏幕播放控件
-        // 相对屏幕左上角位置(单位：像素)
-        offsetX: 20,
-        offsetY: 20
+exist_file(
+    "config.ini",
+    () => {},
+    () => {
+        let default_conf = encode({
+            UI: {
+                theme: "default",
+                autoFullscreen: false, // 自动全屏
+                // iconStyle: "scale" // scale(缩放) || blur(模糊)
+            },
+            playWidget: { // 屏幕播放控件
+                // 相对屏幕左上角位置(单位：像素)
+                offsetX: 20,
+                offsetY: 20
+            }
+        })
+        save_data("config.ini", default_conf)
     }
-})
-save_data("config.ini", default_conf)
-// 函数：编辑进度条 长度 & 文本
+)
+// 函数：编辑进度条 长度 & 文本 | edit progress bar
 function edit_bar(bar_length, text) { // edit progress bar
     $("#progress-bar").width(bar_length)
     $("#progress-text").text(text)
 }
 
-// 函数：登录
-async function login() {
+// 函数：处理用户输入并调用登录 API
+function user() {
     // 校验用户输入
     let data = check_account()
     if (data) {
@@ -43,86 +51,132 @@ async function login() {
     edit_bar("5%", "用户资料获取中......")
 
     // 获取用户信息
-    let user_data = await get_user(data)
-
-    try {
-        var userId = user_data.id
-        var cookie = user_data.cookie
-        var follows = user_data.follows
-    } catch {
-        alert("用户资料请求错误！")
-        hide_load()
-    }
-    // 保存用户资料
-    let user = JSON.stringify(user_data)
-    save_data("data/user.json", user)
-
-    edit_bar("25%", "用户资料已保存。")
-    //——————————————————————————————————————————————————————
-
+    return new Promise(async (resolve) => {
+        let user_data = await get_login_data("user", data)
+        resolve(user_data)
+    })
+}
+// 函数：获取并处理歌单数据
+function playlist(userId) {
     // 获取歌单
-    edit_bar("30%", "歌单数据获取中......")
-    let playlists = await get_playlist(userId)
-    // 歌单分类
-    let filtered_pl = filter_playlist(userId, playlists)
-    // 保存用户创建的歌单
-    if (filtered_pl.mine_pl[0].name) {
+    edit_bar("15%", "歌单数据获取中......")
+    return new Promise(async (resolve) => {
+        let playlist = await get_login_data("playlists", {userId: userId})
+        if (!playlist) {resolve(false)}
+        // 保存用户创建歌单
         save_data(
             "data/created_playlists.json",
-            JSON.stringify(filtered_pl.mine_pl)            
+            JSON.stringify(playlist.mine_pl)            
         )
-    }
-    edit_bar("45%", "用户创建歌单数据已保存。")
-    // 如果 checkbox get-specials-pl 被选中
-    if ($("#get-specials-pl").prop("checked")) {
-        var special_pl = filtered_pl.special_pl
-        if (special_pl[0].name) {
-            save_data(
-                "data/special_playlists.json",
-                JSON.stringify(special_pl)
-            )
-            // 保存用户收藏单曲
-            let loves = await get_playlist_songs(special_pl[0].id)
-            save_data(
-                "cache/loves.json",
-                JSON.stringify(loves)
-            )
-        }
-    }
-    // 如果 checkbox get-collected-pl 被选中
-    if ($("#get-collected-pl").prop("checked")) {
-        if (filtered_pl.collected_pl[0].name) {
-            save_data(
-                "data/collected_playlists.json",
-                JSON.stringify(filtered_pl.collected_pl)
-            )
-        }
-    }
-    edit_bar("60%", "用户收藏歌单数据已保存。")
-    //———————————————————————————————————————————————————————————————————————————————————————
+        // 保存用户收藏歌单
+        save_data(
+            "data/collected_playlists.json",
+            JSON.stringify(playlist.collected_pl)
+        )
+        // 保存特殊歌单
+        let special_pl = playlist.special_pl
+        save_data(
+            "data/special_playlists.json",
+            JSON.stringify(special_pl)
+        )
+        edit_bar("25%", "歌单数据已保存。")
+        // 获取并保存用户收藏单曲
+        edit_bar("35%", "用户收藏单曲获取中......")
+        let loves = await get_login_data("loves", {id: special_pl[0].id})
+        if (!loves) {resolve(false)}
+        save_data(
+            "cache/loves.json",
+            JSON.stringify(loves)
+        )
+        edit_bar("45%", "用户收藏单曲已保存。")
+        resolve(true)
+    })
+}
 
-    // 获取用户关注歌手
-    // 如果 checkbox get-follows 被选中
-    edit_bar("65%", "歌手数据请求中，请稍等......")
-    if ($("#get-follows").prop("checked")) {
-        // user collected artists 用户收藏歌手
-        let user_collected_art = await collected_art(cookie)
+// 函数：获取并处理歌手数据
+function artist(userId, follows) {
+    // 获取用户收藏、关注歌手
+    edit_bar("50%", "收藏歌手数据请求中......")
+    return new Promise(async (resolve) => {
+        // collected artists | 用户收藏歌手
+        let collected_art = await get_login_data("collected_arts")
+        if (!collected_art) {resolve(false)}
         save_data(
             "data/collected_artists.json",
-            JSON.stringify(user_collected_art)
+            JSON.stringify(collected_art)
         )
-        edit_bar("75%", "收藏歌手数据已保存。")
-        // user followed artists 用户关注歌手
-        let user_followed_art = await followed_art(userId, follows)
+        edit_bar("60%", "收藏歌手数据已保存。")
+
+        // followed artists | 用户关注歌手
+        edit_bar("70%", "关注歌手数据数据请求中......")
+        let followed_art = await get_login_data("followed_arts",
+            {userId: userId, follows: follows})
+        if (!followed_art) {resolve(false)}
         save_data(
             "data/followed_artists.json",
-            JSON.stringify(user_followed_art)
+            JSON.stringify(followed_art)
         )
-        edit_bar("95%", "关注歌手数据已保存。")
-    }  
-    //———————————————————————————————————————————————————————————————————————————————————————————————
+        edit_bar("80%", "关注歌手数据已保存。")
+        resolve(true)
+    })
+}
 
-    edit_bar("100%", "请求完成！")
+function album() {
+    edit_bar("85%", "专辑数据请求中......")
+    return new Promise(async (resolve) => {
+        let albums = await get_login_data("albums", {page: 1})
+        if (!albums) {resolve(false)}
+        save_data(
+            "data/albums.json",
+            JSON.stringify(albums)
+        )
+        edit_bar("95%", "专辑数据已保存。")
+        resolve(true)
+    })
+}
+
+// 函数：登录主函数
+async function login() {
+    let user_data = await user()
+    if (!user_data) {
+        show_notify("用户资料获取错误！")
+        return
+    }
+    var userId = user_data.id
+    var follows = user_data.follows
+
+    //————————————————————————————————————————
+
+    // 获取歌单
+    let playlist_res = await playlist(userId)
+    if (!playlist_res) {
+        show_notify("歌单数据获取错误！")
+        return
+    }
+    //————————————————————————————————————————
+
+    // 获取用户收藏、关注歌手
+    let artist_res = await artist(userId, follows)
+    if (!artist_res) {
+        show_notify("歌手数据获取错误！")
+        return
+    }
+    //————————————————————————————————————————
+
+    // 获取专辑
+    let album_res = await album()
+    if (!album_res) {
+        show_notify("收藏专辑数据获取错误！")
+        return
+    }
+    //————————————————————————————————————————
+
+    // 保存用户资料
+    user_data = JSON.stringify(user_data)
+    save_data("data/user.json", user_data)
+
+    edit_bar("100%", "用户资料已保存。")
+
     // 切换页面到播放页面 main.html
     setTimeout(() => {
         location.replace("main.html")

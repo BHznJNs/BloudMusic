@@ -1,5 +1,5 @@
 // 数据获取通用函数
-
+const { geter } = require("../general/geter")
 // 函数：从输入中获取所有歌手名字
 function get_artists(data) {
     let detail = []
@@ -53,10 +53,12 @@ function get_artist_data(userId) {
 }
 // 函数：根据输入获取专辑信息
 function get_album_data(album) {
+    let artists = get_artists(album.artists)
     return {
         id: album.id, // 专辑 ID
         name: album.name, // 专辑名称
-        cover_url: album.picUrl // 专辑封图 URL
+        cover_url: album.picUrl, // 专辑封图 URL
+        artists: artists // 专辑歌手信息
     }
 }
 exports.get_artists = get_artists

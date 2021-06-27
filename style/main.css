@@ -70,16 +70,21 @@ nav.navbar .icon {filter: none}
 img.navbar-brand {height: 2.5rem}
 img.navbar-brand, div.navbar-brand, a.nav-link {user-select: none}
 div.navbar-brand {color: var(--default-text-cl)}
+ul.nav-pills {align-items: center}
 a.nav-link {
+    padding: .5rem .75rem;
     outline: none;
     cursor: pointer
 }
 div.nav-sep { /* nav separator */
     width: 3px;
-    height: 100%;
+    height: 1.8rem;
     background-color: var(--nav-link-cl)
 }
-a.nav-link {color: var(--nav-link-cl)}
+a.nav-link {
+    font-size: .9rem;
+    color: var(--nav-link-cl)
+}
 a.nav-link:hover {color: var(--nav-link-hover)}
 /* ———— */
 
@@ -92,6 +97,11 @@ div.user-imgs {
 }
 @media screen and (min-width: 800px) and (max-width: 999px) {
     div.user-imgs {border-radius: 0 0 .6rem .6rem}
+}
+@media screen and (min-width: 1560px) {
+    div.user-imgs {
+        max-height: 720px;
+    }
 }
 
 #user-avatar { /* 用户头像 */
@@ -121,17 +131,20 @@ h4.scroll-title {
     border-radius: .3rem .3rem 0 0 !important;
     cursor: default !important
 }
-h4.scroll-title:hover {background-color: var(--scroll-sep-bg)}
+h4.scroll-title:hover {background-color: var(--btn-hover-bg-cl)}
 #main-scroll div.scroll-sep {
     height: 3px;
     margin-bottom: 1rem;
-    background-color: var(--scroll-sep-bg)
+    background-color: var(--btn-hover-bg-cl)
 }
 
 div.scroll-content {
     display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap
+}
+div.scroll-content:last-child {
+    margin-bottom: 2rem;
 }
 div.scroll-item {
     width: 120px;
@@ -142,6 +155,12 @@ div.scroll-item {
 }
 @media screen and (min-width: 800px) {
     div.scroll-item {margin: 0 .6rem 1rem}
+}
+@media screen and (min-width: 1560px) {
+    div.scroll-item {
+        width: 160px;
+        margin: 0 1rem 1rem
+    }
 }
 
 div.item-img {
@@ -175,6 +194,11 @@ div.recommend {
     flex-direction: column;
     height: 120px;
     max-height: 14vw
+}
+@media screen and (min-width: 1560px) {
+    div.recommend {
+        height: 160px;
+    }
 }
 #date-month { /* 月份 | Month */
     background-color: hsl(0, 20%, 60%)

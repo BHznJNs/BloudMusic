@@ -1,6 +1,4 @@
-const { get_albums } = require("../get_data/get_album")
 const { sleep } = require("../general/sleep")
-const { get_album_songs } = require("../get_data/get_album")
 const { get_play_data } = require("../get_data/get_play_data")
 
 // 全局变量：是否已分屏
@@ -154,7 +152,6 @@ function get_data(id, type_, options) {
                 break
             case "albums": // 歌手专辑
                 result = await get_play_data(SPLIT_DETAIL.id, "albums", options)
-                // result = await get_albums(SPLIT_DETAIL.id, options.page)
                 break
             case "album": // 专辑中单曲
                 result = await get_play_data(id, "album")

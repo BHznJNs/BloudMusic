@@ -8,7 +8,7 @@ if [ ! -d "./node_modules/express" ]; then
   npm install express -s
   # 文件重命名
   if [ -d "./app.js" ]; then
-	mv app.js NCMapi.js
+    mv app.js NCMapi.js
   fi
 fi
 

@@ -83,3 +83,10 @@ button.btn-outline-info {
 	border-width: 3px;
 	font-size: large;
 }
+
+/* 提示框（toast）区域 */
+div.notification {
+    position: absolute;
+    bottom: 2vh !important;
+    right: 1vw;
+}

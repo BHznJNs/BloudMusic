@@ -1,10 +1,7 @@
 <h1>BloudMusic</h1>
-<p>抛弃累赘功能，追求纯粹的音乐体验。</p>
-<hr />
-
 <h2>简介</h2>
-<p>一个个人开发的第三方网易云音乐客户端，使用 Electron.js 开发</p>
-<p>基于这位大佬写的 api <a href="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify / NeteaseCloudMusicApi</a>开发，在此致谢</p>
+<p>一个第三方的网易云音乐客户端，使用 Electron.js 开发</p>
+<p>基于这位大佬写的 api <a href="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify / NeteaseCloudMusicApi</a>开发，在此致谢。</p>
 <hr />
 
 <h2>屏幕截图</h2>
@@ -47,7 +44,7 @@
     <td>切换播放列表 打开 / 关闭</td>
   </tr>
   <tr>
-    <td>Ctrl + T</td>
+    <td>Alt + T</td>
     <td>切换播放模式</td>
   </tr>
   <tr>
@@ -82,7 +79,7 @@
   <li>本项目未加入任何社交功能（以后也大概率不会加入）</li>
   <li>本项目未加入任何 mv 相关功能（以后也大概率不会加入）</li>
   <li>本项目仍处于开发中</li>
-  <li>对于同一首歌，请勿频繁<b>切换喜欢状态</b>（之后可能会改动），由于 NeteaseCloudMusicApi 的缓存机制，可能导致操作无法成功</li>
+  <li>对于同一首歌，请勿频繁<b>切换喜欢状态</b>（之后可能会改动），由于 NeteaseCloudMusicApi 的缓存机制，可能导致操作无法成功 </li>
   <li>开发及测试使用树莓派4B，所以兼容性可能不会很好，但优化应该OK</li>
 </ul>
 <hr />
@@ -103,6 +100,8 @@
   <li>类似 iPad HD 版网易云音乐客户端的分屏效果</li>
   <li>歌手单击名字打开详情页</li>
   <li>分屏内单击专辑名字打开专辑详情页</li>
+  <li>用户收藏专辑获取</li>
+  <li>黑暗模式(作为主题加入)</li>
   <li>...</li>
 </ul>
 <hr />
@@ -110,10 +109,9 @@
 <h2>TODO</h2>
 <ul>
   <li>查看历史日推功能</li>
+  <li>多歌单一起播放</li>
   <li>歌手切换关注状态</li>
-  <li>黑暗模式</li>
   <li>歌单编辑(创建、删除、增加单曲、移除单曲、收藏、取消收藏)</li>
-  <li>用户收藏专辑获取</li>
   <li>专辑编辑(收藏、取消收藏)</li>
   <li>歌词显示</li>
   <li>设置界面</li>

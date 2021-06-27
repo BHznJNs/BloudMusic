@@ -7,7 +7,7 @@ const { exist_file } = require("./.BloudMusic_modules/js/general/operate_file")
 function get_path(filename) {
 	return dialog.showSaveDialogSync(main_win, {
 		title: "选择保存图片路径",
-		defaultPath: filename.split("==/")[1]
+		defaultPath: filename.split('==/')[1]
 	})
 }
 
@@ -99,8 +99,8 @@ function create_window () {
 	// 检查是否存在 data/user.json 文件
 	exist_file(
 		"data/user.json",
-		() => {main_win.loadFile("templates/login.html")},
-		() => {main_win.loadFile("templates/main.html")}
+		() => {main_win.loadFile("templates/main.html")},
+		() => {main_win.loadFile("templates/login.html")}
 	)
 }
 

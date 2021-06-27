@@ -1,6 +1,6 @@
 {
     "name": "BloudMusic",
-    "version": "1.5.3",
+    "version": "1.6.0",
     "description": "A third part Netease-Cloud-Music client",
     "main": "index.js",
     "scripts": {
@@ -18,7 +18,6 @@
     "license": "ISC",
     "dependencies": {
         "axios": "^0.21.1",
-        "bootstrap": "^4.6.0",
         "ejs": "^3.1.6",
         "electron": "^13.1.0",
         "ini": "^2.0.0",

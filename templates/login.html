@@ -3,7 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="../.BloudMusic_modules/css/bootstrap.css">
+	<link rel="stylesheet" href="../.BloudMusic_modules/css/notification.css">
+	<link rel="stylesheet" href="../.BloudMusic_modules/theme/default.css">
 	<link rel="stylesheet" href="../style/login.css">
 	<title>登录</title>
 </head>
@@ -17,7 +19,7 @@
 	</div>
 	<!-- Main -->
 	<div id="main" class="flex-center shadow">
-		<!-- 装饰图片 -->
+		<!-- Decorate Img | 装饰图片 -->
 		<div class="login-img h-100 overflow-hidden">
 			<img class="login-img user-select-none" src="../imgs/login_img.png" draggable="false">
 		</div>
@@ -28,34 +30,38 @@
 				<b class="login-head user-select-none">登录</b>
 			</div>
 
-			<!-- 帐号输入（手机号 || 邮箱） -->
+			<!-- Account | 帐号输入（手机号 || 邮箱） -->
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text">帐号</span>
 				</div>
 				<input type="text" id="account-num" class="form-control" placeholder="输入手机号或邮箱帐号">
 			</div>
-			<!-- 密码输入 -->
+			<!-- Password | 密码输入 -->
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text">密码</span>
 				</div>
 				<input type="password" id="password" class="form-control" placeholder="在此输入密码">
 			</div>
-			<!-- 可选项 -->
-			<div class="input-group">
-				<label class="form-check-label user-select-none">
-					<input type="checkbox" id="get-specials-pl"> 是否获取每日推荐
-				</label>
-				<label class="form-check-label user-select-none">
-					<input type="checkbox" id="get-collected-pl"> 是否获取收藏的歌单 <!-- get collected playlists -->
-				</label>
-				<label class="form-check-label user-select-none">
-					<input type="checkbox" id="get-follows"> 是否获取关注数据
-				</label>
-			</div>
 
 			<button class="btn btn-outline-info" onclick="login()"><b>登录</b></button>
+		</div>
+	</div>
+
+	<!-- 提示框（toast）区域 -->
+	<div class="notification">
+		<div id="notification">
+			<script type="text/x-template" id="notification-temp">
+				<div class="toast rounded-lg">
+					<div class="toast-header">
+						<img src="../imgs/icons/CloudMusic_icon.svg" class="mr-2" style="height: 1.4rem; user-select: none" draggable="false">
+						<strong class="mr-auto user-select-none">BloudMusic</strong>
+						<div class="close user-select-none ml-2" onclick="close_notify(this)">&times;</div>
+					</div>
+					<div class="toast-body"><%= content %></div>
+				</div>
+			</script>
 		</div>
 	</div>
 

@@ -27,6 +27,9 @@ $(document).keydown((event) => {
             break
         case 32: // Blankspace 切换播放状态
             event.preventDefault()
+            // 如果焦点在 Audio 控件上
+            if (document.activeElement.id == "player") {break}
+            // 如果焦点不在 Audio 控件上
             toggle_play()
             break
         case 77: // Alt + M 切换播放模式
