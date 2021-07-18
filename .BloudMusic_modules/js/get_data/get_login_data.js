@@ -1,5 +1,5 @@
 const { geter } = require("../general/geter")
-const { get_album_data } = require("./get_general")
+const { get_artists, get_album_data } = require("./get_general")
 
 // const TYPEs = [
 //     "user", "playlists",
@@ -24,9 +24,9 @@ function classify_playlist(playlists, userId) {
         }
     })
     return {
-        mine_pl: mine_pl,
-        special_pl: special_pl,
-        collected_pl: collected_pl
+        mine_pl,
+        special_pl,
+        collected_pl
     }
 }
 
@@ -62,10 +62,7 @@ function selector(type_, options={}) {
     if (["playlists", "loves", "collected_art", "followed_art"].includes(type_)) {
         timeout = 20000
     }
-    return {
-        url: url,
-        timeout: timeout
-    }
+    return {url, timeout}
 }
 
 function res_func(res, type_, options={}) {

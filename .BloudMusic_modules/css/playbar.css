@@ -1,10 +1,10 @@
 /* 播放栏 | Playbar */
 #playbar {
     position: relative;
-	background-color: var(--playbar-bg-cl);
 	height: 8vh;
 	max-height: 50px;
-	border-radius: 12px 12px 0 0
+	border-radius: 12px 12px 0 0;
+    background-color: var(--playbar-bg-cl)
 }
 audio {
     width: 60vw;
@@ -28,6 +28,7 @@ div.playbar-widget {
 }
 #song-name { /* 正在播放的单曲名 */
     color: var(--default-text-cl);
+    max-width: 85vw;
     max-height: 0;
     border-radius: .3rem .3rem 0 0;
     transition: .3s
@@ -39,6 +40,7 @@ div.playbar-widget {
 
 /* 播放列表 */
 #playlist {
+    width: 75vw;
     height: 40vh;
     max-width: 800px;
     border-radius: .6rem .6rem 0 0;
@@ -51,6 +53,7 @@ div.playbar-widget {
 #playlist img.navbar-brand {padding: .4rem 0}
 #playlist ul.nav-pills {max-width: calc(100% - 2rem)}
 #playlist-name { /* 播放列表 歌单/专辑/歌手 名称 */
+    max-width: calc(75vw - 8rem);
     padding: 0.3625rem 0;
     font-size: 1.15rem
 }

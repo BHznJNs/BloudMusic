@@ -1,4 +1,4 @@
-const { exist_file_sync, read_file_sync } = require("./general/operate_file")
+const { exist_file_sync, read_file_sync, save_data } = require("./general/operate_file")
 
 var exist_created_pl, exist_special_pl
 var exist_collected_pl, exist_artists
@@ -43,7 +43,7 @@ async function render_nav() {
 }
 
 var created_pls, special_pls,collected_pls
-var [collected_arts, followed_arts, albums] = [[], [], []]
+var collected_arts, followed_arts, albums
 // 函数：读取歌单及歌手数据
 function get_data() {
     if (exist_created_pl) { // 用户创建歌单
@@ -113,15 +113,22 @@ async function render_playlist(list, list_name) {
         is_more = true
     }
 
-    // list = list.songs
     renderer(
         "#playlist-songs-temp",
         { list, is_more },
         "#playlist-songs"
     )
+    $("#playlist-songs").scrollTop(0) // 回到顶部
     $("#playlist-name").text("播放列表：" + list_name)
     $("#playlist-name").attr("title", list_name)
 }
+
+// 渲染页面
+render_nav()
+render_content()
+
+exports.albums = albums
+
 exports.render_nav = render_nav
 exports.render_content = render_content
 exports.render_playlist = render_playlist

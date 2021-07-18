@@ -14,14 +14,18 @@ addEventListener("beforeunload", () => {
                 volume: $("#player")[0].volume
             }),
             () => {}
-            // (err) => {save_data("cache/err.log", err)}
         )
         // 保存喜欢列表
         save_data(
             "cache/loves.json",
             JSON.stringify(LOVEs),
             () => {}
-            // (err) => {save_data("cache/err.log", err)}
+        )
+        // 保存用户收藏专辑列表
+        save_data(
+            "data/albums.json",
+            JSON.stringify(albums),
+            () => {}
         )
     }
 })

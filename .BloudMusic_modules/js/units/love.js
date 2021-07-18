@@ -16,8 +16,8 @@ function toggle_love_icon() {
 }
 // 函数：向服务器请求 添加 / 删除 喜欢
 function request_love(id, bool) {
-    let cancel
-    let url = `http://localhost:3000/like?id=${id}&like=${bool}`
+    let cancel                                                  /* 使用时间戳，防止请求缓存 */
+    let url = `http://localhost:3000/like?id=${id}&like=${bool}&timestamp=${new Date().getTime()}`
     return new Promise((resolve) => {
         get(url, {
             timeout: 4000,

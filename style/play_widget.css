@@ -8,7 +8,7 @@
     align-items: center;
     background-color: #333;
 }
-
+div.close {margin-right: 2%}
 /* 当前播放单曲名 | Song Name */
 div.song-name {
     display: flex;

@@ -86,7 +86,7 @@ function res_func(id, res, type_, options) {
         case "album": // 专辑中单曲
             song_list = res.data.songs
             name = res.data.album.name
-            result.img_url = res.data.album.picUrl
+            result.cover_url = res.data.album.picUrl
             break
         case "albums": // 歌手专辑
             let albums = []
@@ -101,7 +101,7 @@ function res_func(id, res, type_, options) {
             return {
                 id: id, // 歌手 ID
                 name: res.data.artist.name, // 歌手名称
-                img_url: res.data.artist.picUrl, // 歌手图像
+                cover_url: res.data.artist.picUrl, // 歌手图像
                 page: options.page, // 页数，每页 20
                 albums: albums, // 专辑数据
                 album_size: res.data.artist.albumSize // 歌手专辑数
@@ -112,13 +112,13 @@ function res_func(id, res, type_, options) {
         case "followed_art": // 用户关注歌手
             song_list = res.data.hotSongs
             name = res.data.artist.name
-            result.img_url = res.data.artist.picUrl
+            result.cover_url = res.data.artist.picUrl
             type_ = "artist"
             break
         case "playlist": // 歌单
             song_list = res.data.playlist.tracks
             id_list = res.data.playlist.trackIds
-            result.img_url = res.data.playlist.coverImgUrl
+            result.cover_url = res.data.playlist.coverImgUrl
             name = res.data.playlist.name
             break
         case "recommend": // 每日推荐
@@ -155,9 +155,10 @@ function err_func(err, type_) {
     // 查找类型对应的错误信息
     let err_message = err_messages[TYPEs.indexOf(type_)]
 
+    show_notify(err_message)
+    new Notification("BloudMusic", { body: err_message })
     console.log(err_message)
     console.error(err)
-    show_notify(err_message)
 }
 // 主函数：获取播放数据
 function get_play_data(id, type_, options={}) {
@@ -172,7 +173,7 @@ function get_play_data(id, type_, options={}) {
             },
             (err) => {
                 err_func(err, type_)
-                if (["songs", "load_more"].includes(type_)) {
+                if (["song", "load_more"].includes(type_)) {
                     resolve(false)
                 }
             }

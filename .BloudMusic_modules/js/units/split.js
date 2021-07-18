@@ -12,11 +12,13 @@ var SPLIT_DETAIL = {
 //————————————————————————————————————————
 // 函数：分屏切换时触发，隐藏主页面和分屏中内容，动画结束后展示出来
 function split() {
-    $("#main-scroll").hide()
-    $("#split-scroll").hide()
+    let $main_scroll = $("#main-scroll")
+    let $split_scroll = $("#split-scroll")
+    $main_scroll.hide()
+    $split_scroll.hide()
     setTimeout(() => {
-        $("#main-scroll").show()
-        $("#split-scroll").show()
+        $main_scroll.show()
+        $split_scroll.show()
     }, 800)
 }
 // 函数：创建新的额外分屏
@@ -32,7 +34,7 @@ function new_split() {
     $("#split:nth-last-child(2) #split-scroll").hide()
 }
 // 函数：分屏加载       origin_list
-function render_split(ori_list, type_) {
+function render_split(id, ori_list, type_) {
     let is_more = false
     let temp, list
     // 根据传入类型选择模板和返回数据
@@ -42,13 +44,14 @@ function render_split(ori_list, type_) {
             albums: ori_list.albums,
             album_size: ori_list.album_size,
             page: ori_list.page,
-            img_url: ori_list.img_url
+            cover_url: ori_list.cover_url
         }
     } else {
         temp = "#split-songs-temp"
         list = {
+            id: Number(id),
             songs: ori_list.songs,
-            img_url: ori_list.img_url
+            cover_url: ori_list.cover_url
         }
         // 判断是否需要加载更多
         if (ori_list.song_ids.length > ori_list.songs.length) {
@@ -62,10 +65,17 @@ function render_split(ori_list, type_) {
     } else {
         nav_item.slice(2, 5).show()
     }
+    // 通过传入类型判断返回的 ID 数组
+    let ids
+    switch (type_) {
+        case "album":
+            ids = albums.ids
+            break
+    }
     // 编译 & 加载分屏
     renderer(
         temp,
-        { list, type_, is_more },
+        { list, type_, is_more, ids },
         "#split:last-child #split-scroll"
     )
     // 最后一个分屏回到顶部
@@ -178,7 +188,7 @@ async function get_detail(id, type_, options={}) {
     // 展示分屏
     show_split(type_, options)
     // 分屏加载
-    render_split(list, type_)
+    render_split(id, list, type_)
     // 设置分屏标题及其属性
     $("#split:last-child #split-nav-title").text(SPLIT_DETAIL.name)
     $("#split:last-child #split-nav-title").attr("title", SPLIT_DETAIL.name)

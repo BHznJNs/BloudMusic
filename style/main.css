@@ -121,7 +121,7 @@ div.user-imgs {
 /* ———— */
 
 /* 滚动 | Scroll */
-#main-scroll {padding: 0 1rem}
+#main-scroll, #split-scroll {padding: 0 1rem}
 @media screen and (min-width: 800px) {
     #main-scroll {padding: 0 1.5rem}
 }
@@ -154,12 +154,12 @@ div.scroll-item {
 	overflow: hidden
 }
 @media screen and (min-width: 800px) {
-    div.scroll-item {margin: 0 .6rem 1rem}
+    div.scroll-item {margin: 0 1rem 1rem}
 }
 @media screen and (min-width: 1560px) {
     div.scroll-item {
         width: 160px;
-        margin: 0 1rem 1rem
+        margin: 0 1.6rem 1rem
     }
 }
 

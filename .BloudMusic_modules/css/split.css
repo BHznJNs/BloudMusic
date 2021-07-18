@@ -1,12 +1,4 @@
 /* 分屏样式 | Split Style */
-div.main-fold #main-scroll {padding: 0 1rem}
-#split-scroll {padding-bottom: 24px}
-
-/* 专辑样式 */
-#split-scroll div.scroll-content {padding: 0 1rem}
-@media screen and (min-width: 800px) {
-    #split-scroll div.scroll-content {padding: 1rem 1.5rem 0}
-}
 
 @media screen and (max-width: 999px) {
     /* main 分屏状态 */
@@ -27,7 +19,10 @@ div.main-fold #main-scroll {padding: 0 1rem}
     div.main-fold {width: 43vw !important}
     div.main-fold div.scroll-item, div.split-unfold div.scroll-item {
         max-width: 10vw !important;
-        margin: 0 .4rem 1rem !important
+        margin: 0 .6rem 1rem !important
+    }
+    @media screen and (max-width: 1050px) {
+        div.main-fold a.nav-link {padding: .5rem .6rem}
     }
     div.main-fold div.user-imgs {border-radius: 0 0 .4rem .4rem} /* 分屏状态下用户图像 */
     @media screen and (min-width: 1560px) { /* 断点 */
@@ -89,7 +84,6 @@ div.split-outer {
 
 /* 歌手图像 */
 #split-scroll div.cover-outer { /* 容器 */
-    position: relative;
     width: 85%;
     max-height: 360px;
     margin-bottom: 1rem;
@@ -113,13 +107,9 @@ div.split-outer {
 }
 
 /* 播放全部按钮 */
-button.btn-play-all {
-    padding: .2rem .75rem;
-    border: none;
-    border-radius: .3rem .3rem 0 0 !important
-}
 #split-scroll div.scroll-sep {
+    width: 100%;
     height: 3px;
-    margin: 0 1.5rem 1rem;
+    margin-bottom: 1rem;
     background-color: var(--btn-hover-bg-cl)
 }

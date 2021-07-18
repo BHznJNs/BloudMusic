@@ -225,7 +225,7 @@
                     <div class="scroll-sep"></div>
                     <div class="scroll-content">
     
-                        <% albums.forEach((item) => { %>
+                        <% albums.albums.forEach((item) => { %>
                         <div class="scroll-item rounded-lg">
                             <div class="item-img user-select-none">
                                 <!-- 专辑封面 -->
@@ -267,15 +267,26 @@
             <!-- 分屏界面单曲模板 -->
             <script type="text/x-template" id="split-songs-temp">
                 <!-- 歌单封面 / 专辑封面 / 歌手图像 -->
-                <% if (list.img_url) { %>
+                <% console.log(list) %>
+                <% if (list.cover_url) { %>
                 <div class="cover-outer mx-auto overflow-hidden shadow">
-                    <img class="cover" src="<%= list.img_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
+                    <img class="cover" src="<%= list.cover_url %>?param=480y480" onerror="this.src='../imgs/icons/user_round.svg'" draggable="false">
                     <div class="mask position-absolute w-100 h-100"></div>
                 </div>
                 <% } %>
 
                 <% if (type_ != "load_more") { %>
-                <button class="btn-play-all btn mt-2 mx-4" onclick="play_all()">播放全部</button>
+                <button class="btn mt-2 " onclick="play_all()">播放全部</button>
+                <% if (type_ == "album") { %>
+                <% let is_included = (ids.includes(list.id)) %>
+                <button class="btn mt-2 float-right" onclick="toggle_collect(this, <%= list.id %>, 'album', $(this).attr('data-is-included'))" data-is-included="<%= Number(is_included) %>">
+                    <% if (is_included) { %>
+                    取消收藏
+                    <% } else { %>
+                    收藏专辑
+                    <% } %>
+                </button>
+                <% } %>
                 <div class="scroll-sep"></div>
                 <% } %>
                 <% list.songs.forEach((item) => { %>
@@ -349,7 +360,8 @@
                                 <% if (list.album_size % 20 == 0) { %>
                                     <% page = list.album_size / 20 %>
                                 <% } else { %>
-                                    <% page = Number(String(list.album_size/20).split('.')[0]) + 1 %>
+                                    <% page = Math.floor(list.album_size/20) + 1 %>
+                                    <!-- <% page = Number(String(list.album_size/20).split('.')[0]) + 1 %> -->
                                 <% } %>
                                 <a class="page-link" onclick="get_detail('', 'albums', {page: '<%= page %>'})"><%= page %></a>
                             </li>
@@ -376,7 +388,7 @@
         <!-- 切换播放列表显示状态 -->
         <img id="playlist-icon" class="icon button" onclick="toggle_playlist()" src="../imgs/icons/list.svg" draggable="false" title="播放列表"></img>
         <!-- 播放列表 -->
-        <div id="playlist" class="playbar-widget d-flex flex-column w-75 overflow-hidden">
+        <div id="playlist" class="playbar-widget d-flex flex-column overflow-hidden">
             <!-- 播放列表导航栏 -->
             <nav class="navbar">
                 <ul class="nav nav-pills">
@@ -384,7 +396,7 @@
                     <div id="playlist-name" class="navbar-brand text-truncate" title="">播放列表</div>
                 </ul>
 
-                <div class="close user-select-none" onclick="toggle_playlist()">&times;</div>
+                <div class="close" onclick="toggle_playlist()">&times;</div>
             </nav>
 
             <!-- 播放列表单曲 -->

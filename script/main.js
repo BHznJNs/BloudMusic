@@ -13,7 +13,8 @@ const { SPLIT_DETAIL, show_split, close_split, artist_detail, get_detail, play_a
 const { get_artist_data } = require("../.BloudMusic_modules/js/get_data/get_general")
 const { get_play_data } = require("../.BloudMusic_modules/js/get_data/get_play_data")
 // 其它
-const { render_playlist } = require("../.BloudMusic_modules/js/main_render")
+const { albums, render_playlist } = require("../.BloudMusic_modules/js/main_render")
+const { toggle_collect } = require("../.BloudMusic_modules/js/collect")
 const { toggle_fullscreen } = require("../.BloudMusic_modules/js/fullscreen")
 const { show_play_widget, send_data } = require("../.BloudMusic_modules/js/interact_play_widget")
 const { load_more } = require("../.BloudMusic_modules/js/load_more")
@@ -133,7 +134,7 @@ function add_style_played(song_data) {
 async function play(id, type_, options={}) {
     if (type_ != "song") {
         $("#player").attr("src", "") // 清除播放器中 URL，停止缓冲
-        $("title").html("")
+        $("title").html("BloudMusic")
         $("#song-name").hide()
         await switch_play(id, type_, options)
         var song_id = PLAYLIST.song_ids[PLAY_INDEX]
@@ -147,11 +148,13 @@ async function play(id, type_, options={}) {
     $("img.btn-next").css("pointer-events", "auto")
     // 如果请求错误
     if (!song_data) {
-        if (PLAY_MODE == "loop" && PLAYLIST.type_ != "song") {
-            PLAY_INDEX -= 1
-        }
-        next()
+        play(PLAYLIST.id, PLAYLIST.type_)
         return
+        // if (PLAY_MODE == "loop") {
+        //     PLAY_INDEX -= 1
+        // }
+        // next()
+        // return
     }
     // 播放列表添加样式
     add_style_played(song_data)

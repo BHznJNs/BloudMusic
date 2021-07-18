@@ -1,7 +1,6 @@
 window.$ = window.jQuery = require("jquery")
 const { encode } = require("ini")
 // 共用模块
-const { geter } = require("../.BloudMusic_modules/js/general/geter")
 const { renderer } = require("../.BloudMusic_modules/js/general/renderer")
 const { show_notify, close_notify } = require("../.BloudMusic_modules/js/units/notify")
 // 获取数据模块
@@ -128,7 +127,10 @@ function album() {
         if (!albums) {resolve(false)}
         save_data(
             "data/albums.json",
-            JSON.stringify(albums)
+            JSON.stringify({
+                albums: albums,
+                ids: albums.map(item => item.id)
+            })
         )
         edit_bar("95%", "专辑数据已保存。")
         resolve(true)

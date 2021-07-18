@@ -1,24 +1,7 @@
 const { readFile } = require("original-fs")
 const { read_file_sync } = require("./general/operate_file")
-const { render_nav, render_content } = require("./main_render")
 
 $("#song-name").hide()
-
-// 函数：根据英文，返回对应中文月份
-function month_toCn (month) {
-    let month_en = [ // 英文月份表
-        "Jan", "Feb", "Mar", "Apr",
-        "May", "Jun", "Jul", "Aug",
-        "Sep", "Oct", "Nov", "Dec"
-    ]
-    let month_cn = [ // 中文月份表
-        "一月", "二月", "三月", "四月",
-        "五月", "六月", "七月", "八月",
-        "九月", "十月", "十一月", "十二月"
-    ]
-    let index = month_en.indexOf(month)
-    return month_cn[index]
-}
 
 // 设置 日推 日期
 $(async () => {
@@ -28,9 +11,18 @@ $(async () => {
     // 获取日期
     let date = UTCstr.split(',')[1].split(' ')
     let month = date[2]
-    let day = date[1] 
+    let day = date[1]
+
+    let monthes = {
+        "Jan": "一月", "Feb": "二月",
+        "Mar": "三月", "Apr": "四月",
+        "May": "五月", "Jun": "六月",
+        "Jul": "七月", "Aug": "八月",
+        "Sep": "九月", "Oct": "十月",
+        "Nov": "十一月", "Dec": "十二月"
+    }
     // 设置日期
-    $("#date-month").text(month_toCn(month))
+    $("#date-month").text(monthes[month])
     $("#date-day").text(day + "日")
 })
 
@@ -86,7 +78,3 @@ $(async () => {
         render_playlist(PLAYLIST, PLAYLIST.name)
     })
 })
-
-// 渲染页面
-render_nav()
-render_content()
